@@ -1,0 +1,35 @@
+import { create } from "zustand";
+
+const useColorStore = create((set) => {
+  const updateCSSVariables = (colors) => {
+    Object.keys(colors).forEach((key) => {
+      document.documentElement.style.setProperty(`--${key}`, colors[key]);
+    });
+  };
+
+  const initialColors = {
+    darkGreen: "#003832",
+    green: "#00504A",
+    shade: "#8DBDBA",
+    light: "#6BD0CC",
+    cyanNeon: "#07F9ED",
+    greenNeon: "#07F978",
+    white: "#FFFFFF",  };
+
+  // Set CSS variables initially
+  updateCSSVariables(initialColors);
+
+  return {
+    colors: initialColors,
+    setColor: (key, value) =>
+      set((state) => {
+        const newColors = { ...state.colors, [key]: value };
+        updateCSSVariables(newColors);
+        return { colors: newColors };
+      }),
+  };
+});
+
+export default useColorStore;
+
+
