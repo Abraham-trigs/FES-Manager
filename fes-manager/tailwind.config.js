@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         darkGreen: "var(--darkGreen)",
-        green: "var(--green)",
+        semiGreen: "var(--green)",
         shade: "var(--shade)",
         light: "var(--light)",
         cyanNeon: "var(--cyanNeon)",

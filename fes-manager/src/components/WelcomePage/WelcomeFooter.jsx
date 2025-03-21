@@ -5,7 +5,7 @@ const WelcomeFooter = () => {
     <div className="fixed bottom-0 left-0 w-full">
       {/* Footer background */}
       <div>
-        <div className="w-full h-[5px] bg-greenNeon"></div>
+        <div className="w-full h-[3px] bg-greenNeon"></div>
         
         {/* Centered Text */}
         <div className="w-full h-[50px] bg-darkGreen flex justify-center items-center">
