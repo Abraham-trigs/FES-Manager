@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProjectFeedNavBar = () => {
+const ProjectListNavBar = () => {
   return (
     <>
       {/* Top Navigation Bar */}
@@ -32,4 +32,4 @@ const ProjectFeedNavBar = () => {
   );
 }
 
-export default ProjectFeedNavBar;
+export default ProjectListNavBar;

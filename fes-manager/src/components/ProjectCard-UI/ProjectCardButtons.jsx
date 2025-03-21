@@ -1,5 +1,5 @@
 import React from "react";
-import useProjectStore from "../store/useProjectStore";
+import useProjectStore from "../../store/useProjectStore";
 
 const ProjectCardButtons = ({ projectId }) => {
   const { wishlist, toggleWishlist } = useProjectStore();
