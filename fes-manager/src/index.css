@@ -1,17 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
 :root {
     --darkGreen: #003832;
-    --green: #00504A;
+    --semiGreen: #00504A;
     --shade: #8DBDBA;
     --light: #6BD0CC;
     --cyanNeon: #07F9ED;
     --greenNeon: #07F978;
     --white: #FFFFFF;
   }
+
+  @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
   body {
     font-family: 'TT Chocolates Trl';

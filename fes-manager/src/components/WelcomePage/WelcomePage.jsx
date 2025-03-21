@@ -1,6 +1,6 @@
 import React from 'react';
 import WelcomeNavBar from './WelcomeNavBar';
-import WelcomeFooter from './WelcomeFooter';
+import Footer from './Footer';
 import LoginButton from '../loginButton';
 import SignupButton from '../SignupButton';
 
@@ -24,7 +24,7 @@ const WelcomePage = () => {
         </div>
       </div>
 
-      <WelcomeFooter />
+      <Footer />
     </div>
   );
 };
