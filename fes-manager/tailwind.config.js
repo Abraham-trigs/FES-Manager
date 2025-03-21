@@ -6,6 +6,7 @@ export default {
       colors: {
         darkGreen: "var(--darkGreen)",
         semiGreen: "var(--semiGreen)",
+        green: "var(--green)",
         shade: "var(--shade)",
         light: "var(--light)",
         cyanNeon: "var(--cyanNeon)",

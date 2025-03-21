@@ -1,6 +1,6 @@
 import React from 'react';
 import WelcomeNavBar from './WelcomeNavBar';
-import Footer from './Footer';
+import Footer from '../Footer';
 import LoginButton from '../loginButton';
 import SignupButton from '../SignupButton';
 
