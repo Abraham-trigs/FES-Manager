@@ -3,6 +3,7 @@ import useProjectFormStore from "../store/useProjectFormStore";
 import Step1 from "./ProjectFormSteps/Step1";
 import Step2 from "./ProjectFormSteps/Step2";
 import Step3 from "./ProjectFormSteps/Step3";
+import Step4 from "./step4";
 
 const AddProjectForm = () => {
   const { step } = useProjectFormStore();
@@ -13,6 +14,8 @@ const AddProjectForm = () => {
       {step === 1 && <Step1 />}
       {step === 2 && <Step2 />}
       {step === 3 && <Step3 />}
+      {step === 4 && <Step4 />}
+
     </div>
   );
 };
