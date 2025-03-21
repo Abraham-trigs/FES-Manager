@@ -1,9 +1,11 @@
 import React from "react";
-import useProjectFormStore from "../store/useProjectFormStore";
-import Step1 from "./ProjectFormSteps/Step1";
-import Step2 from "./ProjectFormSteps/Step2";
-import Step3 from "./ProjectFormSteps/Step3";
+import useProjectFormStore from "../../store/useProjectFormStore";
+import Step1 from "./step1";
+import Step2 from "./step2";
+import Step3 from "./step3";
 import Step4 from "./step4";
+import Step5 from "./step5";
+
 
 const AddProjectForm = () => {
   const { step } = useProjectFormStore();

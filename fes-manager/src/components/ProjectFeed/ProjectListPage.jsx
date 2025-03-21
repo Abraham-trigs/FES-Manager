@@ -3,6 +3,7 @@ import Footer from "../Footer";
 import ProjectListNavBar from "./ProjectListNavBar";
 import ProjectCard from "../ProjectCard-UI/ProjectCard";
 import useProjectStore from "../../store/useProjectStore";
+import SideBar from "../sideBar";
 
 export const ProjectListPage = () => {
   const { projects, loadProjects } = useProjectStore();
@@ -13,6 +14,7 @@ export const ProjectListPage = () => {
 
   return (
     <>
+      <SideBar />
       <ProjectListNavBar />
       <div className="flex flex-wrap gap-4 p-5">
         {projects.length > 0 ? (
