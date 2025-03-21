@@ -3,10 +3,10 @@ import React from 'react';
 const WelcomeNavBar = () => {
   return (
     <>
-      <div className="relative">
+      <div className="relative bg-green">
         
         {/* Logo & Text*/}
-        <div className="absolute top-2 left-4 flex items-center space-x-4">
+        <div className="absolute top-3 left-4 flex items-center space-x-4">
           <img src="/images/logo.png" 
                alt="logo" 
                className="w-[10%] h-auto" />
