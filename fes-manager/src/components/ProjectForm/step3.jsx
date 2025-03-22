@@ -2,23 +2,31 @@ import React, { useState } from "react";
 import useProjectFormStore from "../../store/useProjectFormStore";
 
 const Step3 = () => {
+  // Retrieves form state and functions for updating project data
   const { updateFormData, setStep, formData } = useProjectFormStore();
+
+  // Local state for tracking validation errors
   const [error, setError] = useState("");
 
   const handleNext = (e) => {
     e.preventDefault();
+
+    // Ensures that verification status is selected before proceeding
     if (!formData.verified) {
       setError("Please confirm whether the project is verified.");
       return;
     }
+
+    // Moves to the next form step
     setStep(4);
   };
 
   return (
+    // Form for entering project verification details
     <form onSubmit={handleNext} className="space-y-4">
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
-      {/* Verification Status */}
+      {/* Dropdown for selecting verification status */}
       <div>
         <label className="block font-medium">Is this project verified?</label>
         <select
@@ -33,7 +41,7 @@ const Step3 = () => {
         </select>
       </div>
 
-      {/* Upload Verification Document */}
+      {/* File upload field for verification document */}
       {formData.verified === "Yes" && (
         <div>
           <label className="block font-medium">Upload Verification Document</label>
@@ -46,7 +54,7 @@ const Step3 = () => {
         </div>
       )}
 
-      {/* Next Button */}
+      {/* Button to proceed to the next step */}
       <button
         type="submit"
         className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"

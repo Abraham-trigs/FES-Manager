@@ -2,7 +2,7 @@ import React from "react";
 import useProjectStore from "../../store/useProjectStore";
 
 const ProjectCardButtons = ({ projectId }) => {
-  const { wishlist, toggleWishlist } = useProjectStore();
+  const { wishlist = [], toggleWishlist } = useProjectStore(); 
   const isWishlisted = wishlist.includes(projectId);
 
   return (

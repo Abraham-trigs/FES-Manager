@@ -45,7 +45,7 @@ const SideBar = () => {
 
         {/* Start a Project Button */}
         <button
-          className="mt-6 bg-greenNeon text-white py-2 px-4 w-full rounded-md"
+          className="mt-6 bg-greenNeon text-darkGreen py-2 px-4 w-full rounded-md"
           onClick={() => setShowForm(true)}
         >
           Start A Project

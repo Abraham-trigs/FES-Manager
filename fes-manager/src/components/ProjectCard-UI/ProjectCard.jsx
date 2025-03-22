@@ -1,28 +1,26 @@
 import React, { memo } from "react";
+import { Link } from "react-router-dom"; 
 import useProjectStore from "../../store/useProjectStore";
 import ProjectCardButtons from "./ProjectCardButtons";
 import ProgressBar from "./ProgressBar";
 
 const ProjectCard = memo(({ projectId }) => {
+  // Retrieves project data from the store based on projectId
   const project = useProjectStore((state) =>
     state.projects.find((p) => p.id === projectId)
   );
 
-  if (!project) {
-    return (
-      <div className="p-4 border rounded-lg text-center text-red-500">
-        Project Not Found
-      </div>
-    );
-  }
+  // Prevents rendering if the project does not exist
+  if (!project) return null;
 
   return (
+    // Container for the project card
     <div
       className="w-full max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden p-4 transition-all duration-300 hover:shadow-xl sm:max-w-sm md:max-w-md"
       role="region"
       aria-labelledby={`project-${projectId}`}
     >
-      {/* Category */}
+      {/* Displays the category of the project */}
       <p
         id={`project-${projectId}`}
         className="text-xs font-semibold text-gray-700 uppercase"
@@ -31,7 +29,7 @@ const ProjectCard = memo(({ projectId }) => {
         {project.category}
       </p>
 
-      {/* Project Image */}
+      {/* Displays project image if available */}
       <div className="w-full h-36 bg-gray-300 rounded-lg overflow-hidden">
         {project.image ? (
           <img
@@ -43,7 +41,7 @@ const ProjectCard = memo(({ projectId }) => {
         ) : null}
       </div>
 
-      {/* Progress Bar */}
+      {/* Displays project ID and progress */}
       <div className="mt-3">
         <p className="text-sm text-gray-700 font-medium" aria-label={`Project ID: ${projectId}`}>
           ID-{projectId}
@@ -51,13 +49,21 @@ const ProjectCard = memo(({ projectId }) => {
         <ProgressBar progress={project.progress} />
       </div>
 
-      {/* Buttons */}
+      {/* Renders project interaction buttons (wishlist, FES Aid, details) */}
       <ProjectCardButtons projectId={projectId} />
 
-      {/* Description */}
+      {/* Displays a short project description */}
       <p className="text-sm text-gray-700 mt-3" aria-label={`Project description: ${project.description}`}>
         {project.description}
       </p>
+
+      {/* Navigates to the full project details page */}
+      <Link
+        to={`/project/${project.id}`}
+        className="mt-4 inline-block bg-blue-500 text-white py-1 px-3 rounded"
+      >
+        Details
+      </Link>
     </div>
   );
 });

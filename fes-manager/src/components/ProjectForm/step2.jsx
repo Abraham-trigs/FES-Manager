@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import useProjectFormStore from "../../store/useProjectFormStore";
 
 const Step2 = () => {
+  // Retrieves form state and functions for updating project data
   const { updateFormData, setStep, formData, addTask, removeTask } =
     useProjectFormStore();
+
+  // Local state for managing task inputs and error messages
   const [taskName, setTaskName] = useState("");
   const [taskAmount, setTaskAmount] = useState("");
   const [error, setError] = useState("");
 
-  // Calculate total allocated percentage
+  // Calculates the total allocated percentage of the budget
   const totalAllocated = formData.tasks.reduce(
     (sum, task) => sum + (task.amount / formData.fundingGoal) * 100,
     0
@@ -16,30 +19,39 @@ const Step2 = () => {
 
   const handleNext = (e) => {
     e.preventDefault();
+
+    // Ensures that all required fields are filled before proceeding
     if (!formData.fundingGoal || !formData.currentFunds) {
       setError("Please fill in all required fields.");
       return;
     }
+
+    // Moves to the next form step
     setStep(3);
   };
 
   const handleAddTask = () => {
+    // Validates task inputs before adding
     if (!taskName || !taskAmount) {
       setError("Task name and amount are required.");
       return;
     }
 
     const taskValue = parseFloat(taskAmount);
+
+    // Ensures task amount is a valid positive number
     if (isNaN(taskValue) || taskValue <= 0) {
       setError("Enter a valid amount for the task.");
       return;
     }
 
+    // Prevents total task allocation from exceeding 100% of the budget
     if (totalAllocated + (taskValue / formData.fundingGoal) * 100 > 100) {
       setError("Total task allocation cannot exceed 100% of the project budget.");
       return;
     }
 
+    // Adds task to the form data and resets input fields
     addTask({ name: taskName, amount: taskValue });
     setTaskName("");
     setTaskAmount("");
@@ -47,10 +59,11 @@ const Step2 = () => {
   };
 
   return (
+    // Form for specifying project funding and task breakdown
     <form onSubmit={handleNext} className="space-y-4">
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
-      {/* Funding Goal */}
+      {/* Input for specifying the total project budget */}
       <div>
         <label className="block font-medium">Total Project Budget ($)</label>
         <input
@@ -62,7 +75,7 @@ const Step2 = () => {
         />
       </div>
 
-      {/* Current Funds Raised */}
+      {/* Input for specifying current funds raised */}
       <div>
         <label className="block font-medium">Current Funds Raised ($)</label>
         <input
@@ -74,7 +87,7 @@ const Step2 = () => {
         />
       </div>
 
-      {/* Task Breakdown Section */}
+      {/* Task breakdown section */}
       <div className="mt-4 p-4 border rounded-lg">
         <h3 className="font-semibold mb-2">Task Breakdown</h3>
         <p className="text-sm text-gray-600">
@@ -82,7 +95,7 @@ const Step2 = () => {
           from the total budget.
         </p>
 
-        {/* Task Inputs */}
+        {/* Task input fields */}
         <div className="flex gap-2 mt-3">
           <input
             type="text"
@@ -107,7 +120,7 @@ const Step2 = () => {
           </button>
         </div>
 
-        {/* Task List */}
+        {/* Displays added tasks */}
         {formData.tasks.length > 0 && (
           <ul className="mt-3 space-y-2">
             {formData.tasks.map((task, index) => (
@@ -131,7 +144,7 @@ const Step2 = () => {
           </ul>
         )}
 
-        {/* Total Allocation Bar */}
+        {/* Displays total allocated percentage bar */}
         <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
           <div
             className="bg-green-500 h-2 rounded-full"
@@ -143,7 +156,7 @@ const Step2 = () => {
         </p>
       </div>
 
-      {/* Next Button */}
+      {/* Button to proceed to the next step */}
       <button
         type="submit"
         className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"

@@ -1,13 +1,26 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import useProjectFormStore from "../../store/useProjectFormStore";
+import useProjectStore from "../../store/useProjectStore"; 
 
 const Step5 = () => {
-  const { updateFormData, formData } = useProjectFormStore();
+  // Retrieves form data and update functions from Zustand store
+  const { formData, updateFormData } = useProjectFormStore();
+
+  // Retrieves the function to add a new project to the store
+  const addProject = useProjectStore((state) => state.addProject); 
+
+  // Handles navigation after submission
+  const navigate = useNavigate(); 
+
+  // Local state for tracking validation errors and success messages
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Ensures all required fields are filled before submission
     if (
       !formData.location ||
       !formData.beneficiaries ||
@@ -20,18 +33,42 @@ const Step5 = () => {
       return;
     }
 
-    // Simulate form submission success
+    // Creates a new project object with a unique ID
+    const newProject = { id: Date.now().toString(), ...formData };
+
+    // Saves the project to Zustand state
+    addProject(newProject);
+
+    // Resets the form fields after successful submission
+    updateFormData("title", "");
+    updateFormData("category", "");
+    updateFormData("description", "");
+    updateFormData("image", "");
+    updateFormData("fundingGoal", "");
+    updateFormData("currentFunds", "");
+    updateFormData("tasks", []);
+    updateFormData("verified", false);
+    updateFormData("verificationDocs", null);
+    updateFormData("location", "");
+    updateFormData("beneficiaries", "");
+    updateFormData("completionDate", "");
+    updateFormData("contactPerson", "");
+    updateFormData("contactEmail", "");
+    updateFormData("contactPhone", "");
+
+    // Displays success message and redirects to the project list page
     setSuccess(true);
     setError("");
-    console.log("Project submitted:", formData);
+    setTimeout(() => navigate("/LiveProjects"), 1000); 
   };
 
   return (
+    // Form for entering project impact details and contact information
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && <p className="text-red-500 text-sm">{error}</p>}
       {success && <p className="text-green-500 text-sm">Project submitted successfully!</p>}
 
-      {/* Location */}
+      {/* Input for project location */}
       <div>
         <label className="block font-medium">Project Location</label>
         <input
@@ -43,7 +80,7 @@ const Step5 = () => {
         />
       </div>
 
-      {/* Beneficiaries */}
+      {/* Textarea for specifying beneficiaries */}
       <div>
         <label className="block font-medium">Who will benefit from this project?</label>
         <textarea
@@ -55,7 +92,7 @@ const Step5 = () => {
         ></textarea>
       </div>
 
-      {/* Expected Completion Date */}
+      {/* Input for expected project completion date */}
       <div>
         <label className="block font-medium">Expected Completion Date</label>
         <input
@@ -67,10 +104,11 @@ const Step5 = () => {
         />
       </div>
 
-      {/* Contact Person */}
+      {/* Contact Information Section */}
       <div className="p-4 border rounded-lg">
         <h3 className="font-semibold mb-2">Contact Information</h3>
-
+        
+        {/* Input for contact person's name and role */}
         <label className="block font-medium">Contact Person Name & Role</label>
         <input
           type="text"
@@ -80,6 +118,7 @@ const Step5 = () => {
           required
         />
 
+        {/* Input for contact email */}
         <label className="block font-medium mt-2">Contact Email</label>
         <input
           type="email"
@@ -89,6 +128,7 @@ const Step5 = () => {
           required
         />
 
+        {/* Input for contact phone number */}
         <label className="block font-medium mt-2">Contact Phone</label>
         <input
           type="tel"
@@ -99,7 +139,7 @@ const Step5 = () => {
         />
       </div>
 
-      {/* Submit Button */}
+      {/* Button to submit the form */}
       <button
         type="submit"
         className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"

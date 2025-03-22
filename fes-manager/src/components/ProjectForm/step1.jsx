@@ -2,23 +2,31 @@ import React, { useState } from "react";
 import useProjectFormStore from "../../store/useProjectFormStore";
 
 const Step1 = () => {
+  // Retrieves form state management functions from the global store
   const { updateFormData, setStep, formData } = useProjectFormStore();
+  
+  // Tracks validation errors
   const [error, setError] = useState("");
 
   const handleNext = (e) => {
     e.preventDefault();
+
+    // Validates that all required fields are filled before proceeding
     if (!formData.title || !formData.category || !formData.description) {
       setError("Please fill in all required fields.");
       return;
     }
+
+    // Moves to the next step of the form
     setStep(2);
   };
 
   return (
+    // Form for entering basic project details
     <form onSubmit={handleNext} className="space-y-4">
       {error && <p className="text-red-500 text-sm">{error}</p>}
       
-      {/* Project Title */}
+      {/* Input field for the project title */}
       <div>
         <label className="block font-medium">Project Title</label>
         <input
@@ -30,7 +38,7 @@ const Step1 = () => {
         />
       </div>
 
-      {/* Category */}
+      {/* Dropdown menu for selecting the project category */}
       <div>
         <label className="block font-medium">Category</label>
         <select
@@ -47,7 +55,7 @@ const Step1 = () => {
         </select>
       </div>
 
-      {/* Description */}
+      {/* Textarea for the project description */}
       <div>
         <label className="block font-medium">Project Description</label>
         <textarea
@@ -59,7 +67,7 @@ const Step1 = () => {
         ></textarea>
       </div>
 
-      {/* Image URL */}
+      {/* Input field for an optional project image URL */}
       <div>
         <label className="block font-medium">Image URL</label>
         <input
@@ -70,7 +78,7 @@ const Step1 = () => {
         />
       </div>
 
-      {/* Next Button */}
+      {/* Button to proceed to the next form step */}
       <button
         type="submit"
         className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
