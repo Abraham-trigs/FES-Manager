@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import useProjectStore from "../../store/useProjectStore";
 
 const ProjectCardButtons = ({ projectId }) => {
+  const navigate = useNavigate(); // Initialize navigation
   const { wishlist = [], toggleWishlist } = useProjectStore(); 
   const isWishlisted = wishlist.includes(projectId);
 
@@ -13,6 +15,7 @@ const ProjectCardButtons = ({ projectId }) => {
       >
         FES Aid
       </button>
+      
       <button
         className={`text-lg px-3 py-1 rounded-lg transition-all duration-300 ${
           isWishlisted
@@ -24,8 +27,11 @@ const ProjectCardButtons = ({ projectId }) => {
       >
         {isWishlisted ? "✓" : "+"}
       </button>
+
+      {/* Link "Details" button to ProjectDetailsPage */}
       <button
         className="bg-cyanNeon text-darkGreen text-xs px-4 py-1 rounded-lg transition-all duration-300 hover:bg-cyan-500 hover:text-white"
+        onClick={() => navigate(`/project/${projectId}`)}
         aria-label="View project details"
       >
         Details

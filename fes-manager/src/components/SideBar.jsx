@@ -33,14 +33,21 @@ const SideBar = () => {
         </div>
 
         {/* Menu Links */}
-        <nav className="space-y-4">
-          <Link to="/profile" className="block text-white">Profile</Link>
-          <Link to="/project-feed" className="block text-white">Project Feed</Link>
-          <Link to="/project-data" className="block text-white">Project Data</Link>
-          <Link to="/my-data" className="block text-white">My Data</Link>
+        <nav className="space-y-3">
+          <Link to="/Profile" className="block text-white">Profile</Link>
+          <Link to="/LiveProjects" className="block text-white">Project Feed</Link>
           <Link to="/wishlist" className="block text-white">Wish List</Link>
-          <Link to="/impact-stories" className="block text-white">Impact Stories</Link>
-          <Link to="/deposit" className="block text-white">Deposit</Link>
+          <Link to="/MyArk" className="block text-white">My Ark</Link>  
+          <Link to="/Suggested-Projects" className="block text-white">Suggested Projects</Link>
+          <Link to="/My-Data" className="block text-white">My Donations</Link>
+          <Link to="/Deposit" className="block text-white">Deposit</Link>
+          <Link to="/Transactions" className="block text-white">Transaction History</Link>  
+          <Link to="/Messages" className="block text-white">Messages</Link>  
+          <Link to="/Notifications" className="block text-white">Notifications</Link>  
+          <Link to="/Settings" className="block text-white">Settings</Link>  
+          <Link to="/Help" className="block text-white">Help Center</Link>  
+          <Link to="/logout" className="block text-white">Logout</Link>  
+
         </nav>
 
         {/* Start a Project Button */}

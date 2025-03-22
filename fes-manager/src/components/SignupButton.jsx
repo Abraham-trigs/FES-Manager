@@ -1,15 +1,19 @@
-import React from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignupButton = () => {
+  const navigate = useNavigate();
+
   return (
-    <button className='bg-cyanNeon 
+    <button
+      onClick={() => navigate("/SignUp")}
+      className="bg-cyanNeon 
         p-1 px-8 
         text-[1.2rem] 
         rounded-lg  
         font-medium
-        text-darkGreen
-
-        '>
+        text-darkGreen"
+    >
       New User
     </button>
   );

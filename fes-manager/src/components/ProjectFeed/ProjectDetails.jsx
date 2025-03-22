@@ -1,6 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import useProjectStore from "../../store/useProjectStore";
+import ProjectListNavBar from "./ProjectListNavBar";
+import Footer from "../Footer";
+import SideBar from "../sideBar";
 
 const ProjectDetails = () => {
   // Retrieves the project ID from the URL parameters
@@ -15,6 +18,9 @@ const ProjectDetails = () => {
   if (!project) return <p>Project not found.</p>;
 
   return (
+    <>
+        <SideBar />
+        <ProjectListNavBar />
     // Container for project details
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
       {/* Displays the project title */}
@@ -30,7 +36,11 @@ const ProjectDetails = () => {
       {project.image && (
         <img src={project.image} alt={project.title} className="mt-4 rounded-lg" />
       )}
+
+      <Footer />
     </div>
+
+    </>
   );
 };
 

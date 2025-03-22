@@ -17,7 +17,7 @@ const useColorStore = create((set) => {
     greenNeon: "#07F978",
     white: "#FFFFFF",  };
 
-  // Set CSS variables initially
+  // CSS variables initial setted
   updateCSSVariables(initialColors);
 
   return {
