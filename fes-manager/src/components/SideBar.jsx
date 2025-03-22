@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import AddProjectForm from "./ProjectForm/AddProjectForm";
+import AddProjectForm from "./AddProjectForm/AddProjectForm";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 // Zustand store for managing the project form state
-const useProjectFormStore = create((set) => ({
+const useCreateProjectStore = create((set) => ({
   // Controls the current step of the multi-step form
   step: 1,
 
@@ -65,4 +65,4 @@ const useProjectFormStore = create((set) => ({
     })),
 }));
 
-export default useProjectFormStore;
+export default useCreateProjectStore;

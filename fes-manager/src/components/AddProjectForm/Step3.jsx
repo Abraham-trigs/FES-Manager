@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useProjectFormStore from "../../store/useProjectFormStore";
+import useProjectFormStore from "../../store/CreateProjectStore";
 
 const Step3 = () => {
   // Retrieves form state and functions for updating project data

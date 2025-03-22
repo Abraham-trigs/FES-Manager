@@ -1,7 +1,7 @@
 import React from 'react';
-import WelcomeNavBar from './WelcomeNavBar';
+import WelcomeNavBar from '../WelcomeNavBar';
 import Footer from '../Footer';
-import LoginButton from '../loginButton';
+import LoginButton from '../LoginButton';
 import SignupButton from '../SignupButton';
 
 const WelcomePage = () => {
