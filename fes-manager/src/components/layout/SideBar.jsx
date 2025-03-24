@@ -20,15 +20,23 @@ const SideBar = () => {
         </div>
       </button>
 
-      {/* Sidebar - Now on the Right */}
+      {/* Sidebar - Now Static When Open */}
       <div
-        className={`fixed top-0 right-0 h-full bg-darkGreen shadow-lg w-64 p-6 transform transition-transform duration-300 z-40
-        ${isOpen ? "translate-x-0" : "translate-x-full"}`}
+        className={`fixed top-0 right-0 h-full bg-darkGreen shadow-lg w-64 p-6 z-40 transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
+        {/* Close Button Inside Sidebar */}
+        <button className="absolute top-4 left-4 text-white" onClick={() => setIsOpen(false)}>
+          X
+        </button>
+
         {/* Profile Section */}
-        <div className="text-center mb-6">
-          <div className="w-20 h-20 bg-white rounded-full mx-auto mb-2"></div>
-          <h2 className="text-white font-bold">Account Name</h2>
+        <div className="text-center mb-6 mt-8">
+          <div className="flex items-center justify-center space-x-3">
+            <div className="w-20 h-20 bg-white rounded-full"></div>
+            <h2 className="text-white font-bold">Account Name</h2>
+          </div>
           <p className="text-greenNeon font-semibold">7,755.00</p>
         </div>
 
@@ -47,7 +55,6 @@ const SideBar = () => {
           <Link to="/Settings" className="block text-white">Settings</Link>  
           <Link to="/Help" className="block text-white">Help Center</Link>  
           <Link to="/logout" className="block text-white">Logout</Link>  
-
         </nav>
 
         {/* Start a Project Button */}

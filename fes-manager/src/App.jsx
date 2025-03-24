@@ -13,19 +13,17 @@ import DonorData from './components/Pages/DonorData';
 import DepositPage from './components/Pages/DepositPage';
 import UserMessages from './components/Pages/UserMessages';
 import UserNotification from './components/Pages/UserNotifications';
-import UserSettings from './components/Pages/UserSettings';
 import UserHelpCenter from './components/Pages/UserHelpCenter';
 import Transactions from './components/Pages/Transactions';
-
-
-
-  
+import UserProfileSettings from './components/Pages/UserProfileSettings';
+import SideBar from './components/layout/SideBar';
 
 
 const App = () => {
   return (
-    
-      <Routes>
+    <div>
+            <SideBar />
+            <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/Signup" element={<SignUpPage />} />
         <Route path="/LiveProjects" element={<ProjectListPage />} />
@@ -39,10 +37,15 @@ const App = () => {
         <Route path="/Transactions" element={<Transactions />} /> 
         <Route path="/Messages" element={<UserMessages />} /> 
         <Route path="/Notifications" element={<UserNotification />} /> 
-        <Route path="/Settings" element={<UserSettings />} /> 
+        <Route path="/Settings" element={<UserProfileSettings />} /> 
         <Route path="/Help" element={<UserHelpCenter />} /> 
         
+        
       </Routes>
+
+
+      
+    </div>
   );
 };
 
