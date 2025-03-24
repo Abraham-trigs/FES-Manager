@@ -1,7 +1,7 @@
 import React from "react";
 import useCreateProfileStore from "../../store/CreateProfileStore";
 
-const SignUpForm2 = () => {
+const SignupForm2 = () => {
   const { userData, errors, updateField, setErrors, nextStep, prevStep, step } = useCreateProfileStore();
 
   // Validation for Step 2
@@ -31,12 +31,17 @@ const SignUpForm2 = () => {
       <p className="text-lg text-gray-600 mt-1">Sign-up</p>
 
       <h3 className="font-semibold text-lg my-5 text-darkGreen"> FORM TITLE HERE</h3>
+
       {/* Step 2: Account Type Selection */}
       <div>
-        <p className="text-gray-700 font-medium mb-2">Select Account Type</p>
+        <label htmlFor="accountType" className="block text-gray-700 font-medium mb-2">
+          Select Account Type
+        </label>
 
         {/* Account Type Options */}
         <select
+          id="accountType"
+          name="accountType"
           className="w-full p-3 my-2 border border-gray-300 rounded-lg"
           value={userData.accountType}
           onChange={(e) => updateField("accountType", e.target.value)}
@@ -51,8 +56,13 @@ const SignUpForm2 = () => {
         {/* Organization/Government Name (Only for Organization & Government Representative) */}
         {(userData.accountType === "Organization" || userData.accountType === "Government") && (
           <>
+            <label htmlFor="organizationName" className="block text-gray-700 font-medium mt-3">
+              Organization/Government Name
+            </label>
             <input
               type="text"
+              id="organizationName"
+              name="organizationName"
               placeholder="Organization/Government Name"
               value={userData.organizationName}
               onChange={(e) => updateField("organizationName", e.target.value)}
@@ -63,8 +73,13 @@ const SignUpForm2 = () => {
             )}
 
             {/* Optional Role */}
+            <label htmlFor="role" className="block text-gray-700 font-medium mt-3">
+              Role/Position (Optional)
+            </label>
             <input
               type="text"
+              id="role"
+              name="role"
               placeholder="Role/Position (Optional)"
               value={userData.role}
               onChange={(e) => updateField("role", e.target.value)}
@@ -76,7 +91,9 @@ const SignUpForm2 = () => {
         {/* Buttons */}
         <div className="flex justify-between mt-4">
           <button
-            className={`px-6 py-2 rounded-lg font-medium ${step > 1 ? "bg-gray-400 text-white" : "bg-gray-200 text-gray-500 cursor-not-allowed"}`}
+            className={`px-6 py-2 rounded-lg font-medium ${
+              step > 1 ? "bg-gray-400 text-white hover:bg-gray-500" : "bg-gray-200 text-gray-500 cursor-not-allowed"
+            }`}
             onClick={prevStep}
             disabled={step === 1}
           >
@@ -84,7 +101,7 @@ const SignUpForm2 = () => {
           </button>
 
           <button
-            className="bg-greenNeon text-darkGreen px-6 py-2 rounded-lg font-medium"
+            className="bg-greenNeon text-darkGreen px-6 py-2 rounded-lg font-medium hover:bg-green-500"
             onClick={() => {
               if (validateStep2()) nextStep();
             }}
@@ -97,4 +114,4 @@ const SignUpForm2 = () => {
   );
 };
 
-export default SignUpForm2;
+export default SignupForm2;

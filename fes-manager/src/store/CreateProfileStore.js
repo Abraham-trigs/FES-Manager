@@ -1,7 +1,11 @@
 import { create } from "zustand";
 
 // Load from localStorage
-const loadStep = () => parseInt(localStorage.getItem("signupStep")) || 1;
+const loadStep = () => {
+  const savedStep = parseInt(localStorage.getItem("signupStep"), 10);
+  return isNaN(savedStep) || savedStep < 1 ? 1 : savedStep; // Ensures step starts at 1
+};
+
 const loadFromLocalStorage = () => JSON.parse(localStorage.getItem("signupData")) || {};
 const saveToLocalStorage = (data) => localStorage.setItem("signupData", JSON.stringify(data));
 
@@ -16,7 +20,7 @@ const useCreateProfileStore = create((set) => ({
     accountType: "",
     organizationName: "",
     role: "",
-    preferredCommunication: [],  // Ensure this is initialized
+    preferredCommunication: [],
     ...loadFromLocalStorage(),
   },
   errors: {},
@@ -46,8 +50,9 @@ const useCreateProfileStore = create((set) => ({
 
   resetStep: () =>
     set(() => {
-      localStorage.setItem("signupStep", "1");
-      return { step: 1 };
+      localStorage.removeItem("signupStep"); // Remove step from storage
+      localStorage.removeItem("signupData"); // Remove user data from storage
+      return { step: 1, userData: {} }; // Reset state
     }),
 }));
 

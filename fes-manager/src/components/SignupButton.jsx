@@ -6,7 +6,7 @@ const SignupButton = () => {
 
   return (
     <button
-      onClick={() => navigate("/SignUp")}
+      onClick={() => navigate("/Signup")}
       className="bg-cyanNeon 
         p-1 px-8 
         text-[1.2rem] 

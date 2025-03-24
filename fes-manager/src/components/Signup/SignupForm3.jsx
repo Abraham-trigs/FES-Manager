@@ -1,7 +1,7 @@
 import React from "react";
 import useCreateProfileStore from "../../store/CreateProfileStore";
 
-const SignUpForm3 = () => {
+const SignupForm3 = () => {
   const { userData, errors, updateField, setErrors, nextStep, prevStep, step } = useCreateProfileStore();
 
   // Validation for Step 3
@@ -32,87 +32,108 @@ const SignUpForm3 = () => {
       {/* Step 3: Location & Preferences */}
       <div>
         {/* Country */}
+        <label htmlFor="country" className="block text-gray-700 font-medium text-left">
+          Select Your Country
+        </label>
         <select
+          id="country"
+          name="country"
           className="w-full p-3 my-2 border border-gray-300 rounded-lg"
-          value={userData.country}
+          value={userData.country || ""}  // ✅ Prevents uncontrolled input
           onChange={(e) => updateField("country", e.target.value)}
         >
           <option value="">Select Country</option>
-          {/* Replace with actual country list */}
           <option value="USA">United States</option>
           <option value="Canada">Canada</option>
+          <option value="Ghana">Ghana</option>
           <option value="India">India</option>
-          {/* Add more countries as needed */}
+          <option value="UK">United Kingdom</option>
+          <option value="Other">Other</option>
         </select>
         {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
 
         {/* State/City */}
+        <label htmlFor="stateCity" className="block text-gray-700 font-medium text-left mt-3">
+          State/City
+        </label>
         <input
           type="text"
-          placeholder="State/City"
-          value={userData.stateCity}
+          id="stateCity"
+          name="stateCity"
+          placeholder="Enter your state or city"
+          value={userData.stateCity || ""}  // ✅ Ensures default value
           onChange={(e) => updateField("stateCity", e.target.value)}
           className="w-full p-3 my-2 border border-gray-300 rounded-lg"
         />
         {errors.stateCity && <p className="text-red-500 text-sm">{errors.stateCity}</p>}
 
         {/* Preferred Communication Method */}
-        <h6 className="font-bold my-5 text-darkGreen ">FES-Manager's Engagement with You </h6> 
-        <div className="flex justify-space space-x-4">
-          <label className="flex items-center my-auto ml-9">
+        <h6 className="font-bold my-5 text-darkGreen">How Would You Like FES-Manager to Engage With You?</h6> 
+        <div className="flex flex-col space-y-2 text-left">
+          <label className="flex items-center">
             <input
               type="checkbox"
-              checked={userData.preferredCommunication.includes("Email")}
+              id="emailComm"
+              checked={userData.preferredCommunication?.includes("Email") || false}  // ✅ Prevents undefined
               onChange={(e) => {
                 const method = "Email";
                 updateField(
                   "preferredCommunication",
                   e.target.checked
-                    ? [...userData.preferredCommunication, method]
-                    : userData.preferredCommunication.filter((item) => item !== method)
+                    ? [...(userData.preferredCommunication || []), method]
+                    : (userData.preferredCommunication || []).filter((item) => item !== method)
                 );
               }}
+              className="mr-2"
             />
-            <span className="ml-2">Email</span>
+            Email
           </label>
+
           <label className="flex items-center">
             <input
               type="checkbox"
-              checked={userData.preferredCommunication.includes("SMS")}
+              id="smsComm"
+              checked={userData.preferredCommunication?.includes("SMS") || false}  // ✅ Prevents undefined
               onChange={(e) => {
                 const method = "SMS";
                 updateField(
                   "preferredCommunication",
                   e.target.checked
-                    ? [...userData.preferredCommunication, method]
-                    : userData.preferredCommunication.filter((item) => item !== method)
+                    ? [...(userData.preferredCommunication || []), method]
+                    : (userData.preferredCommunication || []).filter((item) => item !== method)
                 );
               }}
+              className="mr-2"
             />
-            <span className="ml-2">SMS</span>
+            SMS
           </label>
+
           <label className="flex items-center">
             <input
               type="checkbox"
-              checked={userData.preferredCommunication.includes("WhatsApp")}
+              id="whatsappComm"
+              checked={userData.preferredCommunication?.includes("WhatsApp") || false}  // ✅ Prevents undefined
               onChange={(e) => {
                 const method = "WhatsApp";
                 updateField(
                   "preferredCommunication",
                   e.target.checked
-                    ? [...userData.preferredCommunication, method]
-                    : userData.preferredCommunication.filter((item) => item !== method)
+                    ? [...(userData.preferredCommunication || []), method]
+                    : (userData.preferredCommunication || []).filter((item) => item !== method)
                 );
               }}
+              className="mr-2"
             />
-            <span className="ml-2">WhatsApp</span>
+            WhatsApp
           </label>
         </div>
 
         {/* Buttons */}
         <div className="flex justify-between mt-4">
           <button
-            className={`px-6 py-2 rounded-lg font-medium ${step > 1 ? "bg-shade text-white" : "bg-gray-200 text-gray-500 cursor-not-allowed"}`}
+            className={`px-6 py-2 rounded-lg font-medium ${
+              step > 1 ? "bg-gray-400 text-white hover:bg-gray-500" : "bg-gray-200 text-gray-500 cursor-not-allowed"
+            }`}
             onClick={prevStep}
             disabled={step === 1}
           >
@@ -120,7 +141,7 @@ const SignUpForm3 = () => {
           </button>
 
           <button
-            className="bg-greenNeon text-darkGreen px-6 py-2 rounded-lg font-medium"
+            className="bg-greenNeon text-darkGreen px-6 py-2 rounded-lg font-medium hover:bg-green-500"
             onClick={() => {
               if (validateStep3()) nextStep();
             }}
@@ -133,4 +154,4 @@ const SignUpForm3 = () => {
   );
 };
 
-export default SignUpForm3;
+export default SignupForm3;
