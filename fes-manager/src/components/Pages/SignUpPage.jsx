@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import Footer from "../layout/Footer";
 import ProjectListNavBar from "../ProjectFeed/ProjectListNavBar";
-import SideBar from "../layout/SideBar";
 import useCreateProfileStore from "../../store/CreateProfileStore";
-import SignupForm1 from "../Signup/SignUpForm1";
+import SignupForm1 from "../Signup/SignupForm1";
 import SignupForm2 from "../Signup/SignupForm2";
 import SignupForm3 from "../Signup/SignupForm3";
 import SignupForm4 from "../Signup/SignupForm4";
@@ -21,7 +20,6 @@ const SignupPage = () => {
       {/* Full-page background */}
       <div className="absolute inset-0 w-full h-full bg-shade -z-10"></div>
 
-      <SideBar />
       <ProjectListNavBar />
 
       <div className="mx-auto my-auto">

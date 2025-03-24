@@ -15,14 +15,13 @@ import UserNotification from './components/Pages/UserNotifications';
 import UserHelpCenter from './components/Pages/UserHelpCenter';
 import Transactions from './components/Pages/Transactions';
 import UserProfileSettings from './components/Pages/UserProfileSettings';
-import SideBar from './components/layout/SideBar';
 import SignupPage from './components/Pages/SignUpPage';
 
 
 const App = () => {
   return (
     <div>
-      <SideBar />
+      {/* <SideBar /> */}
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/Signup" element={<SignupPage />} />
