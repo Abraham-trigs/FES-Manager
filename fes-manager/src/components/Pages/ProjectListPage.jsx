@@ -1,9 +1,9 @@
 import React from "react";
-import Footer from "../Footer";
+import Footer from "../layout/Footer";
 import ProjectListNavBar from "../ProjectFeed/ProjectListNavBar";
 import ProjectCard from "../ProjectCard-UI/ProjectCard";
 import useProjectStore from "../../store/useProjectStore";
-import SideBar from "../sideBar";
+import SideBar from "../layout/SideBar";
 
 export const ProjectListPage = () => {
   // Retrieves the list of projects from the global state

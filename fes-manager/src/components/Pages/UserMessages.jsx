@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "../Footer";
+import Footer from "../layout/Footer";
 import ProjectListNavBar from "../ProjectFeed/ProjectListNavBar";
 import SideBar from "../layout/SideBar";
 

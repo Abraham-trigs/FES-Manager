@@ -2,8 +2,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import useProjectStore from "../../store/useProjectStore";
 import ProjectListNavBar from "./ProjectListNavBar";
-import Footer from "../Footer";
-import SideBar from "../sideBar";
+import Footer from "../layout/Footer";
+import SideBar from "../layout/SideBar";
 
 const ProjectDetails = () => {
   // Retrieves the project ID from the URL parameters

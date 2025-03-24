@@ -1,13 +1,13 @@
 import React from "react";
-import Footer from "../Footer";
+import Footer from "../layout/Footer";
 import ProjectListNavBar from "../ProjectFeed/ProjectListNavBar";
-import SideBar from "../sideBar";
+import SideBar from "../layout/SideBar";
 import useCreateProfileStore from "../../store/CreateProfileStore";
-import SignUpForm1 from "../SignupForm/SignUpForm1";
-import SignUpForm2 from "../SignupForm/SignupForm2";
-import SignUpForm3 from "../SignupForm/SignupForm3";
-import SignupForm4 from "../SignupForm/SignupForm4";
-import SignupForm5 from "../SignupForm/SignupForm5";
+import SignUpForm1 from "../Signup/SignUpForm1";
+import SignUpForm2 from "../Signup/SignupForm2";
+import SignUpForm3 from "../Signup/SignupForm3";
+import SignupForm4 from "../Signup/SignupForm4";
+import SignupForm5 from "../Signup/SignupForm5";
 
 
 
