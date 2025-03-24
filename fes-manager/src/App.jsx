@@ -21,7 +21,6 @@ import SignupPage from './components/Pages/SignUpPage';
 const App = () => {
   return (
     <div>
-      {/* <SideBar /> */}
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/Signup" element={<SignupPage />} />

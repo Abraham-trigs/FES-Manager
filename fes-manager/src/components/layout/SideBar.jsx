@@ -33,6 +33,14 @@ const SideBar = () => {
             <h2 className="text-white font-bold">Account Name</h2>
           </div>
           <p className="text-greenNeon font-semibold text-center">7,755.00</p>
+           {/* ✅ "Start A Project" Button */}
+          <button
+            className="mt-6 bg-greenNeon text-darkGreen py-2 px-4 w-full rounded-md"
+            onClick={() => setShowForm(true)}
+          >
+            Start A Project
+          </button>
+
         </div>
 
         {/* ✅ Scrollable Menu Items */}
@@ -66,13 +74,6 @@ const SideBar = () => {
             ))}
           </nav>
 
-          {/* ✅ "Start A Project" Button */}
-          <button
-            className="mt-6 bg-greenNeon text-darkGreen py-2 px-4 w-full rounded-md"
-            onClick={() => setShowForm(true)}
-          >
-            Start A Project
-          </button>
         </div>
       </div>
 

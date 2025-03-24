@@ -11,7 +11,6 @@ const SignupForm1 = () => {
     if (!userData.fullName.trim()) newErrors.fullName = "Full Name is required";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email)) newErrors.email = "Enter a valid email address";
     
-    // ✅ Updated Phone Validation
     if (!/^\+?[1-9]\d{6,14}$/.test(userData.phone)) {
       newErrors.phone = "Enter a valid phone number with or without country code";
     }
