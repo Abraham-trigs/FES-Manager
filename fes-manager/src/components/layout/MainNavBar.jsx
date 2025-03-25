@@ -12,9 +12,10 @@ const MainNavBar = () => {
         </div>
         
         {/* Centered Content with Flex Grow */}
-        <div className="flex flex-grow justify-center space-x-8">
+        <div className="flex flex-grow justify-center space-x-8 items-center">
+
           {/* Filter */}
-          <img src="../images/filtre.png" alt="" />  
+          <img className='h-[25px] w-auto ml-[60px] -mr-2' src="../public/images/Filtre.png" alt="filtre symbol"  />  
 
           {/* Search Bar */}
           <input 
