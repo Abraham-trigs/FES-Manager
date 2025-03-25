@@ -1,0 +1,64 @@
+{
+  "project_id": "1",
+  "title": "Community Education for Girls",
+  "category": "Education",
+  "description": "This project aims to provide educational resources, mentorship, and scholarships to girls in rural areas to support their educational journey.",
+  "image": "https://example.com/project-image.jpg",
+  "fundingGoal": 50000,
+  "currentFunds": 15000,
+  "tasks": [
+    {
+      "id": "task-1",
+      "title": "Buy Textbooks",
+      "description": "Purchase textbooks for students in different grades.",
+      "amount": 5000,
+      "percentage": 10
+    },
+    {
+      "id": "task-2",
+      "title": "Provide Scholarships",
+      "description": "Offer full scholarships for high-performing students.",
+      "amount": 20000,
+      "percentage": 40
+    },
+    {
+      "id": "task-3",
+      "title": "Hire Teachers",
+      "description": "Recruit and pay teachers for the education program.",
+      "amount": 10000,
+      "percentage": 20
+    },
+    {
+      "id": "task-4",
+      "title": "Buy School Supplies",
+      "description": "Provide essential school supplies for students.",
+      "amount": 5000,
+      "percentage": 10
+    },
+    {
+      "id": "task-5",
+      "title": "Community Outreach",
+      "description": "Create awareness and gather community support for the project.",
+      "amount": 5000,
+      "percentage": 10
+    }
+  ],
+  "verified": true,
+  "verificationDocs": "https://example.com/verification-docs.pdf",
+  "location": "Rural Village, ABC District",
+  "beneficiaries": "Girls aged 6-18",
+  "completionDate": "2025-12-31",
+  "contactPerson": "Jane Doe",
+  "contactEmail": "janedoe@example.com",
+  "contactPhone": "+1234567890",
+  "schoolName": "Rural Girls High School",
+  "schoolAddress": "1234 Village Road, ABC District",
+  "schoolContactPerson": "John Smith",
+  "schoolEmail": "johnsmith@ruralhighschool.com",
+  "schoolPhone": "+0987654321",
+  "organizationName": "Education for All Foundation",
+  "organizationAddress": "5678 City Center, ABC City",
+  "organizationContactPerson": "Sarah Johnson",
+  "organizationEmail": "sarah.johnson@efafoundation.org",
+  "organizationPhone": "+1122334455"
+}

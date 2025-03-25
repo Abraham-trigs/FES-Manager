@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import useProjectStore from "../../store/useProjectStore";
-import ProjectListNavBar from "./ProjectListNavBar";
+import MainNavBar from "../layout/MainNavBar";
 import Footer from "../layout/Footer";
 import SideBar from "../layout/SideBar";
 
@@ -20,8 +20,7 @@ const ProjectDetails = () => {
   return (
     <>
         <SideBar />
-        <ProjectListNavBar />
-    // Container for project details
+        <MainNavBar />
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
       {/* Displays the project title */}
       <h2 className="text-3xl font-bold">{project.title}</h2>

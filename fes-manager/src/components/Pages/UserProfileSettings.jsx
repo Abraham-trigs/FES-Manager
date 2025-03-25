@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../layout/Footer";
-import ProjectListNavBar from "../ProjectFeed/ProjectListNavBar";
+import MainNavBar from "../layout/MainNavBar";
 import SideBar from "../layout/SideBar";
 import UserProfileSettingsPanel from "../UserProfileSetting/UserProfileSettingsPanel";
 
@@ -16,13 +16,9 @@ const UserProfileSettings = () => {
       <SideBar />
 
       {/* Navigation bar */}
-      <ProjectListNavBar />
+      <MainNavBar />
       <UserProfileSettingsPanel />
       
-
-
-
-
       {/* Footer Section */}
       <Footer />
     </div>

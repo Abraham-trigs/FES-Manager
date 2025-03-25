@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProjectListNavBar = () => {
+const MainNavBar = () => {
   return (
     <>
       {/* Top Navigation Bar */}
@@ -13,9 +13,9 @@ const ProjectListNavBar = () => {
         
         {/* Centered Content with Flex Grow */}
         <div className="flex flex-grow justify-center space-x-8">
-          {/* Filter Text */}
-          <p className="text-light font-semibold text-[1.2rem]">Filtre</p>
-  
+          {/* Filter */}
+          <img src="../images/filtre.png" alt="" />  
+
           {/* Search Bar */}
           <input 
             type="search" 
@@ -42,4 +42,4 @@ const ProjectListNavBar = () => {
   );
 }
 
-export default ProjectListNavBar;
+export default MainNavBar;

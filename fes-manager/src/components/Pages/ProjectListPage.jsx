@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../layout/Footer";
-import ProjectListNavBar from "../ProjectFeed/ProjectListNavBar";
+import MainNavBar from "../layout/MainNavBar";
 import ProjectCard from "../ProjectCard-UI/ProjectCard";
 import useProjectStore from "../../store/useProjectStore";
 import SideBar from "../layout/SideBar";
@@ -18,7 +18,7 @@ export const ProjectListPage = () => {
       <SideBar />
 
       {/* Navigation bar for project listings */}
-      <ProjectListNavBar />
+      <MainNavBar />
 
       {/* Displays the list of projects or a message if no projects are available */}
       <div className="flex flex-wrap gap-4 p-5">
