@@ -12,8 +12,8 @@ const Footer = () => {
 
         {/* Main footer section with background and centered text */}
         <div className="w-full h-[50px] bg-darkGreen flex justify-center items-center">
-          <p className="text-cyanNeon text-lg text-[70%]">
-            powered by LEGEND FOUNDATION &copy; 2025
+          <p className="text-cyanNeon text-[0.7rem]">
+            <span className='text-white'>powered by</span>  LEGEND FOUNDATION &copy; 2025
           </p>
         </div>
       </div>

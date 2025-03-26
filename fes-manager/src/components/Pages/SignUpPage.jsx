@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Footer from "../layout/Footer";
-import MainNavBar from "../layout/MainNavBar";
+import WelcomeNavBar from "../layout/WelcomeNavBar";
 import useCreateProfileStore from "../../store/CreateProfileStore";
 import SignupForm1 from "../Signup/SignupForm1";
 import SignupForm2 from "../Signup/SignupForm2";
@@ -20,7 +20,7 @@ const SignupPage = () => {
       {/* Full-page background */}
       <div className="absolute inset-0 w-full h-full bg-shade -z-10"></div>
 
-      <MainNavBar />
+      <WelcomeNavBar />
 
       <div className="mx-auto my-auto">
         {step === 1 && <SignupForm1/>}

@@ -4,7 +4,7 @@ const MainNavBar = () => {
   return (
     <>
       {/* Top Navigation Bar */}
-      <div className="w-full h-[70px] bg-semiGreen fixed top-0 left-0 right-0 flex items-center px-4 z-50">
+      <div className="w-full h-[70px] bg-semiGreen fixed top-0 left-0 right-0 flex items-center px-2 z-50">
         
         {/* Logo Positioned to the Far Left */}
         <div className="absolute left-4">
@@ -21,15 +21,15 @@ const MainNavBar = () => {
           <input 
             type="search" 
             placeholder="Account Name or Project ID..." 
-            className="px-4 py-2 rounded-md border border-gray-300 w-[50%] focus:outline-none" 
+            className="px-4 py-2 rounded-md border border-gray-300 w-[50%] focus:outline-none -ml-1" 
           />
   
           {/* Live Indicator with Circle */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 ">
             {/* Small Circle */}
-            <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+            <div className="w-3 h-3 bg-orange-500 rounded-full -ml-[20px]"></div>
             {/* LIVE Text */}
-            <p className="text-greenNeon font-semibold text-[1.2rem]">LIVE</p>
+            <p className="text-greenNeon font-semibold text-[1rem] ">LIVE</p>
           </div>
         </div>
       </div>
@@ -38,7 +38,7 @@ const MainNavBar = () => {
       <div className="h-[73px]"></div>
       
       {/* Green Neon Line Below Navbar */}
-      <div className="w-full h-[3px] bg-greenNeon mx-auto"></div>
+      <div className="w-full h-[3px] bg-greenNeon mx-auto -mt-[2.3px]"></div>
     </>
   );
 }

@@ -1,21 +1,21 @@
+// src/components/SideBar.js
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AddProjectForm from "../AddProjectForm/AddProjectForm";
 import HamburgerMenu from "./HamburgerMenu";
+import CurrencyConverter from "../Convertor/CurrencyConverter";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const location = useLocation();
 
-  // User balance formatted as currency
-  const formattedBalance = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(7755);
+  // Example balance amount (in USD)
+  const balance = 7755;
 
   return (
     <>
-      {/* Hamburger Menu is only shown when sidebar is closed */}
+      {/* Hamburger Menu (only shown when sidebar is closed) */}
       {!isOpen && <HamburgerMenu toggleSidebar={() => setIsOpen(true)} />}
 
       {/* Sidebar */}
@@ -42,7 +42,11 @@ const SideBar = () => {
             </div>
             <h2 className="text-white font-bold">Account Name</h2>
           </div>
-          <p className="text-greenNeon font-semibold text-center">{formattedBalance}</p>
+
+          {/* Currency Converter */}
+          <div className="mt-4 ">
+            <CurrencyConverter amount={balance} />
+          </div>
 
           <button
             className="mt-6 bg-greenNeon text-darkGreen py-2 px-4 w-full rounded-md"
@@ -56,7 +60,7 @@ const SideBar = () => {
         <div className="h-[calc(90vh-300px)] overflow-y-auto p-9">
           <nav className="space-y-4">
             {[
-              { name: "Profile", path: "/Profile" },
+              { name: "Profile Settings", path: "/Settings" },
               { name: "Project Feed", path: "/LiveProjects" },
               { name: "Wish List", path: "/wishlist" },
               { name: "My Ark", path: "/MyArk" },
@@ -66,14 +70,15 @@ const SideBar = () => {
               { name: "Transaction History", path: "/Transactions" },
               { name: "Messages", path: "/Messages" },
               { name: "Notifications", path: "/Notifications" },
-              { name: "Settings", path: "/Settings" },
               { name: "Help Center", path: "/Help" },
               { name: "Logout", path: "/logout" },
             ].map((tab, index) => (
               <div key={index} className="group">
                 <Link
                   to={tab.path}
-                  className="block text-white py-2 transition duration-300 group-hover:text-greenNeon"
+                  className={`block text-white py-2 transition duration-300 group-hover:text-greenNeon ${
+                    location.pathname === tab.path ? "bg-semiGreen p-2 " : ""
+                  }`}
                 >
                   {tab.name}
                 </Link>

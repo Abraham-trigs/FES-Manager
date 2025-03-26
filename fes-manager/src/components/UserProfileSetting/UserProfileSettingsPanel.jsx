@@ -4,7 +4,6 @@ import UserPrivacy from "./UserPrivacy";
 import PersonalInformation from "./PersonalInformation";
 import Customization from "./Customization";
 import MyArkSettings from "./MyArkSetting";
-import SideBar from "../layout/SideBar"; 
 
 const UserProfileSettingsPanel = () => {
   // Access activeTab and setActiveTab from the Zustand store to control the selected tab
@@ -22,7 +21,6 @@ const UserProfileSettingsPanel = () => {
 
   return (
     <>
-      <SideBar /> {/* Include the sidebar on the left side of the screen */}
 
       <div className="flex w-full h-screen bg-gray-100">
         {/* Sidebar (Now Static) */}
