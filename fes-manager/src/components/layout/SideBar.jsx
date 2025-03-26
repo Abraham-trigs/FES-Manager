@@ -11,7 +11,7 @@ const SideBar = () => {
   const location = useLocation();
 
   // Example balance amount (in USD)
-  const balance = 7755;
+  const balance = 15;
 
   return (
     <>
@@ -62,7 +62,6 @@ const SideBar = () => {
             {[
               { name: "Profile Settings", path: "/Settings" },
               { name: "Project Feed", path: "/LiveProjects" },
-              { name: "Wish List", path: "/wishlist" },
               { name: "My Ark", path: "/MyArk" },
               { name: "Suggested Projects", path: "/Suggested-Projects" },
               { name: "My Donations", path: "/My-Data" },

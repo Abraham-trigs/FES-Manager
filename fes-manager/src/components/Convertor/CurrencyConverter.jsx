@@ -20,7 +20,7 @@ const CurrencyConverter = ({ amount }) => {
       <img
         src={ConverterIcon}
         alt="Convert Icon"
-        className="w-6 h-6 cursor-pointer transition-transform duration-500 ease-out"
+        className="w-auto h-6 cursor-pointer transition-transform duration-500 ease-out"
         style={{ transform: `rotate(${rotation}deg)` }}
         onClick={handleRotate}
       />
@@ -29,7 +29,7 @@ const CurrencyConverter = ({ amount }) => {
       <img
         src={isFES ? FEScurrencyIcon : DollarIcon}
         alt="Currency Icon"
-        className="w-6 h-6"
+        className="w-auto h-6"
       />
 
       {/* Amount with Dynamic Color Based on Currency */}
