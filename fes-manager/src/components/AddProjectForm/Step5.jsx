@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; 
-import useProjectFormStore from "../../store/CreateProjectStore";
-import useProjectStore from "../../store/useProjectStore"; 
+import useProjectStore from "../../store/ProjectStore";
 
 const Step5 = () => {
   // Retrieves form data and update functions from Zustand store
-  const { formData, updateFormData } = useProjectFormStore();
+  const { formData, updateFormData } = useProjectStore();
 
   // Retrieves the function to add a new project to the store
   const addProject = useProjectStore((state) => state.addProject); 

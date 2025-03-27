@@ -1,6 +1,5 @@
 import React from "react";
-import useProjectFormStore from "../../store/CreateProjectStore";
-import useProjectStore from "../../store/useProjectStore"; 
+import useProjectStore from "../../store/ProjectStore";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
@@ -13,7 +12,7 @@ const AddProjectForm = () => {
   const navigate = useNavigate(); 
 
   // Retrieves the current form step and form data from the store
-  const { step, formData } = useProjectFormStore(); 
+  const { step, formData } = useProjectStore(); 
 
   // Retrieves the function to add a new project from the global state
   const addProject = useProjectStore((state) => state.addProject);

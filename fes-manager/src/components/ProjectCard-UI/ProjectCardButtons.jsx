@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useProjectStore from "../../store/useProjectStore";
+import useProjectStore from "../../store/ProjectStore";
 
 const ProjectCardButtons = ({ projectId }) => {
   const navigate = useNavigate(); // Initialize navigation

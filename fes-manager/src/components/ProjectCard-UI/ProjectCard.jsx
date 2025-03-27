@@ -1,8 +1,9 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom"; 
-import useProjectStore from "../../store/useProjectStore";
-import ProjectCardButtons from "./ProjectCardButtons";
+import useProjectStore from "../../store/ProjectStore";
 import ProgressBar from "./ProgressBar";
+import ProjectCardButtons from "./ProjectCardButtons";
+
 
 const ProjectCard = memo(({ projectId }) => {
   // Retrieves project data from the store based on projectId

@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import useProjectStore from "../../store/useProjectStore";
+import useProjectStore from "../../store/ProjectStore";
 import MainNavBar from "../layout/MainNavBar";
 import Footer from "../layout/Footer";
 import SideBar from "../layout/SideBar";

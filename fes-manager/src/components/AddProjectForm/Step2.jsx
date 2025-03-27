@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import useProjectFormStore from "../../store/CreateProjectStore";
+import useProjectStore from "../../store/ProjectStore";
 
 const Step2 = () => {
   // Retrieves form state and functions for updating project data
   const { updateFormData, setStep, formData, addTask, removeTask } =
-    useProjectFormStore();
+  useProjectStore();
 
   // Local state for managing task inputs and error messages
   const [taskName, setTaskName] = useState("");

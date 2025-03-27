@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import useProjectFormStore from "../../store/CreateProjectStore";
+import useProjectStore from "../../store/ProjectStore";
 
 const Step1 = () => {
   // Retrieves form state management functions from the global store
-  const { updateFormData, setStep, formData } = useProjectFormStore();
+  const { updateFormData, setStep, formData } = useProjectStore();
   
   // Tracks validation errors
   const [error, setError] = useState("");

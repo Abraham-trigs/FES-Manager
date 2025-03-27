@@ -2,7 +2,7 @@ import React from "react";
 import Footer from "../layout/Footer";
 import MainNavBar from "../layout/MainNavBar";
 import ProjectCard from "../ProjectCard-UI/ProjectCard";
-import useProjectStore from "../../store/useProjectStore";
+import useProjectStore from "../../store/ProjectStore";
 import SideBar from "../layout/SideBar";
 
 export const ProjectListPage = () => {

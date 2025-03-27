@@ -3,7 +3,7 @@ import './index.css';
 import { Routes, Route } from 'react-router-dom'; // ❌ No extra Router here!
 import { ProjectListPage } from './components/Pages/ProjectListPage';
 import WelcomePage from './components/Pages/WelcomePage';
-import ProjectDetails from './components/ProjectFeed/ProjectDetails';
+import ProjectDetails from './components/Pages/ProjectDetails';
 import WishList from './components/Pages/WishList';
 import UserProfilePage from './components/Pages/UserProfilePage';
 import MyArk from './components/Pages/MyArk';
