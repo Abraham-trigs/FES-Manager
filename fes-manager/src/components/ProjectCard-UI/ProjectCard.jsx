@@ -1,36 +1,29 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import useProjectStore from "../../store/ProjectStore";
 import ProgressBar from "./ProgressBar";
 import ProjectCardButtons from "./ProjectCardButtons";
 
-const ProjectCard = memo(({ projectId, isInMyArkPage }) => {
-  // Retrieves project data from the store based on projectId
+const ProjectCard = memo(({ projectId }) => {
+  // Get project data from the store
   const project = useProjectStore((state) =>
     state.projects.find((p) => p.id === projectId)
   );
 
-  // Prevents rendering if the project does not exist
   if (!project) return null;
 
   return (
-    // Container for the project card
     <div
-      className="w-full max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden p-4 transition-all duration-300 hover:shadow-xl sm:max-w-sm md:max-w-md"
-      role="region"
-      aria-labelledby={`project-${projectId}`}
+      className="w-full max-w-xs bg-white rounded-2xl shadow-lg overflow-hidden p-4 
+      transition-all duration-300 hover:shadow-xl sm:max-w-sm md:max-w-md"
     >
-      {/* Displays the category of the project */}
-      <p
-        id={`project-${projectId}`}
-        className="text-xs font-semibold text-gray-700 uppercase"
-        aria-label={`Category: ${project.category}`}
-      >
-        {project.category}
+      {/* Project Category */}
+      <p className="text-xs font-semibold text-gray-700 uppercase">
+        {project.category || "Uncategorized"}
       </p>
 
-      {/* Displays project image if available */}
-      <div className="w-full h-36 bg-gray-300 rounded-lg overflow-hidden">
+      {/* Project Image or Fallback */}
+      <div className="w-full h-36 bg-gray-300 rounded-lg overflow-hidden flex items-center justify-center">
         {project.image ? (
           <img
             src={project.image}
@@ -38,34 +31,35 @@ const ProjectCard = memo(({ projectId, isInMyArkPage }) => {
             className="w-full h-full object-cover"
             loading="lazy"
           />
-        ) : null}
+        ) : (
+          <span className="text-gray-500 text-xs">No Image Available</span>
+        )}
       </div>
 
-      {/* Displays project ID and progress */}
+      {/* Project ID and Progress */}
       <div className="mt-3">
-        <p className="text-sm text-gray-700 font-medium" aria-label={`Project ID: ${projectId}`}>
-          ID-{projectId}
-        </p>
-        <ProgressBar progress={project.progress} />
+        <p className="text-sm text-gray-700 font-medium">ID-{projectId}</p>
+        <ProgressBar progress={project.progress ?? 0} />
       </div>
 
-      {/* Displays the total project budget */}
+      {/* Project Budget */}
       <p className="text-sm font-semibold text-gray-900 mt-2">
         Total Budget: <span className="text-blue-500">${project.fundingGoal || "N/A"}</span>
       </p>
 
-      {/* Renders project interaction buttons (wishlist, FES Aid, delete if in MyArk) */}
-      <ProjectCardButtons projectId={projectId} isInMyArkPage={isInMyArkPage} />
+      {/* Interaction Buttons */}
+      <ProjectCardButtons projectId={projectId} />
 
-      {/* Displays a short project description */}
-      <p className="text-sm text-gray-700 mt-3" aria-label={`Project description: ${project.description}`}>
-        {project.description}
+      {/* Project Description */}
+      <p className="text-sm text-gray-700 mt-3">
+        {project.description || "No description available."}
       </p>
 
-      {/* Navigates to the full project details page */}
+      {/* Project Details Button */}
       <Link
         to={`/project/${project.id}`}
-        className="mt-4 inline-block bg-blue-500 text-white py-1 px-3 rounded"
+        className="mt-4 inline-block bg-blue-500 hover:bg-blue-600 transition 
+        text-white py-1 px-3 rounded"
       >
         Details
       </Link>
