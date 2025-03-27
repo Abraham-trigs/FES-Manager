@@ -49,6 +49,11 @@ const ProjectCard = memo(({ projectId, isInMyArkPage }) => {
         <ProgressBar progress={project.progress} />
       </div>
 
+      {/* Displays the total project budget */}
+      <p className="text-sm font-semibold text-gray-900 mt-2">
+        Total Budget: <span className="text-blue-500">${project.fundingGoal || "N/A"}</span>
+      </p>
+
       {/* Renders project interaction buttons (wishlist, FES Aid, delete if in MyArk) */}
       <ProjectCardButtons projectId={projectId} isInMyArkPage={isInMyArkPage} />
 
