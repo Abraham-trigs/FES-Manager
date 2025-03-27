@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useProjectStore from "../../store/ProjectStore";
+import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
 const Step5 = () => {
-  const { formData, updateFormData } = useProjectStore();
-  const addProject = useProjectStore((state) => state.addProject);
+  const { formData, updateFormData, addProject, resetFormData } = useAddProjectFormStore();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -12,6 +11,7 @@ const Step5 = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // Check if all required fields are filled in
     if (
       !formData.location ||
       !formData.beneficiaries ||
@@ -24,31 +24,21 @@ const Step5 = () => {
       return;
     }
 
-    const newProject = { id: Date.now().toString(), ...formData };
+    // Create new project object with a unique id
+    const newProject = {
+      id: Date.now().toString(),  // Unique id for each project
+      ...formData,
+      fesCoins: formData.fundingGoal,  // Assuming 'fesCoins' is the funding goal
+    };
+
+    // Add the new project to the store
     addProject(newProject);
 
     // Reset form fields efficiently
-    const resetFields = [
-      "title",
-      "category",
-      "description",
-      "image",
-      "fundingGoal",
-      "currentFunds",
-      "tasks",
-      "verified",
-      "verificationDocs",
-      "location",
-      "beneficiaries",
-      "completionDate",
-      "contactPerson",
-      "contactEmail",
-      "contactPhone",
-    ];
-    resetFields.forEach((field) => updateFormData(field, field === "tasks" ? [] : ""));
+    resetFormData();
 
-    setSuccess(true);
-    setError("");
+    setSuccess(true);  // Set success message after successful submission
+    setError("");  // Clear any previous errors
 
     // Redirect after a brief delay
     setTimeout(() => navigate("/LiveProjects"), 1500);
@@ -56,9 +46,11 @@ const Step5 = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Error and success messages */}
       {error && <p className="text-red-500 text-sm">{error}</p>}
       {success && <p className="text-green-500 text-sm">Project submitted successfully!</p>}
 
+      {/* Project Location */}
       <div>
         <label className="block font-medium">Project Location</label>
         <input
@@ -70,6 +62,7 @@ const Step5 = () => {
         />
       </div>
 
+      {/* Beneficiaries */}
       <div>
         <label className="block font-medium">Who will benefit from this project?</label>
         <textarea
@@ -81,6 +74,7 @@ const Step5 = () => {
         ></textarea>
       </div>
 
+      {/* Expected Completion Date */}
       <div>
         <label className="block font-medium">Expected Completion Date</label>
         <input
@@ -92,6 +86,7 @@ const Step5 = () => {
         />
       </div>
 
+      {/* Contact Information Section */}
       <div className="p-4 border rounded-lg">
         <h3 className="font-semibold mb-2">Contact Information</h3>
 
@@ -123,7 +118,11 @@ const Step5 = () => {
         />
       </div>
 
-      <button type="submit" className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
+      {/* Submit Button */}
+      <button
+        type="submit"
+        className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+      >
         Submit Project
       </button>
     </form>

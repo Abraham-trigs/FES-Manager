@@ -1,32 +1,25 @@
-import React, { useState } from "react";
-import useProjectStore from "../../store/ProjectStore";
+import React from "react";
+import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
 const Step1 = () => {
-  // Retrieves form state management functions from the global store
-  const { updateFormData, setStep, formData } = useProjectStore();
-  
-  // Tracks validation errors
-  const [error, setError] = useState("");
+  const { updateFormData, setStep, formData } = useAddProjectFormStore();
+  const [error, setError] = React.useState("");
 
   const handleNext = (e) => {
     e.preventDefault();
 
-    // Validates that all required fields are filled before proceeding
     if (!formData.title || !formData.category || !formData.description) {
       setError("Please fill in all required fields.");
       return;
     }
 
-    // Moves to the next step of the form
-    setStep(2);
+    setStep(2); // Go to the next step
   };
 
   return (
-    // Form for entering basic project details
     <form onSubmit={handleNext} className="space-y-4">
       {error && <p className="text-red-500 text-sm">{error}</p>}
-      
-      {/* Input field for the project title */}
+
       <div>
         <label className="block font-medium">Project Title</label>
         <input
@@ -38,7 +31,6 @@ const Step1 = () => {
         />
       </div>
 
-      {/* Dropdown menu for selecting the project category */}
       <div>
         <label className="block font-medium">Category</label>
         <select
@@ -55,7 +47,6 @@ const Step1 = () => {
         </select>
       </div>
 
-      {/* Textarea for the project description */}
       <div>
         <label className="block font-medium">Project Description</label>
         <textarea
@@ -67,7 +58,6 @@ const Step1 = () => {
         ></textarea>
       </div>
 
-      {/* Input field for an optional project image URL */}
       <div>
         <label className="block font-medium">Image URL</label>
         <input
@@ -78,7 +68,6 @@ const Step1 = () => {
         />
       </div>
 
-      {/* Button to proceed to the next form step */}
       <button
         type="submit"
         className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import useProjectStore from "../../store/ProjectStore";
+import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
 const Step4 = () => {
-  const { updateFormData, setStep, formData } = useProjectStore();
+  const { updateFormData, setStep, formData } = useAddProjectFormStore();
   const [error, setError] = useState("");
 
   const handleNext = (e) => {
     e.preventDefault();
 
+    // Check for missing details based on category (Education or Organization)
     if (formData.category === "Education" && !formData.schoolName) {
       setError("Please provide the school details.");
       return;
@@ -17,20 +18,23 @@ const Step4 = () => {
       return;
     }
 
+    // Proceed to the next step if no error
     setStep(5);
   };
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      updateFormData("verificationDocs", file);
+      updateFormData(formData.category === "Education" ? "schoolInvoice" : "organizationAgreement", file);
     }
   };
 
   return (
     <form onSubmit={handleNext} className="space-y-4">
+      {/* Error message if validation fails */}
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
+      {/* Conditional render based on category */}
       {formData.category === "Education" ? (
         <div className="p-4 border rounded-lg">
           <h3 className="font-semibold mb-2">School Information</h3>
@@ -147,6 +151,7 @@ const Step4 = () => {
         </div>
       )}
 
+      {/* Navigation button */}
       <button
         type="submit"
         className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"

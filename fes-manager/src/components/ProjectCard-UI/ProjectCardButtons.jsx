@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import useProjectStore from "../../store/ProjectStore";
+import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
 const ProjectCardButtons = ({ projectId }) => {
-  const { updateProjectFunding, projects } = useProjectStore();
+  const { updateProjectFunding, projects } = useAddProjectFormStore();
   const project = projects.find((p) => p.id === projectId);
   const [donationAmount, setDonationAmount] = useState("");
   const [showInput, setShowInput] = useState(false);
@@ -16,16 +16,15 @@ const ProjectCardButtons = ({ projectId }) => {
     let amount = parseFloat(donationAmount);
     if (isNaN(amount) || amount <= 0) return;
 
-    let remainingBudget = project.fundingGoal;
+    let remainingBudget = project.fundingGoal - project.currentFunds;
     
     if (amount > remainingBudget) {
       amount = remainingBudget;
-      setInfoMessage(`Only $${remainingBudget} was needed. Your donation has been adjusted.`);
+      setInfoMessage(`Only ${remainingBudget} FES Coins were needed. Your donation has been adjusted.`);
     } else {
       setInfoMessage("");
     }
 
-    // Deduct the correct amount from the project budget
     updateProjectFunding(projectId, amount, true);
 
     setDonationAmount("");
@@ -33,7 +32,6 @@ const ProjectCardButtons = ({ projectId }) => {
     setShowFinalize(false);
     setShowThankYou(true);
 
-    // Hide "Thank You" message after 3 seconds
     setTimeout(() => setShowThankYou(false), 3000);
   };
 
@@ -55,7 +53,7 @@ const ProjectCardButtons = ({ projectId }) => {
               setShowFinalize(true);
             }}
             className="border rounded px-2 py-1 w-full"
-            placeholder="Enter donation amount"
+            placeholder="Enter donation amount in FES Coins"
           />
           {showFinalize && (
             <button

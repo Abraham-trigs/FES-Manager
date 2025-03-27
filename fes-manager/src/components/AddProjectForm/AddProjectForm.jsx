@@ -1,31 +1,29 @@
 import React from "react";
-import useProjectStore from "../../store/ProjectStore";
-import Step1 from "./step1";
+import Step1 from "./Step1";
 import Step2 from "./step2";
-import Step3 from "./step3";
-import Step4 from "./step4";
-import Step5 from "./step5";
-import { useNavigate } from "react-router-dom"; 
+import Step3 from "./Step3";
+import Step4 from "./Step4";
+import Step5 from "./Step5";
+import { useNavigate } from "react-router-dom";
+import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
 const AddProjectForm = () => {
   // Handles page navigation after form submission
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   // Retrieves the current form step and form data from the store
-  const { step, formData } = useProjectStore(); 
-
-  // Retrieves the function to add a new project from the global state
-  const addProject = useProjectStore((state) => state.addProject);
+  const { step, formData, addProject } = useAddProjectFormStore();
 
   const handleSubmit = () => {
     // Prevents submission if required fields are missing
     if (!formData.title || !formData.category || !formData.description) return;
 
     // Adds the new project to the global state with a unique ID
-    addProject({ id: Date.now().toString(), ...formData });
+    const newProject = { id: Date.now().toString(), ...formData };
+    addProject(newProject);
 
     // Redirects to the project list page after submission
-    navigate("/LiveProjects"); 
+    navigate("/LiveProjects");
   };
 
   return (
@@ -38,7 +36,7 @@ const AddProjectForm = () => {
       {step === 2 && <Step2 />}
       {step === 3 && <Step3 />}
       {step === 4 && <Step4 />}
-      {step === 5 && <Step5 handleSubmit={handleSubmit} />} 
+      {step === 5 && <Step5 handleSubmit={handleSubmit} />}
     </div>
   );
 };

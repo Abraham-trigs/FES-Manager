@@ -1,23 +1,32 @@
 import React, { useState } from "react";
-import useProjectStore from "../../store/ProjectStore";
+import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
 const Step3 = () => {
-  const { updateFormData, setStep, formData } = useProjectStore();
+  const { updateFormData, setStep, formData } = useAddProjectFormStore();
   const [error, setError] = useState("");
 
   const handleNext = (e) => {
     e.preventDefault();
 
+    // Check if the project verification status is set
     if (formData.verified === null) {
       setError("Please confirm whether the project is verified.");
       return;
     }
 
+    // If the project is verified, make sure the verification document is uploaded
+    if (formData.verified && !formData.verificationDocs) {
+      setError("Please upload the verification document.");
+      return;
+    }
+
+    // Proceed to next step if no error
     setStep(4);
   };
 
   return (
     <form onSubmit={handleNext} className="space-y-4">
+      {/* Error message if validation fails */}
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
       {/* Verification status dropdown */}
@@ -25,7 +34,7 @@ const Step3 = () => {
         <label className="block font-medium">Is this project verified?</label>
         <select
           className="w-full border p-2 rounded"
-          value={formData.verified}
+          value={formData.verified === null ? "" : formData.verified} // Avoid null by using an empty string if verified is null
           onChange={(e) => updateFormData("verified", e.target.value === "true")}
           required
         >
@@ -35,7 +44,7 @@ const Step3 = () => {
         </select>
       </div>
 
-      {/* File upload for verification documents (if verified) */}
+      {/* Conditional File upload for verification documents (if verified) */}
       {formData.verified && (
         <div>
           <label className="block font-medium">Upload Verification Document</label>
