@@ -2,59 +2,56 @@ import React, { useState } from "react";
 import useProjectStore from "../../store/ProjectStore";
 
 const Step3 = () => {
-  // Retrieves form state and functions for updating project data
   const { updateFormData, setStep, formData } = useProjectStore();
-
-  // Local state for tracking validation errors
   const [error, setError] = useState("");
 
   const handleNext = (e) => {
     e.preventDefault();
 
-    // Ensures that verification status is selected before proceeding
-    if (!formData.verified) {
+    if (formData.verified === null) {
       setError("Please confirm whether the project is verified.");
       return;
     }
 
-    // Moves to the next form step
     setStep(4);
   };
 
   return (
-    // Form for entering project verification details
     <form onSubmit={handleNext} className="space-y-4">
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
-      {/* Dropdown for selecting verification status */}
+      {/* Verification status dropdown */}
       <div>
         <label className="block font-medium">Is this project verified?</label>
         <select
           className="w-full border p-2 rounded"
           value={formData.verified}
-          onChange={(e) => updateFormData("verified", e.target.value)}
+          onChange={(e) => updateFormData("verified", e.target.value === "true")}
           required
         >
           <option value="">Select an option</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
+          <option value="true">Yes</option>
+          <option value="false">No</option>
         </select>
       </div>
 
-      {/* File upload field for verification document */}
-      {formData.verified === "Yes" && (
+      {/* File upload for verification documents (if verified) */}
+      {formData.verified && (
         <div>
           <label className="block font-medium">Upload Verification Document</label>
           <input
             type="file"
+            accept=".pdf,.jpg,.png"
             className="w-full border p-2 rounded"
             onChange={(e) => updateFormData("verificationDocs", e.target.files[0])}
           />
-          <p className="text-sm text-gray-600 mt-1">Accepted formats: PDF, JPG, PNG</p>
+          <p className="text-sm text-gray-600 mt-1">
+            Accepted formats: PDF, JPG, PNG
+          </p>
         </div>
       )}
 
-      {/* Button to proceed to the next step */}
+      {/* Navigation button */}
       <button
         type="submit"
         className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
