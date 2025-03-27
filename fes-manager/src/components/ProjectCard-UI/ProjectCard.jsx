@@ -4,8 +4,7 @@ import useProjectStore from "../../store/ProjectStore";
 import ProgressBar from "./ProgressBar";
 import ProjectCardButtons from "./ProjectCardButtons";
 
-
-const ProjectCard = memo(({ projectId }) => {
+const ProjectCard = memo(({ projectId, isInMyArkPage }) => {
   // Retrieves project data from the store based on projectId
   const project = useProjectStore((state) =>
     state.projects.find((p) => p.id === projectId)
@@ -50,8 +49,8 @@ const ProjectCard = memo(({ projectId }) => {
         <ProgressBar progress={project.progress} />
       </div>
 
-      {/* Renders project interaction buttons (wishlist, FES Aid, details) */}
-      <ProjectCardButtons projectId={projectId} />
+      {/* Renders project interaction buttons (wishlist, FES Aid, delete if in MyArk) */}
+      <ProjectCardButtons projectId={projectId} isInMyArkPage={isInMyArkPage} />
 
       {/* Displays a short project description */}
       <p className="text-sm text-gray-700 mt-3" aria-label={`Project description: ${project.description}`}>

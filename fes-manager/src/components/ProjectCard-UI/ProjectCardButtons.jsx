@@ -1,40 +1,48 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback } from "react";
 import useProjectStore from "../../store/ProjectStore";
 
-const ProjectCardButtons = ({ projectId }) => {
-  const navigate = useNavigate(); // Initialize navigation
-  const { wishlist = [], toggleWishlist } = useProjectStore(); 
-  const isWishlisted = wishlist.includes(projectId);
+const ProjectCardButtons = ({ projectId, isInMyArkPage }) => {
+  const toggleMyArk = useProjectStore((state) => state.toggleMyArk);
+  const myArk = useProjectStore((state) => state.myArk);
+
+  // Check if the project is in MyArk
+  const isInMyArk = myArk.includes(projectId);
+
+  // Handle Adding/Removing Project from MyArk
+  const handleMyArkToggle = useCallback(() => {
+    toggleMyArk(projectId);
+  }, [toggleMyArk, projectId]);
 
   return (
-    <div className="flex items-center justify-between mt-3">
-      <button
-        className="bg-darkGreen text-white text-xs px-4 py-1 rounded-lg transition-all duration-300 hover:bg-green-700"
-        aria-label="Support this project via FES Aid"
-      >
-        FES Aid
-      </button>
+    <div className="flex justify-between mt-2">
+      {/* If in MyArk, show delete button */}
+      {isInMyArkPage ? (
+        <button
+          onClick={handleMyArkToggle}
+          className="p-2 bg-red-500 text-white rounded"
+          aria-label="Remove from MyArk"
+        >
+          🗑️
+        </button>
+      ) : (
+        // Otherwise, show MyArk add button (✓ becomes inactive)
+        <button
+          onClick={!isInMyArk ? handleMyArkToggle : undefined}
+          disabled={isInMyArk} // Inactive once clicked
+          className={`p-2 rounded transition-colors duration-200 ${
+            isInMyArk
+              ? "bg-green-500 text-white opacity-50 cursor-not-allowed"
+              : "bg-gray-200 text-black"
+          }`}
+          aria-label="Add to MyArk"
+        >
+          {isInMyArk ? "✓" : "+"}
+        </button>
+      )}
       
-      <button
-        className={`text-lg px-3 py-1 rounded-lg transition-all duration-300 ${
-          isWishlisted
-            ? "bg-green-500 text-white hover:bg-green-600"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-        }`}
-        onClick={() => toggleWishlist(projectId)}
-        aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-      >
-        {isWishlisted ? "✓" : "+"}
-      </button>
-
-      {/* Link "Details" button to ProjectDetailsPage */}
-      <button
-        className="bg-cyanNeon text-darkGreen text-xs px-4 py-1 rounded-lg transition-all duration-300 hover:bg-cyan-500 hover:text-white"
-        onClick={() => navigate(`/project/${projectId}`)}
-        aria-label="View project details"
-      >
-        Details
+      {/* FES Aid Button */}
+      <button className="p-2 bg-blue-500 text-white rounded" aria-label="FES Aid">
+        FES Aid
       </button>
     </div>
   );

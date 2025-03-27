@@ -9,22 +9,22 @@ const useProjectStore = create((set, get) => ({
 
   // **Active Form Data for Creating a Project**
   formData: {
-    title: "", // Default value
-    category: "", // Default value
-    description: "", // Default value
-    image: "", // Default value
-    fundingGoal: "", // Default value
-    currentFunds: "", // Default value
-    fesCoins: "", // Default value
-    tasks: [], // Default value
-    verified: false, // Default value
-    verificationDocs: null, // Default value
-    location: "", // Default value
-    beneficiaries: "", // Default value
-    completionDate: "", // Default value
-    contactPerson: "", // Default value
-    contactEmail: "", // Default value
-    contactPhone: "", // Default value
+    title: "",
+    category: "",
+    description: "",
+    image: "",
+    fundingGoal: "",
+    currentFunds: "",
+    fesCoins: "",
+    tasks: [],
+    verified: false,
+    verificationDocs: null,
+    location: "",
+    beneficiaries: "",
+    completionDate: "",
+    contactPerson: "",
+    contactEmail: "",
+    contactPhone: "",
   },
 
   // **Step for Multi-Step Project Form**
@@ -65,7 +65,7 @@ const useProjectStore = create((set, get) => ({
       const newProject = {
         id: Date.now().toString(),
         ...state.formData,
-        fesCoins: state.convertToFES(state.formData.fundingGoal), // Convert USD to FES
+        fesCoins: state.convertToFES(state.formData.fundingGoal),
       };
       
       // Save project in state and localStorage
@@ -74,8 +74,8 @@ const useProjectStore = create((set, get) => ({
 
       return {
         projects: updatedProjects,
-        formData: { ...state.formData, fesCoins: "" }, // Reset form data
-        step: 1, // Reset form step
+        formData: { ...state.formData, fesCoins: "" },
+        step: 1,
       };
     });
   },
@@ -84,12 +84,17 @@ const useProjectStore = create((set, get) => ({
   toggleMyArk: (projectId) => {
     set((state) => {
       const updatedMyArk = state.myArk.includes(projectId)
-        ? state.myArk.filter((id) => id !== projectId) // Remove
-        : [...state.myArk, projectId]; // Add
+        ? state.myArk.filter((id) => id !== projectId)
+        : [...state.myArk, projectId];
 
       localStorage.setItem("myArk", JSON.stringify(updatedMyArk));
       return { myArk: updatedMyArk };
     });
+  },
+
+  // **Check if Project is in MyArk (Newly Added)**
+  isInMyArk: (projectId) => {
+    return get().myArk.includes(projectId);
   },
 
   // **Update Project Funding (FES Aid Donations)**
