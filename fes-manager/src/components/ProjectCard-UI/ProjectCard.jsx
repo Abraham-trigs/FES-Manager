@@ -1,12 +1,98 @@
-import React from 'react'
+import React from 'react';
+import { useState } from 'react';
+
+import useAddProjectFormStore from '../../store/AddProjectFormStore'; // Import the store
+
+
+
 
 const ProjectCard = () => {
+  const { projects } = useAddProjectFormStore(); /* get project from store*/
+  const project = projects[0] || {}; // Avoid errors if no projects exist
+  const fundingGoal = project.fundingGoal || 0;
+
+  // PaymentForm
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [donationAmount, setDonationAmount] = useState("");
+
+  // Calculate percentage progress
+  // const progressPercentage = fundingGoal > 0 ? Math.min((amountRaised / fundingGoal) * 100, 100) : 0;
+
+
   return (
     <>
-      <div className="relative flex flex-col items-center">
+        {/* Payment Form Modal */}
+        {showPaymentForm && (
+        <div className=" fixed 
+                        inset-0 
+                        flex 
+                        items-center 
+                        justify-center 
+                        bg-black 
+                        bg-opacity-50 z-50">
+
+          <div className="bg-white 
+                          p-4 rounded-lg 
+                          w-80 relative">
+
+            {/* Close Button */}
+            <div
+              className="absolute 
+                          top-2 
+                          right-2 
+                          text-semiGreen 
+                          cursor-pointer"
+              onClick={() => setShowPaymentForm(false)}>
+              <div className="w-3 h-3 bg-darkGreen rounded-full"></div>
+            </div>
+
+            <h2 className="text-lg 
+                          font-bold 
+                          mb-2">
+                Enter Donation Amount
+              </h2>
+
+            <input 
+              type="number" 
+              className="border p-2 w-full mb-2" 
+              placeholder="Enter amount" 
+              value={donationAmount}
+              onChange={(e) => setDonationAmount(e.target.value)} 
+            />
+
+            <button  className="bg-darkGreen 
+                                text-white 
+                                p-3 py-1 
+                                border-2 
+                                border-darkGreen 
+                                rounded-lg 
+                                font-semibold 
+                                text-[0.8rem] 
+                                w-full 
+                                hover:bg-greenNeon 
+                                hover:text-darkGreen"
+                onClick={() => setShowPaymentForm(false)}>
+              Pay
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Card Container and mapping */}
+      <div className="relative flex flex-col items-center shadow-2-l z-10">
 
         {/* Project category */}
-        <p className="absolute top-0 -mt-[-5px] z-10  px-2 font-bold" >CATEGORY </p>
+        <p className="uppercase 
+                      absolute 
+                      top-0 
+                      text-[#06484b]
+                      -mt-[-5px] 
+                      z-10  
+                      px-2 
+                      font-bold 
+                      text-xl" 
+            >{project.category || "No Category"} 
+          </p>
 
         {/* funds needed */}
         <p className="absolute 
@@ -18,11 +104,14 @@ const ProjectCard = () => {
                       ml-[-125px] 
                       px-2 
                       font-bold 
-                      bg-greenNeon" 
-                      > Funds Amount </p>
+                      bg-greenNeon
+                      " 
+                      > 
+            {fundingGoal ? `$${fundingGoal.toLocaleString()}` : "No Funds"} 
+          </p>
 
         {/* Project id */}
-        <p className="absolute top-0 -mt-[-203px] z-10  px-2 font-bold" >ID-799234737</p>
+        <p className="absolute top-0 -mt-[-203px] z-10  px-2 font-bold" > {project.id || "No ID"}</p>
         
         {/* percentage Bar */}
         <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 absolute my-[160px]">
@@ -92,7 +181,8 @@ const ProjectCard = () => {
                                 border-darkGreen 
                                 rounded-lg 
                                 font-semibold 
-                                text-[0.8rem]">
+                                text-[0.8rem]"
+                                onClick={() => setShowPaymentForm(true)}>
                 FES Aid
               </button>
 
@@ -112,16 +202,22 @@ const ProjectCard = () => {
 
         {/* Project Title */}
         <div className="w-[230px] h-[40px] will-change-contents my-[-100px]" >
-          <p className='w-full text-center truncate p-2 text-white font-bold'>
-            Project Title
+          <p className='w-full 
+                        text-center 
+                        truncate 
+                        p-2
+                        text-2xl
+                        text-cyanNeon
+                        font-bold'>
+            {project.title || "Untitled Project"}
           </p>
         </div>
 
         {/* Project Details Preview */}
 
-        <div className="w-[220px] h-[60px] rounded-br-3xl rounded-bl-3xl my-[95px]" >
-          <p className='line-clamp-3 w-[210px] h-[55px] leading-tight text-center  py-2 px-2 text-white font-normal text-[0.8rem] overflow-hidden text-ellipsis  '>
-            Project Details
+        <div className="w-[220px] h-[60px] rounded-br-3xl rounded-3xl my-[45px]" >
+          <p className='line-clamp-3 leading-tight text-center py-[51px] px-2 text-white font-normal text-[0.8rem]'>
+            {project.description || "No details available"}
           </p>
         </div>
 

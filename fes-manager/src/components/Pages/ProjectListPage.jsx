@@ -9,10 +9,20 @@ export const ProjectListPage = () => {
   // Retrieves the list of projects from the global state
   const projects = useAddProjectFormStore((state) => state.projects);
 
+  // Ensure projects exist and filter out duplicates
+  const uniqueProjects = Array.isArray(projects) 
+    ? projects.reduce((acc, project) => {
+        if (!acc.some((p) => p.id === project.id)) {
+          acc.push(project);
+        }
+        return acc;
+      }, [])
+    : [];
+
   return (
     <div className="relative min-h-screen">
       {/* Full-page background */}
-      <div className="absolute inset-0 w-full h-full bg-shade -z-10"></div>
+      <div className="absolute inset-0 w-full h-full bg-shade -z-50"></div>
 
       {/* Sidebar for navigation and user actions */}
       <SideBar />
@@ -22,9 +32,9 @@ export const ProjectListPage = () => {
 
       {/* Displays the list of projects or a message if no projects are available */}
       <div className="flex flex-wrap gap-4 p-5">
-        {projects && projects.length > 0 ? (
+        {uniqueProjects.length > 0 ? (
           // If there are projects, display each one using ProjectCard
-          projects.map((project) => (
+          uniqueProjects.map((project) => (
             <ProjectCard key={project.id} projectId={project.id} />
           ))
         ) : (

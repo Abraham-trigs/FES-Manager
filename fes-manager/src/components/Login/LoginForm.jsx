@@ -56,11 +56,11 @@ const LoginForm = () => {
           <div
             className="absolute b-1 right-5 text-semiGreen -my-4 -mx-4 "
             onClick={handleClose}
-          >
-            
+          >           
             <div className="w-3 h-3 bg-darkGreen rounded-full -ml-[20px]"></div>
           </div>
         </div>
+
         <h2 className="text-xl font-semibold text-center mb-4">Login to FES-Manager</h2>
 
         {error && <div className="text-red-600 mb-4">{error}</div>}
