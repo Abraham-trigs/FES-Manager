@@ -59,6 +59,22 @@ const useAddProjectFormStore = create((set) => {
         return { projects: updatedProjects };
       }),
 
+    addTask: (task) =>
+      set((state) => {
+        const updatedTasks = [...state.formData.tasks, task];
+        const updatedFormData = { ...state.formData, tasks: updatedTasks };
+        localStorage.setItem("addProjectForm", JSON.stringify(updatedFormData)); // Save to localStorage
+        return { formData: updatedFormData };
+      }),
+
+    removeTask: (index) =>
+      set((state) => {
+        const updatedTasks = state.formData.tasks.filter((_, i) => i !== index);
+        const updatedFormData = { ...state.formData, tasks: updatedTasks };
+        localStorage.setItem("addProjectForm", JSON.stringify(updatedFormData)); // Save to localStorage
+        return { formData: updatedFormData };
+      }),
+
     validateStep: () => {
       return set((state) => {
         const errors = {};

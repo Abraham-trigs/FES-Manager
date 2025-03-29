@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
   return (
     // Footer container positioned at the bottom of the screen
-    <div className="fixed bottom-0 left-0 w-full">
+    <div className="fixed bottom-0 left-0 w-full z-20">
       
       {/* Footer background and content */}
       <div>
