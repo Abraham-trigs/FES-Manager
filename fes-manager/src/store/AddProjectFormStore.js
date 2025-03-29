@@ -75,6 +75,19 @@ const useAddProjectFormStore = create((set) => {
         return { formData: updatedFormData };
       }),
 
+    makePayment: (amount) =>
+      set((state) => {
+        const updatedProjects = state.projects.map((project, index) => {
+          if (index === 0) { // Assuming we're updating the first project
+            return { ...project, fundingGoal: Math.max(project.fundingGoal - amount, 0) };
+          }
+          return project;
+        });
+
+        localStorage.setItem("projects", JSON.stringify(updatedProjects)); 
+        return { projects: updatedProjects }; 
+      }),
+
     validateStep: () => {
       return set((state) => {
         const errors = {};

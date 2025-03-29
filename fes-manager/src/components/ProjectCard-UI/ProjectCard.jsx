@@ -2,10 +2,9 @@ import React, { useState, useMemo } from 'react';
 import useAddProjectFormStore from '../../store/AddProjectFormStore'; // Import the store
 
 const ProjectCard = () => {
-  const { projects } = useAddProjectFormStore(); /* get project from store*/
-  const project = useMemo(() => projects[0] || {}, [projects]); // Use useMemo to avoid re-renders
-  const fundingGoal = project.fundingGoal || 0;
-  const formattedFundingGoal = fundingGoal ? `$${fundingGoal.toLocaleString()}` : "No Funds";
+  const { projects, makePayment } = useAddProjectFormStore(); 
+  const project = projects[0] || {}; 
+  const formattedFundingGoal = project.fundingGoal ? `$${project.fundingGoal.toLocaleString()}` : "No Funds";
 
   // PaymentForm
   const [showPaymentForm, setShowPaymentForm] = useState(false);
@@ -178,7 +177,18 @@ const ProjectCard = () => {
                                   rounded-lg 
                                   font-semibold 
                                   text-[0.8rem]"
-                                  onClick={togglePaymentForm}>
+                                  onClick={() => {
+                                    const amount = parseFloat(donationAmount);
+                                    if (!isNaN(amount) && amount > 0) {
+                                      makePayment(amount);
+                                      setDonationAmount(""); // Clear the input after payment
+                                      setShowPaymentForm(false); // Close modal after payment
+                                    } else {
+                                      
+                                      setShowPaymentForm(true); // Keep modal open if invalid
+                                    }
+                                  }}
+                                  >
                   FES Aid
                 </button>
 
