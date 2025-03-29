@@ -57,6 +57,7 @@ const LoginForm = () => {
             className="absolute b-1 right-5 text-semiGreen -my-4 -mx-4 "
             onClick={handleClose}
           >
+            
             <div className="w-3 h-3 bg-darkGreen rounded-full -ml-[20px]"></div>
           </div>
         </div>

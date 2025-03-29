@@ -1,158 +1,109 @@
 import { create } from "zustand";
 
 const useAddProjectFormStore = create((set) => {
-  // Load stored projects from localStorage on store initialization
-  const storedProjects = JSON.parse(localStorage.getItem("projects")) || [];
+  const savedData = JSON.parse(localStorage.getItem("addProjectForm")) || {};
+  const savedProjects = JSON.parse(localStorage.getItem("projects")) || [];
 
   return {
-    // Tracks the current step in the project form
-    step: 1,
-
-    // Initial form data for project creation
-    formData: {
-      title: "", // Project title
-      category: "", // Project category
-      description: "", // Project description
-      image: "", // Project image URL
-      fundingGoal: 0, // Total budget for the project
-      currentFunds: 0, // Amount of funds received so far
-      fesCoins: 0, // Automatically calculated FES Coins (based on fundingGoal)
-      tasks: [], // List of project tasks
-      verified: null, // Verification status
-      verificationDocs: null, // Verification documents
-      location: "", // Project location
-      beneficiaries: "", // Target beneficiaries
-      completionDate: "", // Expected project completion date
-      contactPerson: "", // Contact person for the project
-      contactEmail: "", // Email of the contact person
-      contactPhone: "", // Phone number of the contact person
-      schoolName: "", // School name (if applicable)
-      schoolAddress: "", // School address
-      schoolContactPerson: "", // Contact person for the school
-      schoolEmail: "", // School email
-      schoolPhone: "", // School phone number
-      schoolInvoice: null, // Invoice document for the school
-      organizationName: "", // Organization name (if applicable)
-      organizationAddress: "", // Organization address
-      organizationContactPerson: "", // Contact person for the organization
-      organizationEmail: "", // Organization email
-      organizationPhone: "", // Organization phone number
-      agreementDocs: null, // Agreement documents for the organization
+    step: savedData.step || 1,
+    setStep: (step) => {
+      set({ step });
+      localStorage.setItem("addProjectForm", JSON.stringify({ ...savedData, step }));
     },
 
-    // Stores all created projects (loaded from localStorage)
-    projects: storedProjects,
+    formData: {
+      title: savedData.title || "",
+      category: savedData.category || "",
+      description: savedData.description || "",
+      image: savedData.image || "",
+      fundingGoal: savedData.fundingGoal || "", // ✅ Keep fundingGoal, remove currentFunds
+      tasks: savedData.tasks || [],
+      verified: savedData.verified ?? null,
+      verificationDocs: savedData.verificationDocs || null,
+      implementationPlan: savedData.implementationPlan || "",
+      impactMetrics: savedData.impactMetrics || "",
+      timeline: savedData.timeline || "",
+    },
 
-    // Updates the current form step
-    setStep: (step) => set({ step }),
+    projects: savedProjects,
 
-    // Updates form data for a specific field
     updateFormData: (field, value) =>
       set((state) => {
-        const updatedData = {
-          ...state.formData,
-          [field]: value,
-        };
-
-        // Automatically update fesCoins if fundingGoal changes
-        if (field === "fundingGoal") {
-          updatedData.fesCoins = value * 110;
-        }
-
-        return { formData: updatedData };
+        const updatedFormData = { ...state.formData, [field]: value };
+        localStorage.setItem("addProjectForm", JSON.stringify(updatedFormData));
+        return { formData: updatedFormData };
       }),
 
-    // Adds a new task to the project
     addTask: (task) =>
-      set((state) => ({
-        formData: {
-          ...state.formData,
-          tasks: [...state.formData.tasks, task],
-        },
-      })),
-
-    // Removes a task from the project by index
-    removeTask: (taskIndex) =>
-      set((state) => ({
-        formData: {
-          ...state.formData,
-          tasks: state.formData.tasks.filter((_, index) => index !== taskIndex),
-        },
-      })),
-
-    // Adds a new project and stores it in localStorage
-    addProject: (newProject) =>
       set((state) => {
-        const projectWithFesCoins = {
-          ...newProject,
-          fesCoins: newProject.fundingGoal * 110, // Auto calculate FES Coins
-        };
+        const updatedTasks = [...state.formData.tasks, task];
+        localStorage.setItem("addProjectForm", JSON.stringify({ ...state.formData, tasks: updatedTasks }));
+        return { formData: { ...state.formData, tasks: updatedTasks } };
+      }),
 
-        const updatedProjects = [...state.projects, projectWithFesCoins];
+    removeTask: (index) =>
+      set((state) => {
+        const updatedTasks = [...state.formData.tasks];
+        updatedTasks.splice(index, 1);
+        localStorage.setItem("addProjectForm", JSON.stringify({ ...state.formData, tasks: updatedTasks }));
+        return { formData: { ...state.formData, tasks: updatedTasks } };
+      }),
+
+    addProject: () =>
+      set((state) => {
+        const newProject = { ...state.formData, id: Date.now() };
+        const updatedProjects = [...state.projects, newProject];
         localStorage.setItem("projects", JSON.stringify(updatedProjects));
-
         return { projects: updatedProjects };
       }),
 
-    // Resets the form data to its initial state
-    resetFormData: () =>
+    validateStep: () => {
+      return set((state) => {
+        const errors = {};
+        const { formData, step } = state;
+
+        if (step === 1) {
+          if (!formData.title.trim()) errors.title = "Title is required";
+          if (!formData.category.trim()) errors.category = "Category is required";
+          if (!formData.description.trim()) errors.description = "Description is required";
+        }
+        if (step === 2) {
+          if (!formData.fundingGoal || isNaN(formData.fundingGoal)) 
+            errors.fundingGoal = "Funding goal must be a valid number";
+        }
+        if (step === 3) {
+          if (formData.verified === null) errors.verified = "Verification status is required";
+          if (formData.verified && !formData.verificationDocs) {
+            errors.verificationDocs = "Upload verification document";
+          }
+        }
+        
+        return { errors };
+      });
+    },
+
+    errors: {},
+
+    resetForm: () => {
+      localStorage.removeItem("addProjectForm");
       set({
+        step: 1,
         formData: {
           title: "",
           category: "",
           description: "",
           image: "",
-          fundingGoal: 0,
-          currentFunds: 0,
-          fesCoins: 0, // Reset FES Coins
+          fundingGoal: "",
           tasks: [],
           verified: null,
           verificationDocs: null,
-          location: "",
-          beneficiaries: "",
-          completionDate: "",
-          contactPerson: "",
-          contactEmail: "",
-          contactPhone: "",
-          schoolName: "",
-          schoolAddress: "",
-          schoolContactPerson: "",
-          schoolEmail: "",
-          schoolPhone: "",
-          schoolInvoice: null,
-          organizationName: "",
-          organizationAddress: "",
-          organizationContactPerson: "",
-          organizationEmail: "",
-          organizationPhone: "",
-          agreementDocs: null,
+          implementationPlan: "",
+          impactMetrics: "",
+          timeline: "",
         },
-        step: 1,
-      }),
-
-    // Updates the funding amount for a project
-    updateProjectFunding: (projectId, amount) =>
-      set((state) => {
-        const updatedProjects = state.projects.map((project) => {
-          if (project.id === projectId) {
-            const newFunds = project.currentFunds + amount;
-
-            // Ensure funds do not exceed the funding goal
-            if (newFunds > project.fundingGoal) return project;
-
-            return {
-              ...project,
-              currentFunds: newFunds,
-            };
-          }
-          return project;
-        });
-
-        // Save updated projects to localStorage
-        localStorage.setItem("projects", JSON.stringify(updatedProjects));
-
-        return { projects: updatedProjects };
-      }),
+        errors: {},
+      });
+    },
   };
 });
 

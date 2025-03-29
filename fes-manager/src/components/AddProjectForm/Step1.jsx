@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
 const Step1 = () => {
   const { updateFormData, setStep, formData } = useAddProjectFormStore();
-  const [error, setError] = React.useState("");
+  const [error, setError] = useState("");
+  const [imagePreview, setImagePreview] = useState(formData.image || ""); // Store preview
 
   const handleNext = (e) => {
     e.preventDefault();
@@ -64,15 +65,28 @@ const Step1 = () => {
           type="text"
           className="w-full border p-2 rounded"
           value={formData.image}
-          onChange={(e) => updateFormData("image", e.target.value)}
+          onChange={(e) => {
+            updateFormData("image", e.target.value);
+            setImagePreview(e.target.value); // Update preview
+          }}
         />
       </div>
 
+      {imagePreview && (
+        <div className="mt-2">
+          <img
+            src={imagePreview}
+            alt="Project Preview"
+            className="w-full h-32 object-cover rounded"
+          />
+        </div>
+      )}
+
       <button
         type="submit"
-        className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+        className="w-full bg-greenNeon text-darkGreen p-2 rounded hover:bg-semiGreen"
       >
-        Next: Funding & Tasks
+        Next
       </button>
     </form>
   );

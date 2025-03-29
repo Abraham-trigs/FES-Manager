@@ -8,29 +8,29 @@ const Step2 = () => {
   const handleNext = (e) => {
     e.preventDefault();
 
-    // Validate funding goal and current funds
-    if (!formData.fundingGoal || !formData.currentFunds) {
-      setError("Please provide both funding goal and current funds.");
+    // Ensure fundingGoal is valid
+    const fundingGoal = Number(formData.fundingGoal);
+    if (!fundingGoal || isNaN(fundingGoal) || fundingGoal <= 0) {
+      setError("Please enter a valid funding goal greater than zero.");
       return;
     }
 
-    // Validate tasks
+    // Ensure at least one task is added
     if (formData.tasks.length === 0) {
       setError("Please add at least one task.");
       return;
     }
 
-    // Move to next step if all is valid
-    setStep(3); // Go to Step 3
+    setStep(3); // Move to next step
   };
 
   const handleAddTask = () => {
-    addTask({ name: "", amount: "" });
+    addTask({ name: "", amount: 0 }); // Ensure amount is a number
   };
 
   const handleTaskChange = (index, field, value) => {
     const updatedTasks = [...formData.tasks];
-    updatedTasks[index][field] = value;
+    updatedTasks[index] = { ...updatedTasks[index], [field]: value };
     updateFormData("tasks", updatedTasks);
   };
 
@@ -42,33 +42,25 @@ const Step2 = () => {
     <form onSubmit={handleNext} className="space-y-4">
       {error && <p className="text-red-500 text-sm">{error}</p>}
 
+      {/* Funding Goal */}
       <div>
         <label className="block font-medium">Funding Goal</label>
         <input
           type="number"
           className="w-full border p-2 rounded"
-          value={formData.fundingGoal}
-          onChange={(e) => updateFormData("fundingGoal", e.target.value)}
+          value={formData.fundingGoal || ""}
+          onChange={(e) => updateFormData("fundingGoal", Number(e.target.value))}
+          min="1"
           required
         />
       </div>
 
-      <div>
-        <label className="block font-medium">Current Funds</label>
-        <input
-          type="number"
-          className="w-full border p-2 rounded"
-          value={formData.currentFunds}
-          onChange={(e) => updateFormData("currentFunds", e.target.value)}
-          required
-        />
-      </div>
-
+      {/* Task Management */}
       <div>
         <label className="block font-medium">Tasks</label>
         <button
           type="button"
-          className="w-full bg-blue-500 text-white p-2 rounded"
+          className="w-full bg-shade text-white p-2 rounded"
           onClick={handleAddTask}
         >
           Add Task
@@ -90,9 +82,10 @@ const Step2 = () => {
               <input
                 type="number"
                 placeholder="Amount"
-                value={task.amount}
-                onChange={(e) => handleTaskChange(index, "amount", e.target.value)}
+                value={task.amount || ""}
+                onChange={(e) => handleTaskChange(index, "amount", Number(e.target.value))}
                 className="w-full border p-2 rounded"
+                min="0"
                 required
               />
             </div>
@@ -107,11 +100,12 @@ const Step2 = () => {
         ))}
       </div>
 
+      {/* Next Button */}
       <button
         type="submit"
-        className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+        className="w-full bg-greenNeon text-darkGreen p-2 rounded hover:bg-semiGreen"
       >
-        Next: Verify & Submit
+        Next
       </button>
     </form>
   );
