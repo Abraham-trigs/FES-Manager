@@ -4,15 +4,6 @@ const useAddProjectFormStore = create((set) => {
   const savedData = JSON.parse(localStorage.getItem("addProjectForm")) || {};
   const savedProjects = JSON.parse(localStorage.getItem("projects")) || [];
 
-  const generateId = () => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let randomPart = "";
-    for (let i = 0; i < 7; i++) {
-      randomPart += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return `FES${randomPart}`;
-  };
-
   return {
     step: savedData.step || 1,
     setStep: (step) => {
@@ -20,7 +11,7 @@ const useAddProjectFormStore = create((set) => {
       localStorage.setItem("addProjectForm", JSON.stringify({ ...savedData, step }));
     },
 
-    showPaymentForm: false, // Added state to manage payment modal
+    showPaymentForm: false, // State for managing modal visibility
     setShowPaymentForm: (value) => set({ showPaymentForm: value }), // Function to toggle modal
 
     formData: {
@@ -78,14 +69,22 @@ const useAddProjectFormStore = create((set) => {
     makePayment: (amount) =>
       set((state) => {
         const updatedProjects = state.projects.map((project, index) => {
-          if (index === 0) { // Assuming we're updating the first project
-            return { ...project, fundingGoal: Math.max(project.fundingGoal - amount, 0) };
+          if (index === 0) {
+            return {
+              ...project,
+              fundingGoal: Math.max(project.fundingGoal - amount, 0),
+            };
           }
           return project;
         });
 
-        localStorage.setItem("projects", JSON.stringify(updatedProjects)); 
-        return { projects: updatedProjects }; 
+        localStorage.setItem("projects", JSON.stringify(updatedProjects));
+
+        // Reset showPaymentForm after payment to allow reopening
+        return {
+          projects: updatedProjects,
+          showPaymentForm: false, // Ensure modal closes after payment
+        };
       }),
 
     validateStep: () => {
@@ -99,7 +98,7 @@ const useAddProjectFormStore = create((set) => {
           if (!formData.description.trim()) errors.description = "Description is required";
         }
         if (step === 2) {
-          if (!formData.fundingGoal || isNaN(formData.fundingGoal)) 
+          if (!formData.fundingGoal || isNaN(formData.fundingGoal))
             errors.fundingGoal = "Funding goal must be a valid number";
         }
         if (step === 3) {
@@ -108,7 +107,7 @@ const useAddProjectFormStore = create((set) => {
             errors.verificationDocs = "Upload verification document";
           }
         }
-        
+
         return { errors };
       });
     },
