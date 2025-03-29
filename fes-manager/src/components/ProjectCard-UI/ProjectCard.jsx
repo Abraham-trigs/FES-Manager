@@ -3,10 +3,117 @@ import React from 'react'
 const ProjectCard = () => {
   return (
     <>
-    <div className='flex flex-col '>
-      <div className='w-[200px] h-[100px] bg-light rounded-3x position'> </div>
-      <div className='w-[200px] h-[300px] bg-white rounded-3x  '> </div>
+      <div className="relative flex flex-col items-center">
+        <p className="absolute top-0 -mt-[-5px] z-10  px-2 font-bold" >CATEGORY</p>
+        <p className="absolute top-0 -mt-[-203px] z-10  px-2 font-bold" >ID-799234737</p>
+        
+        <div className="w-[230px] 
+                        h-[370px] 
+                        bg-green 
+                        rounded-3xl 
+                        flex 
+                        flex-col 
+                        items-center">
+          
+          <div className="w-[230px] 
+                          h-[270px] 
+                          bg-darkShade 
+                          border-[3px] 
+                          border-highLight 
+                          rounded-3xl flex 
+                          justify-center 
+                          items-center">
+           
+            <div className="w-[200px] 
+                            h-[140px] 
+                            bg-shade 
+                            rounded-3xl 
+                            -mt-16">
+                            </div>
+          </div>
+
+          {/* Buttons and plus Symbol */}
+          <div className="flex flex-col justify-center items-center -my-[55px]">
+
+            {/* plus Sumbol */}
+            <div className=" w-[30px] 
+                            h-[30px] 
+                            bg-shade 
+                            font-bold 
+                            text-[2rem] 
+                            text-semiGreen 
+                            flex flex-row 
+                            justify-center
+                            items-center 
+                            my-4">
+                +
+              </div>
+            
+            {/* button container */}
+            <div className="flex 
+                            flex-row 
+                            items-center 
+                            -mt-11 
+                            space-x-[65px]">
+
+              <button className="bg-darkGreen 
+                                text-white 
+                                p-3 py-1 
+                                border-2 
+                                border-darkGreen 
+                                rounded-lg 
+                                font-semibold 
+                                text-[0.8rem]">
+                FES Aid
+              </button>
+
+              <button className="bg-cyanNeon 
+                                p-3 py-1 
+                                border-2 
+                                border-darkGreen 
+                                rounded-lg 
+                                font-semibold 
+                                text-[0.8rem]">
+                Details
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+        <div className="w-[230px] h-[90px] will-change-contents my-[-100px]" >
+          <p className='w-full text-center truncate p-2 text-white font-bold'>
+            Project Title
+          </p>
+
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+         {/* buttons and plus Sumbol
+         <div className='flex flex-col justify-center items-center -my-10'>
+          <div className='w-[20px] h-[20px] bg-slate-900 text-white flex flex-col items-center -my-[-10px]'>+</div>
+
+          <div className='flex flex-row items-center -mt-9 space-x-[65px]'>
+            <button className=' bg-slate-700 p-3 py-1 border-2 border-red-700 rounded-lg font-semibold text-[0.8rem]'>FES Aid</button>
+            <button className=' bg-slate-700 p-3 py-1 border-2 border-red-700 rounded-lg font-semibold text-[0.8rem]'>Details</button>
+          </div>
+
+        </div>
+
+
+
+      </div>
     </div>
+" */}
+
 
     </>
   )

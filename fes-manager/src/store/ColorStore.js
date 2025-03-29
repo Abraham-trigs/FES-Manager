@@ -10,7 +10,9 @@ const useColorStore = create((set) => {
   const initialColors = {
     darkGreen: "#003832",
     semiGreen: "#00504A",
+    cardBorder: "#67CFCA",
     green: "#226764",
+    darkShade: "#B2D1CE",
     shade: "#8DBDBA",
     light: "#6BD0CC",
     cyanNeon: "#07F9ED",
