@@ -14,12 +14,18 @@ const AddProjectForm = () => {
   // Retrieves the current form step and form data from the store
   const { step, formData, addProject } = useAddProjectFormStore();
 
+  // Function to generate a 7-character uppercase ID
+  const generateProjectId = () => {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Only uppercase letters
+    return Array.from({ length: 7 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+  };
+
   const handleSubmit = () => {
     // Prevents submission if required fields are missing
     if (!formData.title || !formData.category || !formData.description) return;
 
     // Adds the new project to the global state with a unique ID
-    const newProject = { id: Date.now().toString(), ...formData };
+    const newProject = { id: generateProjectId(), ...formData };
     addProject(newProject);
 
     // Redirects to the project list page after submission

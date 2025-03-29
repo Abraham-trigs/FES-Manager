@@ -10,7 +10,7 @@ const ProjectDetails = () => {
   const { id } = useParams();
 
   // Fetches the project data from the store based on the retrieved ID
-  const project = useProjectStore((state) =>
+  const project = useAddProjectFormStore((state) =>
     state.projects.find((p) => p.id === id)
   );
 

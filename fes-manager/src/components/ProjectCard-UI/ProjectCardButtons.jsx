@@ -2,76 +2,93 @@ import React, { useState } from "react";
 import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
 const ProjectCardButtons = ({ projectId }) => {
+  // Access store methods and project list
   const { updateProjectFunding, projects } = useAddProjectFormStore();
-  const project = projects.find((p) => p.id === projectId);
-  const [donationAmount, setDonationAmount] = useState("");
-  const [showInput, setShowInput] = useState(false);
-  const [showFinalize, setShowFinalize] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
-  const [infoMessage, setInfoMessage] = useState("");
 
+  // Find the project associated with the given projectId
+  const project = projects.find((p) => p.id === projectId);
+
+  // State for handling user donation input and messages
+  const [donationAmount, setDonationAmount] = useState(""); // Holds the entered donation amount
+  const [showInput, setShowInput] = useState(false); // Controls the visibility of the input field
+  const [errorMessage, setErrorMessage] = useState(""); // Stores any validation error messages
+  const [thankYouMessage, setThankYouMessage] = useState(""); // Displays a thank-you message upon successful donation
+
+  // If project is not found, do not render anything
   if (!project) return null;
 
-  const handleFinalizeDonation = () => {
-    let amount = parseFloat(donationAmount);
-    if (isNaN(amount) || amount <= 0) return;
+  // Calculate remaining budget that can be funded
+  const totalBudget = project.fundingGoal - project.currentFunds;
 
-    let remainingBudget = project.fundingGoal - project.currentFunds;
-    
-    if (amount > remainingBudget) {
-      amount = remainingBudget;
-      setInfoMessage(`Only ${remainingBudget} FES Coins were needed. Your donation has been adjusted.`);
-    } else {
-      setInfoMessage("");
+  // Handle the payment process
+  const handlePayment = () => {
+    const paymentAmount = parseFloat(donationAmount);
+
+    // Validate input: check if entered amount is a valid number greater than 0
+    if (isNaN(paymentAmount) || paymentAmount <= 0) {
+      setErrorMessage("Please enter a valid amount.");
+      return;
     }
 
-    updateProjectFunding(projectId, amount, true);
+    // Prevent donations exceeding the remaining budget
+    if (paymentAmount > totalBudget) {
+      setErrorMessage(`You can only donate up to ${totalBudget} FES Coins.`);
+      return;
+    }
 
-    setDonationAmount("");
-    setShowInput(false);
-    setShowFinalize(false);
-    setShowThankYou(true);
+    // Reset error message on successful validation
+    setErrorMessage("");
 
-    setTimeout(() => setShowThankYou(false), 3000);
+    // Update the project funding
+    updateProjectFunding(projectId, paymentAmount);
+
+    // Show thank-you message
+    setThankYouMessage("Thank you for your donation!");
+
+    // Reset input field and messages after 3 seconds
+    setTimeout(() => {
+      setDonationAmount(""); // Clear input
+      setThankYouMessage(""); // Remove thank-you message
+      setShowInput(false); // Hide input field
+    }, 3000);
   };
 
   return (
     <div className="mt-3">
+      {/* Button to toggle the donation input field */}
       <button
-        onClick={() => setShowInput(true)}
+        onClick={() => setShowInput(!showInput)}
         className="bg-blue-500 text-white py-1 px-3 rounded"
       >
-        FES Aid
+        {showInput ? "Pay Now" : "FES Aid"} {/* Toggle text based on input visibility */}
       </button>
+
+      {/* Show input field when button is clicked */}
       {showInput && (
         <div className="mt-2">
+          {/* Input field for entering donation amount */}
           <input
             type="number"
             value={donationAmount}
-            onChange={(e) => {
-              setDonationAmount(e.target.value);
-              setShowFinalize(true);
-            }}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="Enter donation amount in FES Coins"
+            onChange={(e) => setDonationAmount(e.target.value)}
+            placeholder="Enter FES Coins"
+            className="border border-blue-500 p-2 rounded-md w-full"
           />
-          {showFinalize && (
-            <button
-              onClick={handleFinalizeDonation}
-              className="bg-green-500 text-white py-1 px-3 rounded mt-2"
-            >
-              Finalize Donation
-            </button>
-          )}
+
+          {/* Confirm payment button */}
+          <button
+            onClick={handlePayment}
+            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700 transition mt-2 w-full"
+          >
+            Confirm Payment
+          </button>
+
+          {/* Display validation error message if applicable */}
+          {errorMessage && <p className="text-red-500 text-xs text-center">{errorMessage}</p>}
+
+          {/* Show thank-you message upon successful donation */}
+          {thankYouMessage && <p className="text-green-500 text-xs text-center">{thankYouMessage}</p>}
         </div>
-      )}
-      {showThankYou && (
-        <p className="text-green-600 text-xs text-center mt-1">
-          Thank you for your donation!
-        </p>
-      )}
-      {infoMessage && (
-        <p className="text-orange-500 text-xs text-center mt-1">{infoMessage}</p>
       )}
     </div>
   );

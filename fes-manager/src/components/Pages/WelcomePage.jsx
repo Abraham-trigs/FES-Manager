@@ -23,13 +23,13 @@ const WelcomePage = () => {
       <div className="flex-grow flex justify-center items-center h-screen">
         <div className="flex flex-col justify-center items-center">
           {/* Logo image with specific width and auto height */}
-          <img src="/images/logo.png" alt="logo" className="w-[30%] h-auto" />
+          <img src="/images/logo.png" alt="logo" className="w-[50%] h-auto" />
           
           {/* Heading for the page */}
-          <h1 className='text-[3rem] font-bold text-white'>FES-Manager</h1>
+          <h1 className='text-[2rem] font-bold text-white'>FES-Manager</h1>
 
           {/* Buttons for Login and Signup */}
-          <div className="flex flex-row justify-center space-x-4 mt-4">
+          <div className="flex flex-row justify-center space-x-4 mt-4 ">
             <LoginButton /> {/* Clicking this button will trigger the display of the LoginForm */}
             <SignupButton />
           </div>

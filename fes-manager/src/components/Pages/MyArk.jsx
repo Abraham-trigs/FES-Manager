@@ -1,10 +1,9 @@
 import React from "react";
 import useAddProjectFormStore from "../../store/AddProjectFormStore";
-import ProjectCard from "../ProjectCard-UI/ProjectCard";
 
 const MyArk = () => {
-  const myArk = useProjectStore((state) => state.myArk);
-  const toggleMyArk = useProjectStore((state) => state.toggleMyArk);
+  const myArk = useAddProjectFormStore((state) => state.myArk);
+  const toggleMyArk = useAddProjectFormStore((state) => state.toggleMyArk);
 
   return (
     <div className="p-4 bg-teal-100 min-h-screen">

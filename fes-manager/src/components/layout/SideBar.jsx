@@ -1,57 +1,33 @@
-// src/components/SideBar.js
-import { useState } from "react";
+import { useState } from "react"; // ✅ Add this line
 import { Link, useLocation } from "react-router-dom";
 import AddProjectForm from "../AddProjectForm/AddProjectForm";
-import HamburgerMenu from "./HamburgerMenu";
 import CurrencyConverter from "../Convertor/CurrencyConverter";
 
-const SideBar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+
+const SideBar = ({ isOpen }) => {
   const [showForm, setShowForm] = useState(false);
   const location = useLocation();
-
-  // Example balance amount (in USD)
   const balance = 7755;
 
   return (
     <>
-      {/* Hamburger Menu (only shown when sidebar is closed) */}
-      {!isOpen && <HamburgerMenu toggleSidebar={() => setIsOpen(true)} />}
-
-      {/* Sidebar */}
+      {/* Sidebar controlled by HamburgerMenu */}
       <div
-        className={`fixed top-[75px] right-0 h-[670px] w-84 sm:w-60 md:w-72 bg-darkGreen shadow-lg z-[100] transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-[75px] right-0 h-[670px] w-84 sm:w-60 md:w-72 bg-darkGreen shadow-lg z-[100] 
+          transition-transform duration-[500ms] ${
+            isOpen ? "translate-x-0 ease-[cubic-bezier(5,1,0.5,1)]" : "translate-x-full ease-out"
+          }`}
       >
-        {/* Close Button */}
-        <button
-          className="absolute top-4 right-4 text-white text-2xl font-bold"
-          onClick={() => setIsOpen(false)}
-          aria-label="Close Sidebar"
-        >
-          ✖
-        </button>
-
         {/* Profile Section */}
         <div className="p-6 border-b border-greenNeon">
           <div className="flex items-center justify-center space-x-3">
-            {/* Profile Image Placeholder */}
-            <div className="w-20 h-20 bg-white rounded-full">
-              {/* Image would go here */}
-            </div>
+            <div className="w-20 h-20 bg-white rounded-full"></div>
             <h2 className="text-white font-bold">Account Name</h2>
           </div>
-
-          {/* Currency Converter */}
-          <div className="mt-4 ">
+          <div className="mt-4">
             <CurrencyConverter amount={balance} />
           </div>
-
-          <button
-            className="mt-6 bg-greenNeon text-darkGreen py-2 px-4 w-full rounded-md"
-            onClick={() => setShowForm(true)}
-          >
+          <button className="mt-6 bg-greenNeon text-darkGreen py-2 px-4 w-full rounded-md" onClick={() => setShowForm(true)}>
             Start A Project
           </button>
         </div>
@@ -74,12 +50,7 @@ const SideBar = () => {
               { name: "Logout", path: "/logout" },
             ].map((tab, index) => (
               <div key={index} className="group">
-                <Link
-                  to={tab.path}
-                  className={`block text-white py-2 transition duration-300 group-hover:text-greenNeon ${
-                    location.pathname === tab.path ? "bg-semiGreen p-2 " : ""
-                  }`}
-                >
+                <Link to={tab.path} className={`block text-white py-2 transition duration-300 ease-in-out group-hover:text-greenNeon ${location.pathname === tab.path ? "bg-semiGreen p-2" : ""}`}>
                   {tab.name}
                 </Link>
                 <div className="w-full h-[2px] bg-greenNeon opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -93,13 +64,6 @@ const SideBar = () => {
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[110]">
           <div className="bg-white p-6 rounded-lg w-96 relative">
-            <button
-              className="absolute top-2 right-2 text-darkGreen"
-              onClick={() => setShowForm(false)}
-              aria-label="Close Add Project Form"
-            >
-              X
-            </button>
             <AddProjectForm />
           </div>
         </div>

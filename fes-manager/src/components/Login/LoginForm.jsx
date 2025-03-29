@@ -6,6 +6,7 @@ const LoginForm = () => {
   const { setShowLoginForm } = useLoginStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -30,8 +31,8 @@ const LoginForm = () => {
       return;
     }
 
-    if (email === 'user@example.com' && password === 'password123') {
-      setShowLoginForm(false);
+    if (email === 'abrahamtrigs@gmail.com' && password === '0243wethebestemailmarvellous') {
+      setShowLoginForm(true);
 
       if (rememberMe) {
         localStorage.setItem('email', email);
@@ -48,11 +49,19 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[100]">
-      <div className="bg-white p-6 rounded-lg w-96">
+    <div className="fixed inset-0 flex items-center w-[250px] left-9">
+      <div className="bg-white shadow-md shadow-gray-500 p-6 rounded-lg w-96">
+      
+        <div>
+          <div
+            className="absolute b-1 right-5 text-semiGreen -my-4 -mx-4 "
+            onClick={handleClose}
+          >
+            <div className="w-3 h-3 bg-darkGreen rounded-full -ml-[20px]"></div>
+          </div>
+        </div>
         <h2 className="text-xl font-semibold text-center mb-4">Login to FES-Manager</h2>
 
-        {/* Show error message if any */}
         {error && <div className="text-red-600 mb-4">{error}</div>}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
@@ -69,17 +78,24 @@ const LoginForm = () => {
             />
           </div>
 
-          <div>
+          <div className="relative">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md"
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md pr-10"
               placeholder="Enter your password"
-              aria-invalid={error ? 'true' : 'false'}
+              aria-invalid={error ? "true" : "false"}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-9 text-gray-500"
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
           </div>
 
           <div className="flex items-center">
@@ -97,13 +113,6 @@ const LoginForm = () => {
             Login
           </button>
         </form>
-
-        <button
-          className="absolute top-2 right-2 text-darkGreen"
-          onClick={handleClose}
-        >
-          X
-        </button>
       </div>
     </div>
   );

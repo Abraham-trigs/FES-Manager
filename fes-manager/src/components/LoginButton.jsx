@@ -16,11 +16,12 @@ const LoginButton = () => {
     <button 
       onClick={handleLoginClick} // Trigger showing the login form when the button is clicked
       className='bg-greenNeon 
-        p-1 px-8 
-        text-[1.4rem] 
-        rounded-lg  
-        font-medium
-        text-darkGreen'
+                py-[5px]
+                px-4 
+                text-[1.1rem] 
+                rounded-lg  
+                font-bold
+                text-darkGreen'
     >
       login
     </button>

@@ -10,11 +10,12 @@ const SignupButton = () => {
       // Navigate to '/Signup' when the button is clicked
       onClick={() => navigate("/Signup")}
       className="bg-cyanNeon 
-        p-1 px-8 
-        text-[1.2rem] 
-        rounded-lg  
-        font-medium
-        text-darkGreen"
+                py-[5px]
+                px-4 
+                text-[1rem] 
+                rounded-lg  
+                font-bold
+                text-darkGreen"
     >
       New User
     </button>

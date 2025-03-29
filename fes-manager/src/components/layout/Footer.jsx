@@ -8,11 +8,11 @@ const Footer = () => {
       {/* Footer background and content */}
       <div>
         {/* Thin green line at the top of the footer */}
-        <div className="w-full h-[3px] bg-greenNeon"></div>
+        <div className="w-full h-[2px] bg-greenNeon"></div>
 
         {/* Main footer section with background and centered text */}
-        <div className="w-full h-[50px] bg-darkGreen flex justify-center items-center">
-          <p className="text-cyanNeon text-[0.7rem]">
+        <div className="w-full h-[30px] bg-darkGreen flex justify-center items-center">
+          <p className="text-cyanNeon text-[0.5rem]">
             <span className='text-white'>powered by</span>  LEGEND FOUNDATION &copy; 2025
           </p>
         </div>
