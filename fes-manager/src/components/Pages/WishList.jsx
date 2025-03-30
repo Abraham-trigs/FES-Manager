@@ -15,13 +15,14 @@ const WishList = () => {
       <SideBar />
 
       {/* Navigation bar */}
-      <MainNavBar />
+      <MainNavBar /> 
 
-      <div className="flex-grow flex flex-col  items-center justify-center text-darkGreen z-10">
+      {/* <div className="flex-grow flex flex-col  items-center justify-center text-darkGreen z-10">
         <h2 className="text-2xl font-bold"> WishList Page </h2>
         <p>(Under Development)</p>
-      </div>
+      </div> */}
 
+      {/* <div className="w-[50px] h-[90px] bg-darkShade"></div> */}
 
 
       {/* Footer Section */}

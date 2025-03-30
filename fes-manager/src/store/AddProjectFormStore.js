@@ -68,25 +68,26 @@ const useAddProjectFormStore = create((set) => {
 
     makePayment: (amount) =>
       set((state) => {
-        const updatedProjects = state.projects.map((project, index) => {
-          if (index === 0) {
+        const updatedProjects = state.projects.map((project) => {
+          if (project.fundingGoal > 0) {
+            const newFundingGoal = Math.max(project.fundingGoal - amount, 0); // Prevent negative values
             return {
               ...project,
-              fundingGoal: Math.max(project.fundingGoal - amount, 0),
+              fundingGoal: newFundingGoal,
+              originalBudget: project.originalBudget || project.fundingGoal, // Ensure originalBudget is stored
             };
           }
           return project;
         });
-
+    
         localStorage.setItem("projects", JSON.stringify(updatedProjects));
-
-        // Reset showPaymentForm after payment to allow reopening
+    
         return {
           projects: updatedProjects,
           showPaymentForm: false, // Ensure modal closes after payment
         };
       }),
-
+      
     validateStep: () => {
       return set((state) => {
         const errors = {};
