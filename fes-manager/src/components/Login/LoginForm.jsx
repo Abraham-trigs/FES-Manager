@@ -49,7 +49,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center w-[250px] left-9">
+    <div className="fixed inset-0 flex items-center w-[270px] left-9">
       <div className="bg-white shadow-md shadow-gray-500 p-6 rounded-lg w-96">
       
         <div>

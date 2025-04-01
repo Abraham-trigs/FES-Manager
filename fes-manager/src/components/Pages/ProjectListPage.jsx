@@ -31,7 +31,7 @@ export const ProjectListPage = () => {
       <MainNavBar />
 
       {/* Displays the list of projects or a message if no projects are available */}
-      <div className="mt-4 grid grid-rows-2 gap-9">
+      <div className="mt-4 grid grid-rows-6 gap-9">
         {uniqueProjects.length > 0 ? (
           // If there are projects, display each one using ProjectCard
           uniqueProjects.map((project) => (

@@ -1,3 +1,4 @@
+
 import React from "react";
 import Footer from "../layout/Footer";
 import MainNavBar from "../layout/MainNavBar";
@@ -15,7 +16,6 @@ const WishList = () => {
       <SideBar />
 
       {/* Navigation bar */}
-      <MainNavBar /> 
 
       {/* <div className="flex-grow flex flex-col  items-center justify-center text-darkGreen z-10">
         <h2 className="text-2xl font-bold"> WishList Page </h2>
@@ -23,7 +23,6 @@ const WishList = () => {
       </div> */}
 
       {/* <div className="w-[50px] h-[90px] bg-darkShade"></div> */}
-
 
       {/* Footer Section */}
       <Footer />

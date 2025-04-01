@@ -4,7 +4,11 @@ import useAddProjectFormStore from '../../store/AddProjectFormStore'; // Import 
 const ProjectCard = () => {
   const { projects, makePayment, showPaymentForm, setShowPaymentForm } = useAddProjectFormStore();
   const project = projects[0] || {};
-  const formattedFundingGoal = project.fundingGoal ? `$${project.fundingGoal.toLocaleString()}` : "No Funds";
+  const originalBudget = project.originalBudget || project.fundingGoal; 
+  const remainingBudget = project.fundingGoal;
+  const progressPercentage = originalBudget ? ((originalBudget - remainingBudget) / originalBudget) * 100 : 0;
+  const formattedFundingGoal = originalBudget ? `${remainingBudget}/${originalBudget}` : "Success";
+  
   const [donationAmount, setDonationAmount] = useState("");
   const openPaymentForm = () => {setShowPaymentForm(true);  };
   const closePaymentForm = () => setShowPaymentForm(false);
@@ -14,11 +18,6 @@ const ProjectCard = () => {
       setDonationAmount(""); 
       closePaymentForm(); 
     }};
-  const originalBudget = project.originalBudget || project.fundingGoal; 
-  const remainingBudget = project.fundingGoal;
-  const progressPercentage = originalBudget ? ((originalBudget - remainingBudget) / originalBudget) * 100 : 0;
-
-
 
   return (
     <>
@@ -57,7 +56,7 @@ const ProjectCard = () => {
           
           <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 absolute my-[160px]">
             <div className="bg-green-500 h-full rounded-full text-white text-center text-sm leading-6" style={{ width: "70%" }}>
-             
+              
               {/* Showing Percentage Variable */}
               {Math.round(progressPercentage)}% 
             </div>
