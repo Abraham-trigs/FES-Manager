@@ -50,6 +50,17 @@ const useAddProjectFormStore = create((set) => ({
     verifierType: '',
   },
 
+  // Add remaining funding state
+  remainingFunding: loadState("remainingFunding", 0),
+
+  // Function to handle payments and update remaining funding
+  FESpay: (amount) => set((state) => {
+    const newRemainingFunding = state.remainingFunding - amount; // Deduct the entered amount
+    localStorage.setItem("remainingFunding", newRemainingFunding); // Save to localStorage
+
+    return { remainingFunding: newRemainingFunding };
+  }),
+
   // User Authentication State
   isAuthenticated: loadState("isAuthenticated", false),
   user: loadState("user", null),

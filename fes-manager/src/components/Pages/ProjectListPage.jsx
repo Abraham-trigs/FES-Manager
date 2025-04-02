@@ -42,6 +42,8 @@ export const ProjectListPage = () => {
       <Footer />
     </div>
   );
+
+
 };
 
 export default ProjectListPage;
