@@ -17,7 +17,7 @@ const ProjectCard = ({ project }) => {
   const progress = fundingGoal > 0 ? (totalAllocated / fundingGoal) * 100 : 0;
 
   return (
-    <div className="relative flex flex-col items-center shadow-2xl scroll-mb-96 ">
+    <div className=" relative flex flex-col items-center shadow-2xl scroll-mb-96 ">
 
 
       {/* Title and Description Background*/}
@@ -45,7 +45,7 @@ const ProjectCard = ({ project }) => {
       </div>
 
       {/* FundGoal */} 
-      <div className="absolute ml-[-105px] rounded-l bg-darkGreen my-[193px] w-[115px] h-[25px] font-extrabold text-white text-center text-[0.9rem]  p-1 p ">
+      <div className="absolute ml-[-105px] rounded-l bg-cyanNeon my-[193px] w-[115px] h-[25px] font-extrabold text-darkGreen text-center text-[0.9rem]  p-1 p ">
         {fundingGoal}
       </div>
 
@@ -86,7 +86,7 @@ const ProjectCard = ({ project }) => {
             </button>
 
             {/* Details Button */}
-            <button className="bg-cyanNeon p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem]">
+            <button className="bg-cyanNeon p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.9rem]">
               Details
             </button>
           </div>
