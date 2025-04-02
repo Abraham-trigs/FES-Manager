@@ -1,114 +1,92 @@
-// import React from "react";
-// import useAddProjectFormStore from "../../store/AddProjectFormStore";
+import React from 'react';
+import useAddProjectFormStore from '../../store/AddProjectFormStore';
 
-// const Step2 = () => {
-//   const { updateFormData, setStep, formData, addTask, removeTask } = useAddProjectFormStore();
-//   const [error, setError] = React.useState("");
+const Step2 = () => {
+  const { formData, setFormData, errors } = useAddProjectFormStore(); // Access tasks from the Zustand store
+  const { tasks, fundingGoal } = formData;
 
-//   const handleNext = (e) => {
-//     e.preventDefault();
+  const addTask = () => {
+    setFormData({ tasks: [...tasks, { name: '', amount: '' }] });
+  };
 
-//     // Ensure fundingGoal is valid
-//     const fundingGoal = Number(formData.fundingGoal);
-//     if (!fundingGoal || isNaN(fundingGoal) || fundingGoal <= 0) {
-//       setError("Please enter a valid funding goal greater than zero.");
-//       return;
-//     }
+  const updateTask = (index, field, value) => {
+    const updatedTasks = [...tasks];
+    updatedTasks[index][field] = value;
+    setFormData({ tasks: updatedTasks });
+  };
 
-//     // Ensure at least one task is added
-//     if (formData.tasks.length === 0) {
-//       setError("Please add at least one task.");
-//       return;
-//     }
+  const deleteTask = (index) => {
+    const updatedTasks = tasks.filter((_, i) => i !== index);
+    setFormData({ tasks: updatedTasks });
+  };
 
-//     setStep(3); // Move to next step
-//   };
+  const handleFundingGoalChange = (e) => {
+    setFormData({ fundingGoal: e.target.value });
+  };
 
-//   const handleAddTask = () => {
-//     addTask({ name: "", amount: 0 }); // Ensure amount is a number
-//   };
+  const totalAllocated = tasks.reduce((sum, task) => sum + Number(task.amount || 0), 0);
+  const progress = fundingGoal > 0 ? (totalAllocated / fundingGoal) * 100 : 0;
 
-//   const handleTaskChange = (index, field, value) => {
-//     const updatedTasks = [...formData.tasks];
-//     updatedTasks[index] = { ...updatedTasks[index], [field]: value };
-//     updateFormData("tasks", updatedTasks);
-//   };
+  return (
+    <div>
+      <h2 className="text-lg font-semibold">Funding Details</h2>
 
-//   const handleRemoveTask = (index) => {
-//     removeTask(index);
-//   };
+      {/* Funding Goal */}
+      <label className="block text-sm font-medium text-gray-700 mt-2">Funding Goal</label>
+      <input
+        type="number"
+        value={fundingGoal}
+        onChange={handleFundingGoalChange}
+        placeholder="Enter funding goal"
+        className="w-full px-4 py-2 border rounded mt-1"
+      />
+      {errors.fundingGoal && <p className="text-red-500 text-sm">{errors.fundingGoal}</p>} {/* Error Message for funding goal */}
 
-//   return (
-//     <form onSubmit={handleNext} className="space-y-4">
-//       {error && <p className="text-red-500 text-sm">{error}</p>}
+      {/* Task Fields */}
+      <h3 className="mt-4 text-md font-semibold">Add Task</h3>
+      {tasks.map((task, index) => (
+        <div key={index} className="flex items-center gap-2 mt-2">
+          <input
+            type="text"
+            placeholder="Task Name"
+            className="w-[50%] flex-1 px-2 py-1 border rounded"
+            value={task.name}
+            onChange={(e) => updateTask(index, 'name', e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Amount"
+            className="w-[50%] px-2 py-1 border rounded"
+            value={task.amount}
+            onChange={(e) => updateTask(index, 'amount', e.target.value)}
+          />
+          <button className="text-red-500" onClick={() => deleteTask(index)}>
+            <div className="w-3 h-3 bg-[#f02929] rounded-full"></div>
+          </button>
+        </div>
+      ))}
+      <button
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+        onClick={addTask}
+        disabled={totalAllocated > fundingGoal}
+      >
+        Add Task
+      </button>
 
-//       {/* Funding Goal */}
-//       <div>
-//         <label className="block font-medium">Funding Goal</label>
-//         <input
-//           type="number"
-//           className="w-full border p-2 rounded"
-//           value={formData.fundingGoal || ""}
-//           onChange={(e) => updateFormData("fundingGoal", Number(e.target.value))}
-//           min="1"
-//           required
-//         />
-//       </div>
+      {/* Progress Indicator */}
+      <div className="w-full bg-gray-200 h-2 rounded mt-4">
+        <div
+          className={`h-2 rounded transition-all ${totalAllocated > fundingGoal ? 'bg-red-500' : 'bg-green-500'}`}
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
+      <p className={`text-sm mt-2 ${totalAllocated > fundingGoal ? 'text-red-500' : 'text-gray-700'}`}>
+        {totalAllocated > fundingGoal
+          ? 'Total amount exceeds funding goal!'
+          : `Used: ${totalAllocated} / ${fundingGoal}`}
+      </p>
+    </div>
+  );
+};
 
-//       {/* Task Management */}
-//       <div>
-//         <label className="block font-medium">Tasks</label>
-//         <button
-//           type="button"
-//           className="w-full bg-shade text-white p-2 rounded"
-//           onClick={handleAddTask}
-//         >
-//           Add Task
-//         </button>
-
-//         {formData.tasks.map((task, index) => (
-//           <div key={index} className="flex justify-between items-center space-x-2">
-//             <div className="flex-1">
-//               <input
-//                 type="text"
-//                 placeholder="Task Name"
-//                 value={task.name}
-//                 onChange={(e) => handleTaskChange(index, "name", e.target.value)}
-//                 className="w-full border p-2 rounded"
-//                 required
-//               />
-//             </div>
-//             <div className="flex-1">
-//               <input
-//                 type="number"
-//                 placeholder="Amount"
-//                 value={task.amount || ""}
-//                 onChange={(e) => handleTaskChange(index, "amount", Number(e.target.value))}
-//                 className="w-full border p-2 rounded"
-//                 min="0"
-//                 required
-//               />
-//             </div>
-//             <button
-//               type="button"
-//               onClick={() => handleRemoveTask(index)}
-//               className="bg-red-500 text-white p-2 rounded"
-//             >
-//               Remove
-//             </button>
-//           </div>
-//         ))}
-//       </div>
-
-//       {/* Next Button */}
-//       <button
-//         type="submit"
-//         className="w-full bg-greenNeon text-darkGreen p-2 rounded hover:bg-semiGreen"
-//       >
-//         Next
-//       </button>
-//     </form>
-//   );
-// };
-
-// export default Step2;
+export default Step2;

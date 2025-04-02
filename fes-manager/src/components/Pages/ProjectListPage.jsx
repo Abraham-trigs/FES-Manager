@@ -6,18 +6,13 @@ import useAddProjectFormStore from "../../store/AddProjectFormStore";
 import SideBar from "../layout/SideBar";
 
 export const ProjectListPage = () => {
-  // Retrieves the list of projects from the global state
-  const projects = useAddProjectFormStore((state) => state.projects);
+  // Retrieves the list of projects from the global state with a fallback to an empty array
+  const projects = useAddProjectFormStore((state) => state.submittedProjects) || [];
 
-  // Ensure projects exist and filter out duplicates
-  const uniqueProjects = Array.isArray(projects) 
-    ? projects.reduce((acc, project) => {
-        if (!acc.some((p) => p.id === project.id)) {
-          acc.push(project);
-        }
-        return acc;
-      }, [])
-    : [];
+  // Filter out duplicates based on project ID using Map for better performance
+  const uniqueProjects = [
+    ...new Map(projects.map((project) => [project.id, project])).values(),
+  ];
 
   return (
     <div className="relative min-h-screen">
@@ -31,11 +26,11 @@ export const ProjectListPage = () => {
       <MainNavBar />
 
       {/* Displays the list of projects or a message if no projects are available */}
-      <div className="mt-4 grid grid-rows-6 gap-9">
+      <div className="mt-4 grid grid-rows-6 gap-[440px] items-start">
         {uniqueProjects.length > 0 ? (
-          // If there are projects, display each one using ProjectCard
+          // Pass the full project object instead of just projectId
           uniqueProjects.map((project) => (
-            <ProjectCard key={project.id} projectId={project.id} />
+            <ProjectCard key={project.id} project={project} />
           ))
         ) : (
           // If no projects are available

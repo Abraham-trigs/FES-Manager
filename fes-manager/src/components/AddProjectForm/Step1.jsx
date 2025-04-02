@@ -1,107 +1,96 @@
-// import React, { useState } from "react";
-// import useAddProjectFormStore from "../../store/AddProjectFormStore";
+import React, { useState } from "react";
+import useAddProjectFormStore from "../../store/AddProjectFormStore";
 
-// const Step1 = () => {
-//   const { updateFormData, setStep, formData } = useAddProjectFormStore();
-//   const [error, setError] = useState("");
-//   const [imagePreview, setImagePreview] = useState(formData.image || "");
+const Step1 = () => {
+  const { formData, setFormData, errors } = useAddProjectFormStore();  // Now also grabbing errors from Zustand store
+  const [isVisible, setIsVisible] = useState(true);
 
-//   const handleNext = (e) => {
-//     e.preventDefault();
-//     if (!formData.title || !formData.category || !formData.description) {
-//       setError("Please fill in all required fields.");
-//       return;
-//     }
-//     setStep(2);
-//   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ [name]: value });
+  };
 
-//   return (
-//     <div className="flex justify-center items-center h-[700px] min-h-[1000px] bg-gray-100 px-4">
-//       <form
-//         onSubmit={handleNext}
-//         className="w-full max-w-md sm:max-w-lg bg-white p-5 sm:p-6 rounded-2xl shadow-lg space-y-6"
-//       >
-//         <h2 className="text-xl sm:text-2xl font-semibold text-center text-gray-700">
-//           Create Your Project
-//         </h2>
-//         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+  if (!isVisible) return null; // ✅ Don't render if hidden
 
-//         {/* Project Title */}
-//         <div className="flex flex-col">
-//           <label className="text-gray-600 font-medium">Project Title</label>
-//           <input
-//             type="text"
-//             className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-//             value={formData.title}
-//             onChange={(e) => updateFormData("title", e.target.value)}
-//             required
-//           />
-//         </div>
+  return (
+    <div className="relative p-1 rounded-lg ">
+      <h2 className="text-lg font-semibold">Create a Project</h2>
 
-//         {/* Category */}
-//         <div className="flex flex-col">
-//           <label className="text-gray-600 font-medium">Category</label>
-//           <select
-//             className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-//             value={formData.category}
-//             onChange={(e) => updateFormData("category", e.target.value)}
-//             required
-//           >
-//             <option value="">Select a category</option>
-//             <option value="Education">Education</option>
-//             <option value="Health">Health</option>
-//             <option value="Infrastructure">Infrastructure</option>
-//             <option value="Community Impact">Community Impact</option>
-//           </select>
-//         </div>
+      {/* Project Title */}
+      <label className="block text-sm font-medium text-gray-700 mt-2">
+        Project Title
+      </label>
+      <input
+        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        placeholder="Enter project title"
+        className="w-full px-4 py-2 border rounded mt-1"
+      />
+      {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>} {/* Display title error */}
 
-//         {/* Project Description */}
-//         <div className="flex flex-col">
-//           <label className="text-gray-600 font-medium">Project Description</label>
-//           <textarea
-//             className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg focus:ring-2 focus:darkGreen focus:outline-none resize-none"
-//             rows="4"
-//             value={formData.description}
-//             onChange={(e) => updateFormData("description", e.target.value)}
-//             required
-//           ></textarea>
-//         </div>
+      {/* Project Category */}
+      <label className="block text-sm font-medium text-gray-700 mt-2">
+        Category
+      </label>
+      <select
+        name="category"
+        value={formData.category}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border rounded mt-1"
+      >
+        <option>Education</option>
+        <option>Health</option>
+        <option>Infrastructure</option>
+        <option>Community Impact</option>
+      </select>
+      {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>} {/* Display category error */}
 
-//         {/* Image URL */}
-//         <div className="flex flex-col">
-//           <label className="text-gray-600 font-medium">Image URL</label>
-//           <input
-//             type="text"
-//             className="w-full border border-gray-300 p-2 sm:p-3 rounded-lg focus:ring-2 focus:ring-green-500 focus:outline-none"
-//             value={formData.image}
-//             onChange={(e) => {
-//               updateFormData("image", e.target.value);
-//               setImagePreview(e.target.value);
-//             }}
-//           />
-//         </div>
+      {/* Project Type */}
+      <label className="block text-sm font-medium text-gray-700 mt-2">
+        Project Type
+      </label>
+      <select
+        name="type"
+        value={formData.type}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border rounded mt-1"
+      >
+        <option value="">Select Project Type</option>
+        <option value="Individual">Individual</option>
+        <option value="Group">Group</option>
+      </select>
+      {errors.type && <p className="text-red-500 text-sm">{errors.type}</p>} {/* Display type error */}
 
-//         {/* Image Preview */}
-//         {imagePreview && (
-//           <div className="mt-2 flex justify-center">
-//             <img
-//               src={imagePreview}
-//               alt="Project Preview"
-//               className="w-full max-h-48 object-cover rounded-lg shadow-md"
-//             />
-//           </div>
-//         )}
+      {/* Project Location */}
+      <label className="block text-sm font-medium text-gray-700 mt-2">
+        Project Location
+      </label>
+      <input
+        type="text"
+        name="location"
+        value={formData.location}
+        onChange={handleChange}
+        placeholder="Enter project location"
+        className="w-full px-4 py-2 border rounded mt-1"
+      />
+      {errors.location && <p className="text-red-500 text-sm">{errors.location}</p>} {/* Display location error */}
 
-//         {/* Submit Button */}
-//         <button
-//           type="submit"
-//           className="w-full bg-green-500 text-white p-2 sm:p-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition"
-//         >
-//           Next
-//         </button>
-//       </form>
-//     </div>
-//   );
-// };
+      {/* Project Description */}
+      <label className="block text-sm font-medium text-gray-700 mt-2">
+        Project Description
+      </label>
+      <textarea
+        name="description"
+        value={formData.description}
+        onChange={handleChange}
+        placeholder="Enter project description"
+        className="w-full px-4 py-2 border rounded mt-1"
+      />
+      {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>} {/* Display description error */}
+    </div>
+  );
+};
 
-// export default Step1;
+export default Step1;

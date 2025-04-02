@@ -1,87 +1,170 @@
-// import React, { useState } from "react";
-// import useAddProjectFormStore from "../../store/AddProjectFormStore";
+import React from 'react';
+import useAddProjectFormStore from '../../store/AddProjectFormStore';
 
-// const Step3 = () => {
-//   const { updateFormData, setStep, formData } = useAddProjectFormStore();
-//   const [error, setError] = useState("");
+const Step3 = () => {
+  const { formData, setFormData } = useAddProjectFormStore(); // Access form data from Zustand store
+  const { verifierType, uploadedDocs, name, occupation, email, phone, digitalAddress } = formData;
 
-//   const handleNext = (e) => {
-//     e.preventDefault();
+  const handleFileUpload = (e, docType) => {
+    const file = e.target.files[0];
+    setFormData({
+      uploadedDocs: { ...uploadedDocs, [docType]: file }
+    });
+  };
 
-//     // Ensure the user selects a verification status
-//     if (formData.verified === null) {
-//       setError("Please confirm whether the project is verified.");
-//       return;
-//     }
+  const renderRequirements = () => {
+    if (verifierType === "Individual") {
+      return (
+        <div>
+          <h3 className="mt-4 text-md font-semibold">Eligible Categories for Individual</h3>
+          <ul className="list-disc pl-5">
+            <li>Community & Religious Leaders</li>
+            <li>Certified Professionals</li>
+            <li>Educational Leaders</li>
+            <li>Recognized Public Figures</li>
+            <li>Licensed Social Workers & Counselors</li>
+          </ul>
+        </div>
+      );
+    }
 
-//     // Ensure file is uploaded if verified
-//     if (formData.verified && !formData.verificationDocs) {
-//       setError("Please upload the verification document.");
-//       return;
-//     }
+    if (verifierType === "Organization") {
+      return (
+        <div>
+          <h3 className="mt-4 text-md font-semibold">Eligible Categories for Organization</h3>
+          <ul className="list-disc pl-5">
+            <li>NGOs</li>
+            <li>Charitable Foundations</li>
+            <li>Community-Based Organizations</li>
+            <li>Accredited Media Organizations</li>
+            <li>Professional Associations</li>
+          </ul>
+        </div>
+      );
+    }
 
-//     setStep(4); // Proceed to next step
-//   };
+    if (verifierType === "Government") {
+      return (
+        <div>
+          <h3 className="mt-4 text-md font-semibold">Eligible Categories for Government</h3>
+          <ul className="list-disc pl-5">
+            <li>Government Agencies & Ministries</li>
+            <li>Local Government Authorities</li>
+            <li>Public Service Bodies</li>
+          </ul>
+        </div>
+      );
+    }
 
-//   const handleFileUpload = (e) => {
-//     const file = e.target.files[0];
-//     if (file) {
-//       updateFormData("verificationDocs", file);
-//     }
-//   };
+    return null;
+  };
 
-//   return (
-//     <form onSubmit={handleNext} className="space-y-4">
-//       {/* Error Message */}
-//       {error && <p className="text-red-500 text-sm">{error}</p>}
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ [name]: value });
+  };
 
-//       {/* Verification Status Dropdown */}
-//       <div>
-//         <label className="block font-medium">Is this project verified?</label>
-//         <select
-//           className="w-full border p-2 rounded"
-//           value={formData.verified === null ? "" : formData.verified.toString()} // Ensure boolean values are handled correctly
-//           onChange={(e) => updateFormData("verified", e.target.value === "true")}
-//           required
-//         >
-//           <option value="">Select an option</option>
-//           <option value="true">Yes</option>
-//           <option value="false">No</option>
-//         </select>
-//       </div>
+  return (
+    <div>
+      <h2 className="text-lg font-semibold">Project Verification</h2>
 
-//       {/* File Upload (Only if Verified) */}
-//       {formData.verified && (
-//         <div>
-//           <label className="block font-medium">Upload Verification Document</label>
-//           <input
-//             type="file"
-//             accept=".pdf,.jpg,.png"
-//             className="w-full border p-2 rounded"
-//             onChange={handleFileUpload}
-//           />
-//           <p className="text-sm text-gray-600 mt-1">
-//             Accepted formats: PDF, JPG, PNG
-//           </p>
+      {/* Choose Verifier Type */}
+      <div>
+        <h3 className="mt-4 text-md font-semibold">Choose Verifier Type</h3>
+        <select
+          className="w-full px-4 py-2 border rounded mt-1"
+          value={verifierType}
+          onChange={(e) => setFormData({ verifierType: e.target.value })}
+        >
+          <option value="">Select Verifier Type</option>
+          <option value="Individual">Individual</option>
+          <option value="Organization">Organization</option>
+          <option value="Government">Government</option>
+        </select>
+      </div>
 
-//           {/* Show Uploaded File Name */}
-//           {formData.verificationDocs && (
-//             <p className="text-sm text-gray-700 mt-1">
-//               Uploaded: {formData.verificationDocs.name}
-//             </p>
-//           )}
-//         </div>
-//       )}
+      {/* Render document upload options last */}
+      {renderRequirements()}
 
-//       {/* Navigation Button */}
-//       <button
-//         type="submit"
-//         className="w-full bg-greenNeon text-darkGreen p-2 rounded hover:bg-semiGreen"
-//       >
-//         Next
-//       </button>
-//     </form>
-//   );
-// };
+      {/* New fields for user information */}
+      <div className="mt-4">
+        <label className="block text-sm font-medium text-gray-700">Name</label>
+        <input
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleChange}
+          className="w-full px-4 py-2 border rounded mt-1"
+        />
 
-// export default Step3;
+        <label className="block text-sm font-medium text-gray-700 mt-2">Occupation / Industry</label>
+        <input
+          type="text"
+          name="occupation"
+          value={occupation}
+          onChange={handleChange}
+          className="w-full px-4 py-2 border rounded mt-1"
+        />
+
+        <label className="block text-sm font-medium text-gray-700 mt-2">Email</label>
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={handleChange}
+          className="w-full px-4 py-2 border rounded mt-1"
+        />
+
+        <label className="block text-sm font-medium text-gray-700 mt-2">Phone Number</label>
+        <input
+          type="text"
+          name="phone"
+          value={phone}
+          onChange={handleChange}
+          className="w-full px-4 py-2 border rounded mt-1"
+        />
+
+        <label className="block text-sm font-medium text-gray-700 mt-2">Digital Address</label>
+        <input
+          type="text"
+          name="digitalAddress"
+          value={digitalAddress}
+          onChange={handleChange}
+          className="w-full px-4 py-2 border rounded mt-1"
+        />
+      </div>
+
+      {/* File upload section */}
+      <div className="mt-4">
+        {verifierType === "Individual" && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Upload National ID</label>
+            <input type="file" onChange={(e) => handleFileUpload(e, 'nationalId')} className="w-full px-4 py-2 border rounded mt-1" />
+            <label className="block text-sm font-medium text-gray-700 mt-2">Upload Letter of Endorsement</label>
+            <input type="file" onChange={(e) => handleFileUpload(e, 'letterOfEndorsement')} className="w-full px-4 py-2 border rounded mt-1" />
+          </div>
+        )}
+
+        {verifierType === "Organization" && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Upload Letter of Endorsement</label>
+            <input type="file" onChange={(e) => handleFileUpload(e, 'letterOfEndorsement')} className="w-full px-4 py-2 border rounded mt-1" />
+            <label className="block text-sm font-medium text-gray-700 mt-2">Endorser’s National ID</label>
+            <input type="file" onChange={(e) => handleFileUpload(e, 'endorserNationalId')} className="w-full px-4 py-2 border rounded mt-1" />
+          </div>
+        )}
+
+        {verifierType === "Government" && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Upload Government Authorization</label>
+            <input type="file" onChange={(e) => handleFileUpload(e, 'governmentAuthorization')} className="w-full px-4 py-2 border rounded mt-1" />
+            <label className="block text-sm font-medium text-gray-700 mt-2">Signee National ID</label>
+            <input type="file" onChange={(e) => handleFileUpload(e, 'signeeNationalId')} className="w-full px-4 py-2 border rounded mt-1" />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Step3;

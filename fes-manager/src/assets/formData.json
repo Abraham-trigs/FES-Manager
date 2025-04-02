@@ -1,0 +1,15 @@
+{
+  "title": "Green Energy Initiative",
+  "category": "Sustainability",
+  "description": "A project to promote the use of solar energy in urban areas.",
+  "fundingGoal": 50000,
+  "tasks": ["Market research", "Prototype development", "Community outreach"],
+  "verifierType": "Government",
+  "uploadedDocs": {
+    "nationalId": "national_id.pdf",
+    "letterOfEndorsement": "endorsement_letter.pdf",
+    "endorserNationalId": "endorser_id.pdf",
+    "governmentAuthorization": "gov_auth.pdf",
+    "signeeNationalId": "signee_id.pdf"
+  }
+}

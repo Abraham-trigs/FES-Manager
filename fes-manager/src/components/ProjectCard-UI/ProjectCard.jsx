@@ -1,115 +1,106 @@
-import React, { useState } from 'react';
-import useAddProjectFormStore from '../../store/AddProjectFormStore'; // Import the store
+import React from "react";
 
-const ProjectCard = () => {
-  const { projects, makePayment, showPaymentForm, setShowPaymentForm } = useAddProjectFormStore();
-  const project = projects[0] || {};
-  const originalBudget = project.originalBudget || project.fundingGoal; 
-  const remainingBudget = project.fundingGoal;
-  const progressPercentage = originalBudget ? ((originalBudget - remainingBudget) / originalBudget) * 100 : 0;
-  const formattedFundingGoal = originalBudget ? `${remainingBudget}/${originalBudget}` : "Success";
-  
-  const [donationAmount, setDonationAmount] = useState("");
-  const openPaymentForm = () => {setShowPaymentForm(true);  };
-  const closePaymentForm = () => setShowPaymentForm(false);
-  const handlePayment = () => {const amount = parseFloat(donationAmount);
-    if (!isNaN(amount) && amount > 0) {
-      makePayment(amount);
-      setDonationAmount(""); 
-      closePaymentForm(); 
-    }};
+const ProjectCard = ({ project }) => {
+  // Destructure the necessary properties from the project object
+  const {
+    title = "Untitled Project",  // Default value in case the title is missing
+    category = "No Category",    // Default value in case the category is missing
+    description = "No description available",  // Default value for description
+    fundingGoal = 0,
+    tasks = [],
+    verifierType = "No verifier",
+    uploadedDocs = {},
+  } = project;
+
+  // Calculate the total allocated for tasks (just an example)
+  const totalAllocated = tasks.reduce((sum, task) => sum + Number(task.amount || 0), 0);
+  const progress = fundingGoal > 0 ? (totalAllocated / fundingGoal) * 100 : 0;
 
   return (
-    <>
-      <div>
-        {/* Payment Form Modal */}
-        {showPaymentForm && (
-          <div className="  fixed inset-0 flex items-center justify-center bg-black  bg-opacity-50 z-50 shadow-2xl ">
-            <div className="bg-white p-4 rounded-lg w-50 relative">
-              
-              {/* Close Button */}
-              <div className="absolute top-2 right-2 text-semiGreen cursor-pointer" onClick={closePaymentForm}>
-                <div className="w-3 h-3 bg-[#f02929] rounded-full"></div>
-              </div>
-              <h2 className="text-lg font-bold mb-2">Enter Donation Amount</h2>
-              <input 
-                type="number" 
-                className="border p-2 w-full mb-2" 
-                placeholder="Enter amount" 
-                value={donationAmount}
-                onChange={(e) => setDonationAmount(e.target.value)} 
-              />
-              <button 
-                className="bg-darkGreen h-10 mt-9 text-white p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem] w-full hover:bg-greenNeon hover:text-darkGreen"
-                onClick={handlePayment}>
-                Pay
-              </button>
-            </div>
-          </div>
-        )}
+    <div className="relative flex flex-col items-center shadow-2xl scroll-mb-96 ">
 
-        {/* Card Container and mapping */}
-        <div className="relative flex flex-col items-center shadow-2-l z-10">
-          <p className="uppercase absolute top-0 text-[#06484b] -mt-[-5px] z-10 px-2 font-bold text-xl">{project.category || "No Category"}</p>
-          <p className="absolute text-left text-[0.8rem] top-0 -mt-[-185px] z-10 ml-[-125px] px-2 font-bold bg-greenNeon">{formattedFundingGoal}</p>
-          <p className="absolute top-0 -mt-[-203px] z-10 px-2 font-bold">{project.id || "No ID"}</p>
-          
-          <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 absolute my-[160px]">
-            <div className="bg-green-500 h-full rounded-full text-white text-center text-sm leading-6" style={{ width: "70%" }}>
-              
-              {/* Showing Percentage Variable */}
-              {Math.round(progressPercentage)}% 
-            </div>
-          </div>
 
-          <div className="w-[230px] h-[370px] bg-green rounded-3xl flex flex-col items-center">
-            <div className="w-[230px] h-[270px] bg-darkShade border-[3px] border-cyanNeon rounded-3xl flex justify-center items-center">
-              <div className="w-[200px] h-[140px] bg-shade rounded-3xl -mt-16 border-[3px] border-highlight"></div>
-            </div>
+      {/* Title and Description Background*/}
+      <div className="absolute w-[230px] h-[400px] bg-darkGreen border-[3px] border-cyanNeon rounded-3xl flex justify-center items-center"></div>
 
-            {/* Buttons */}
-            <div className="flex flex-col justify-center items-center -my-[55px]">
-              
-              {/* Plus Button`` */}
-              <div className="w-[30px] h-[30px] bg-shade font-bold text-[2rem] text-semiGreen flex flex-row justify-center items-center my-4">
-                +
-              </div>
-              
-              
-              <div className="flex flex-row items-center -mt-11 space-x-[65px]">
 
-                {/* FES Aid Button */}
-                <button 
-                  className="bg-darkGreen text-white p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem]"
-                  onClick={openPaymentForm}
-                  disabled={progressPercentage >= 100}>
-                  FES Aid
-                </button>
-                
-                {/* Path to Project Details Page */} 
-                <button 
-                  className="bg-cyanNeon p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem]"
-                  onClick={'/project/:id'}> 
-                  Details
-                </button>
-              </div>
-            </div>
 
-            </div>
+      {/* main Continer */}
+      <div className="absolute w-[230px] h-[270px] bg-darkShade border-[3px] border-cyanNeon rounded-3xl flex justify-center items-center">
 
-          {/* Category Container */}
-          <div className="w-[230px] h-[40px] will-change-contents my-[-100px]" >
-            <p className='w-full text-center truncate p-2 text-2xl text-cyanNeon font-bold'>{project.title || "Untitled Project"}</p>
-          </div>
-
-          {/* Project Description Preview */}
-          <div className="w-[220px] h-[60px] rounded-br-3xl rounded-3xl my-[45px]" >
-            <p className='line-clamp-3 leading-tight text-center py-[51px] px-2 text-white font-normal text-[0.8rem]'>{project.description || "No details available"}</p>
-          </div>
-        </div>
       </div>
-    </>
+      
+      {/* Image Container */}
+      <div className="absolute  w-[200px] h-[140px] my-10 bg-light rounded-3xl border-[3px] border-highlight"></div>
+      
+      {/* Project Category */}
+      <div className="absolute my-[3px] w-[200px] h-[40px]  text-center font-extrabold darkGreen p-2 ">
+        {category}
+      </div>
+
+
+      {/* Percentage Bar */}
+      <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 absolute my-[170px] text-white text-center">
+        {progress}
+      </div>
+
+      {/* FundGoal */} 
+      <div className="absolute ml-[-105px] rounded-l bg-darkGreen my-[193px] w-[115px] h-[25px] font-extrabold text-white text-center text-[0.9rem]  p-1 p ">
+        {fundingGoal}
+      </div>
+
+
+
+      {/* Project */}
+      <div className="absolute my-[193px] w-[100px] h-[25px] mr-[-110px] bg-shade text-center font-extrabold text-darkGreen ">
+        {project.id}
+      </div>
+
+
+      {/* Title  */}
+      <div className="absolute my-[274px] w-[200px] h-[40px] text-center font-extrabold text-white ">
+        {title}
+      </div>
+
+
+      {/* Description  */}
+      <div className="absolute my-[294px] w-[200px] h-[78px] text-center font-medium text-white line-clamp-3">
+        {description} 
+      </div>
+
+
+      {/* Buttons */}
+      <div className="absolute my-[213px]">
+        <div className="flex flex-col justify-center items-center ">
+
+          {/* plus button */}
+          <div className="w-[30px] h-[30px] bg-shade font-bold text-[2rem] text-semiGreen flex flex-row justify-center items-center my-4">
+            +
+          </div>
+
+          <div className="flex flex-row items-center -mt-11 space-x-[65px]">
+          
+            {/* FES Aid Button */}
+            <button className="bg-darkGreen text-white p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem]" disabled>
+              FES Aid
+            </button>
+
+            {/* Details Button */}
+            <button className="bg-cyanNeon p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem]">
+              Details
+            </button>
+          </div>
+        </div>       
+      </div>
+
+      
+    </div>
+    
   );
-}
+};
 
 export default ProjectCard;
+
+
+
+
