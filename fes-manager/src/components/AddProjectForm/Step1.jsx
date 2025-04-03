@@ -40,7 +40,7 @@ const Step1 = () => {
         onChange={handleChange}
         className="w-full px-4 py-2 border rounded mt-1"
       >
-        <option></option>
+        <option>Select</option>
         <option>Education</option>
         <option>Health</option>
         <option>Infrastructure</option>
