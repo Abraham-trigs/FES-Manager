@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
 import useAddProjectFormStore from "../../store/AddProjectFormStore";
 import PaymentForm from "../payment/PaymentForm";
 
 const ProjectCard = ({ project }) => {
+  const navigate = useNavigate(); // Initialize navigate hook
+
   // Destructure project properties with default values
   const {
     id,
@@ -58,6 +61,11 @@ const ProjectCard = ({ project }) => {
     }
   };
 
+  // Function to handle "Details" button click
+  const handleDetailsClick = () => {
+    navigate(`/project/${id}`); // Navigate to the project details page
+  };
+
   return (
     // Card Container
     <div className="relative flex flex-col items-center shadow-2xl scroll-mb-96">
@@ -87,7 +95,7 @@ const ProjectCard = ({ project }) => {
       </div>
       
       {/* Project ID Container */}
-      <div className="absolute my-[193px] w-[100px] h-[25px] mr-[-110px] bg-shade text-center font-extrabold text-darkGreen">
+      <div className="absolute my-[193px] w-[100px] h-[25px] mr-[-110px] bg-greenNeon text-center font-bold text-darkGreen">
         {id}
       </div>
 
@@ -122,7 +130,10 @@ const ProjectCard = ({ project }) => {
             </button>
 
             {/* Details Button */}
-            <button className="bg-cyanNeon p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.9rem]">
+            <button
+              className="bg-cyanNeon p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.9rem]"
+              onClick={handleDetailsClick} // Navigate on click
+            >
               Details
             </button>
           </div>

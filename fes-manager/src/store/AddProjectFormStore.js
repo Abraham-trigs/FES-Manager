@@ -13,7 +13,7 @@ const loadState = (key, defaultValue) => {
 
 // Function to generate a unique 5-character ID (mix of letters and numbers)
 function generateUniqueId() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; // Only uppercase letters and numbers
   let id = '';
   
   for (let i = 0; i < 5; i++) {
@@ -21,7 +21,7 @@ function generateUniqueId() {
     id += characters[randomIndex];
   }
   
-  return id;
+  return id; // Returns the uppercase ID by default
 }
 
 const useAddProjectFormStore = create((set) => ({
