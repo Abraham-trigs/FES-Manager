@@ -56,23 +56,39 @@ const useAddProjectFormStore = create((set) => ({
       if (project.id === projectId) {
         let remainingBalance = project.remainingFunding;
   
-        if (amount > remainingBalance) {
-          alert(`The funding goal has been reached. Only ${remainingBalance} will be deducted.`);
-          remainingBalance = 0;
-        } else {
-          remainingBalance -= amount;
+        // Check if remainingFunding is valid (not NaN)
+        if (isNaN(remainingBalance)) {
+          remainingBalance = project.fundingGoal; // Default to fundingGoal if invalid
         }
   
+        // Check if the amount is a valid number (not NaN) and greater than zero
+        if (isNaN(amount) || amount <= 0) {
+          alert("Please enter a valid payment amount.");
+          return project; // Return the original project if the amount is invalid
+        }
+  
+        // Check if the amount exceeds the remaining balance
+        if (amount > remainingBalance) {
+          alert(`The funding goal has been reached. Only ${remainingBalance} will be deducted.`);
+          amount = remainingBalance; // Adjust amount to the remaining balance
+        }
+  
+        // Deduct the amount from the remaining balance
+        remainingBalance -= amount;
+  
+        // Update the project with the new remaining balance
         return { ...project, remainingFunding: remainingBalance };
       }
-      return project;
+      return project; // Return unmodified project if no match
     });
   
+    // Update localStorage with the new data
     localStorage.setItem("submittedProjects", JSON.stringify(updatedProjects));
   
+    // Return updated state with the new list of projects
     return { submittedProjects: updatedProjects };
   }),
-  
+      
   // User Authentication State
   isAuthenticated: loadState("isAuthenticated", false),
   user: loadState("user", null),
