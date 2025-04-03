@@ -13,15 +13,21 @@ const ProjectCard = ({ project }) => {
     remainingFunding = fundingGoal, // Default to full funding if not specified
   } = project;
 
+  // Ensure remainingFunding is a valid number
   const validRemainingFunding = isNaN(remainingFunding) ? fundingGoal : remainingFunding;
 
   // Access store actions
   const { FESpay, isAuthenticated } = useAddProjectFormStore();
 
   // Calculate progress
-  const progress = (fundingGoal && !isNaN(fundingGoal) && validRemainingFunding && !isNaN(validRemainingFunding))
-  ? Math.round(((fundingGoal - validRemainingFunding) / fundingGoal) * 100)
-  : 0;
+  let progress = 0;
+
+  if (fundingGoal > 0 && validRemainingFunding >= 0) {
+    progress = Math.round(((fundingGoal - validRemainingFunding) / fundingGoal) * 100);
+  }
+
+  // Ensure progress is always between 0% and 100%
+  progress = Math.min(Math.max(progress, 0), 100); // Clamps the value to stay between 0 and 100
 
   // Check if funding goal is reached
   const isFundingSuccessful = remainingFunding === 0;
@@ -72,12 +78,12 @@ const ProjectCard = ({ project }) => {
 
       {/* Percentage Bar Conatiner */}
       <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 absolute my-[170px] text-white text-center">
-        {progress}%
+        {progress}% {/* Display the progress here */}
       </div>
 
       {/* FundingGaol Container */}
       <div className="absolute ml-[-105px] rounded-l bg-cyanNeon my-[193px] w-[115px] h-[25px] font-extrabold text-darkGreen text-center text-[0.9rem] p-1 p">
-        {isFundingSuccessful ? "Success" : remainingFunding}
+        {isFundingSuccessful ? "Success" : remainingFunding} {/* Show "Success" when funded */}
       </div>
       
       {/* Project ID Container */}
