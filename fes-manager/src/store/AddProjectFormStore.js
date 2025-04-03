@@ -31,7 +31,7 @@ const useAddProjectFormStore = create((set) => ({
     category: '',
     description: '',
     fundingGoal: 0,
-    tasks: [], // Initialize with empty tasks array
+    tasks: [],
     verifierType: '',
     uploadedDocs: {
       nationalId: null,
@@ -50,17 +50,29 @@ const useAddProjectFormStore = create((set) => ({
     verifierType: '',
   },
 
-  // Add remaining funding state
-  remainingFunding: loadState("remainingFunding", 0),
-
-  // Function to handle payments and update remaining funding
-  FESpay: (amount) => set((state) => {
-    const newRemainingFunding = state.remainingFunding - amount; // Deduct the entered amount
-    localStorage.setItem("remainingFunding", newRemainingFunding); // Save to localStorage
-
-    return { remainingFunding: newRemainingFunding };
+  // Function to handle payments per project
+  FESpay: (projectId, amount) => set((state) => {
+    const updatedProjects = state.submittedProjects.map((project) => {
+      if (project.id === projectId) {
+        let remainingBalance = project.remainingFunding;
+  
+        if (amount > remainingBalance) {
+          alert(`The funding goal has been reached. Only ${remainingBalance} will be deducted.`);
+          remainingBalance = 0;
+        } else {
+          remainingBalance -= amount;
+        }
+  
+        return { ...project, remainingFunding: remainingBalance };
+      }
+      return project;
+    });
+  
+    localStorage.setItem("submittedProjects", JSON.stringify(updatedProjects));
+  
+    return { submittedProjects: updatedProjects };
   }),
-
+  
   // User Authentication State
   isAuthenticated: loadState("isAuthenticated", false),
   user: loadState("user", null),
@@ -80,26 +92,22 @@ const useAddProjectFormStore = create((set) => ({
 
   setStep: (step) => set({ step }),
 
-  // The new validateStep function to validate current step
   validateStep: () => {
     set((state) => {
       const { formData, step, errors } = state;
 
       switch (step) {
         case 1:
-          // Validate step 1
           if (!formData.title) errors.title = "Title is required.";
           if (!formData.category) errors.category = "Category is required.";
           if (!formData.description) errors.description = "Description is required.";
           break;
 
         case 2:
-          // Validate step 2
           if (formData.fundingGoal <= 0) errors.fundingGoal = "Funding goal must be greater than zero.";
           break;
 
         case 3:
-          // Validate step 3
           if (!formData.verifierType) errors.verifierType = "Verifier type is required.";
           break;
 
@@ -116,7 +124,6 @@ const useAddProjectFormStore = create((set) => ({
   nextStep: () => set((state) => {
     const { step } = state;
 
-    // Validate current step before moving to next step
     const hasErrors = state.validateStep();
     if (hasErrors) return state;
 
@@ -127,12 +134,12 @@ const useAddProjectFormStore = create((set) => ({
 
   setFormData: (data) => set((state) => {
     const newFormData = { ...state.formData, ...data };
-    localStorage.setItem("formData", JSON.stringify(newFormData)); // Save to localStorage
+    localStorage.setItem("formData", JSON.stringify(newFormData));
     return { formData: newFormData };
   }),
 
   resetFormData: () => set(() => {
-    localStorage.removeItem("formData"); // Remove from localStorage
+    localStorage.removeItem("formData");
     return {
       formData: {
         title: '',
@@ -162,26 +169,23 @@ const useAddProjectFormStore = create((set) => ({
   addTask: (task) => set((state) => {
     const newTasks = [...state.formData.tasks, task];
     const newFormData = { ...state.formData, tasks: newTasks };
-    localStorage.setItem("formData", JSON.stringify(newFormData)); // Save updated tasks
+    localStorage.setItem("formData", JSON.stringify(newFormData));
     return { formData: newFormData };
   }),
 
   addSubmittedProject: () => set((state) => {
     const { formData, submittedProjects } = state;
   
-    // Validate before submitting
     const hasErrors = state.validateStep();
-    if (hasErrors) return state; // Stop submission if errors exist
+    if (hasErrors) return state;
 
-    // Generate a unique ID for the project
     const newProject = {
       ...formData,
-      id: generateUniqueId(),  // Attach the generated unique ID
+      id: generateUniqueId(),
     };
 
     const updatedProjects = [...submittedProjects, newProject];
     localStorage.setItem("submittedProjects", JSON.stringify(updatedProjects));
-
     localStorage.removeItem("formData");
   
     return {
