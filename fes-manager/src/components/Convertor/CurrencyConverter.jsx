@@ -9,6 +9,7 @@ const CurrencyConverter = ({ amount }) => {
   // Conversion Logic: 1 USD = 90 FES Coins
   const convertedAmount = isFES ? amount * 90 : amount;
 
+  // Handles the rotation effect and currency switch
   const handleRotate = () => {
     setRotation((prev) => prev + 1980); // Faster and smoother spin
     toggleCurrency();
@@ -25,14 +26,14 @@ const CurrencyConverter = ({ amount }) => {
         onClick={handleRotate}
       />
 
-      {/* Currency Icon (Changes between USD and FES) */}
+      {/* Currency Icon (Dynamically changes between USD and FES) */}
       <img
         src={isFES ? FEScurrencyIcon : DollarIcon}
         alt="Currency Icon"
         className="w-auto h-6"
       />
 
-      {/* Amount with Dynamic Color Based on Currency */}
+      {/* Displays the converted amount with appropriate styling */}
       <span className={`text-lg font-bold ${isFES ? "text-greenNeon" : "text-cyanNeon"}`}>
         {isFES ? Math.round(convertedAmount) : amount}
       </span>

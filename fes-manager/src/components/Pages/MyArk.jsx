@@ -1,23 +1,27 @@
 import React from "react";
 import useAddProjectFormStore from "../../store/AddProjectFormStore";
+import MainNavBar from "../layout/MainNavBar";
+import SideBar from "../layout/SideBar";
+import Footer from "../layout/Footer";
+import ProjectCard from "../ProjectCard-UI/ProjectCard";
+
 const MyArk = () => {
   const myArk = useAddProjectFormStore((state) => state.myArk);
-  const toggleMyArk = useAddProjectFormStore((state) => state.toggleMyArk);
 
   return (
-    <div className="p-4 bg-teal-100 min-h-screen">
-      <h2 className="text-2xl font-bold text-center text-gray-700 mb-4">My Ark</h2>
-      {myArk.length === 0 ? (
-        <p className="text-gray-500 text-center">No projects in My Ark.</p>
-      ) : (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-          {myArk.map((projectId) => (
-            <div key={projectId} className="flex justify-center">
-              <ProjectCard projectId={projectId} isInMyArkPage={true} />
-            </div>
-          ))}
-        </div>
-      )}
+    <div>
+      <SideBar />
+      <MainNavBar />
+
+      <div className="myark-container">
+        {myArk.length > 0 ? (
+          myArk.map((project) => <ProjectCard key={project.id} project={project} />) // Render each project
+        ) : (
+          <p>No projects added to MyArk yet.</p>
+        )}
+      </div>
+
+      <Footer />
     </div>
   );
 };

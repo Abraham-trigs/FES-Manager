@@ -12,7 +12,7 @@ const ProjectCard = ({ project }) => {
     title = "Untitled Project",
     category = "No Category",
     description = "No description available",
-    fundingGoal = 0,
+    fundingGoal = 0, // Funding goal in FEScoin (formerly USD)
     remainingFunding = fundingGoal, // Default to full funding if not specified
   } = project;
 
@@ -20,8 +20,14 @@ const ProjectCard = ({ project }) => {
   const validRemainingFunding = isNaN(remainingFunding) ? fundingGoal : remainingFunding;
 
   // Access store actions
-  const { FESpay, isAuthenticated } = useAddProjectFormStore();
-
+  const { FESpay, isAuthenticated, addToMyArk, updateRemainingFunding } = useAddProjectFormStore();
+ 
+  const handleAddToMyArk = () => {
+    console.log('Button clicked');
+    const projectId = project.id; // Make sure the project object has an ID
+    addToMyArk(projectId); // Call the function in the store to add the project to MyArk
+  };
+      
   // Calculate progress
   let progress = 0;
 
@@ -57,7 +63,14 @@ const ProjectCard = ({ project }) => {
 
     // Only proceed with the payment if the amount is valid
     if (parsedAmount > 0) {
+      // Call FESpay function to process the payment
       FESpay(project.id, parsedAmount);
+
+      // Update the remaining funding after payment
+      const updatedRemainingFunding = validRemainingFunding - parsedAmount;
+
+      // Update the store with the new remaining funding
+      updateRemainingFunding(project.id, updatedRemainingFunding);
     }
   };
 
@@ -73,24 +86,24 @@ const ProjectCard = ({ project }) => {
       {/* Title and Description Background  */}
       <div className="absolute w-[230px] h-[400px] bg-darkGreen border-[3px] border-cyanNeon rounded-3xl flex justify-center items-center"></div>
       
-      {/* Main Backgroung */}
+      {/* Main Background */}
       <div className="absolute w-[230px] h-[270px] bg-darkShade border-[3px] border-cyanNeon rounded-3xl flex justify-center items-center"></div>
       
-      {/* image Container */}
+      {/* Image Container */}
       <div className="absolute w-[200px] h-[140px] my-10 bg-light rounded-3xl border-[3px] border-highlight"></div>
       
-      {/* Catergory container */}
+      {/* Category Container */}
       <div className="absolute my-[3px] w-[200px] h-[40px] text-center font-extrabold darkGreen p-2">
         {category}
       </div>
 
-      {/* Percentage Bar Conatiner */}
+      {/* Percentage Bar Container */}
       <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 absolute my-[170px] text-white text-center">
         {progress}% {/* Display the progress here */}
       </div>
 
-      {/* FundingGaol Container */}
-      <div className="absolute ml-[-105px] rounded-l bg-cyanNeon my-[193px] w-[115px] h-[25px] font-extrabold text-darkGreen text-center text-[0.9rem] p-1 p">
+      {/* FundingGoal Container */}
+      <div className="absolute ml-[-105px] rounded-l bg-cyanNeon my-[193px] w-[115px] h-[25px] font-extrabold text-darkGreen text-center text-[0.9rem] p-1">
         {isFundingSuccessful ? "Success" : remainingFunding} {/* Show "Success" when funded */}
       </div>
       
@@ -104,27 +117,30 @@ const ProjectCard = ({ project }) => {
         {title}
       </div>
 
-      {/* Desription Container  */}
+      {/* Description Container  */}
       <div className="absolute my-[294px] w-[200px] h-[78px] text-center text-[0.7rem] text-white line-clamp-3 font-normal ">{description}</div>
       
 
-      {/* buttons */}
+      {/* Buttons */}
       <div className="absolute my-[213px]">
         <div className="flex flex-col justify-center items-center">
 
-          {/* plus Button - for adding Project to #MyArk */}
-          <div className="w-[30px] h-[30px] bg-shade font-bold text-[2rem] text-semiGreen flex flex-row justify-center items-center my-4">
-            +
+          {/* Plus Button - for adding Project to #MyArk */}
+          <div
+              className="w-[30px] h-[30px] bg-shade font-bold text-[2rem] text-semiGreen flex flex-row justify-center items-center my-4"
+              onClick={handleAddToMyArk} 
+            >
+              +
           </div>
 
-          {/* FES Aidand Detail Buttons Container */}
+          {/* FES Aid and Detail Buttons Container */}
           <div className="flex flex-row items-center -mt-11 space-x-[65px]">
 
             {/* FES Aid Button */}
             <button
-              className={`bg-darkGreen text-white p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem] ${isFundingSuccessful ? 'bg-shade  border-0 text-darkGreen cursor-not-allowed' : ''}`}
+              className={` bg-darkGreen text-white p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem] ${isFundingSuccessful ? 'bg-shade text-darkShade border-0  cursor-not-allowed border-none' : ''}`}
               disabled={isFundingSuccessful}
-              onClick={() => setIsPaymentFormVisible(true)} // Show payment form
+              onClick={() => setIsPaymentFormVisible(true)}
             >
               FES Aid
             </button>
