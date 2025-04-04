@@ -31,7 +31,7 @@ const LoginForm = () => {
       return;
     }
 
-    if (email === 'abrahamtrigs@gmail.com' && password === '0243wethebestemailmarvellous') {
+    if (email === 'test@fes.com' && password === 'fes@password') {
       setShowLoginForm(true);
 
       if (rememberMe) {

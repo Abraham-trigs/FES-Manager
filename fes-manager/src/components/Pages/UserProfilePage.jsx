@@ -9,7 +9,7 @@ const UserProfilePage = () => {
     <>
       <div className="relative min-h-screen flex flex-col items-center">
       {/* Full-page background */}
-      <div className="absolute inset-0 w-full h-full bg-shade -z-10"></div>
+      <div className="absolute inset-0 w-full h-full bg-shade z-10"></div>
 
       {/* Sidebar for navigation */}
       <SideBar />

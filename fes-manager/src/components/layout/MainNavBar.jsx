@@ -4,9 +4,11 @@ import HamburgerMenu from './HamburgerMenu';
 const MainNavBar = () => {
   return (
     <>
+
       {/* Top Navigation Bar */}
-      <div className="w-full h-[65px] bg-semiGreen dark:bg-dark fixed top-0 left-0 right-0 flex items-center px-2 z-50">
+      <div className="m-0 w-full h-[65px] bg-semiGreen dark:bg-dark fixed top-0 left-0 right-0 flex items-center px-2 z-50">
         
+        <div className=" fixed dark:bg-cyaNeon w-full h-[2.6px] bg-greenNeon mt-[60px]"></div>
         
         {/* Centered Content with Flex Grow */}
         <div className="flex flex-row justify-betwee items-center space-x-3 mr-[-40px]" >
@@ -44,7 +46,6 @@ const MainNavBar = () => {
 
       {/* Offset for Fixed Navbar to Prevent Content Overlap */}
       <div className="h-[73px]"></div>
-      <div className=" dark:bg-cyaNeon w-full h-[3px] bg-greenNeon mx-auto -mt-[8.5px]"></div>
 
       
       {/* Green Neon Line Below Navbar */}

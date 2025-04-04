@@ -17,8 +17,9 @@ const WelcomeNavBar = () => {
 
       {/* Header background */}
       <div>
-        <div className="w-full h-[50px] bg-darkGreen mx-auto"></div>
-        <div className="w-full h-[2px] bg-greenNeon mx-auto m-[3]"></div>
+        <div className="w-full h-[50px] bg-darkGreen mx-auto dark:bg-dark"></div>
+        <div className="w-full h-[2px] bg-greenNeon dark:bg-cyaNeon 
+        mx-auto m-[3]"></div>
       </div>
       
     </div>

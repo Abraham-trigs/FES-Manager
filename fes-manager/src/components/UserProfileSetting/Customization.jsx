@@ -7,28 +7,29 @@ const Customization = () => {
   // Ensure theme is set correctly when the component mounts
   useEffect(() => {
     initializeTheme();
-  }, [initializeTheme]);
+  }, []);
 
   return (
-    <div>
-      <h2 className="text-xl font-bold text-teal-700 mb-4">Customization</h2>
-      <div className="bg-gray-200 p-4 rounded-lg">
+    <div className="dark:text-text dark:border-none">
+      <h2 className="text-xl  text-teal-700 mb-4 dark:text-text font-extrabold">Customization</h2>
+      <div className="bg-gray-200 p-4 rounded-lg dark:bg-surface ">
         
         {/* Theme Selection */}
-        <label className="block mb-2">Theme Selection</label>
+        <label className="block mb-2 dark:text-text ">Theme Selection</label>
         <select
-          className="p-2 border rounded w-full"
+          className="p-2 dark:border-none rounded w-full dark:bg-greeNeon 
+          font-semibold dark:text-verydark"
           value={userData.theme}
           onChange={(e) => updateUserData("theme", e.target.value)}
         >
-          <option>Light Mode</option>
-          <option>Dark Mode</option>
+          <option className="font-medium dark:hover:bg-surface">Light Mode</option>
+          <option className="font-medium dark:hover:bg-surface">Dark Mode</option>
         </select>
 
         {/* Font Size */}
-        <label className="block mt-4 mb-2">Font Size</label>
+        <label className="block mt-4 mb-2 dark:text-text dark:font-medium ">Font Size</label>
         <select
-          className="p-2 border rounded w-full"
+          className="p-2 border rounded w-full dark:bg-dark"
           value={userData.fontSize}
           onChange={(e) => updateUserData("fontSize", e.target.value)}
         >
@@ -40,7 +41,7 @@ const Customization = () => {
         {/* Project Feed Display */}
         <label className="block mt-4 mb-2">Project Feed Sorting</label>
         <select
-          className="p-2 border rounded w-full"
+          className="p-2 border rounded w-full dark:bg-dark"
           value={userData.projectFeedSort}
           onChange={(e) => updateUserData("projectFeedSort", e.target.value)}
         >

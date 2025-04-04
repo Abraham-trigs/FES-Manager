@@ -15,7 +15,9 @@
 
 /* Dark mode color variables */
 .dark {
-  --prime: #020505;
+  --sidebar: rgb(13, 20, 20);
+  --prime: #1b2828;
+  --derkest: #020505;
   --verydark: #111c1c;   
   --dark: #1b2b2b;
   --surface: #2f4343;

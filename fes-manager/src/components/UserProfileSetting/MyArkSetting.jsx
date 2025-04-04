@@ -5,16 +5,17 @@ const MyArkSettings = () => {
   const { userData, updateUserData } = useProfileSettingStore(); // Accessing Zustand store for user data and update function
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-xl font-bold text-teal-700 mb-4">My Ark Settings</h2>
+    <div className="max-w-md mx-auto p-6 bg-white dark:bg-surface dark:text-text rounded-lg shadow-lg">
+      <h2 className="text-xl font-bold text-teal-700 mb-4 dark:text-text">My Ark Settings</h2>
       <div className="space-y-4">
         
         {/* Ark Name Field */}
         <div>
-          <label className="block mb-1 font-semibold">My Ark Name</label>
+          <label className="block mb-1 font-semibold">Edit Ark Name</label>
           <input
             type="text"
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded dark:bg-dark dark:border-none dark:focus:none
+            dark:text-clear"
             value={userData.arkName || ""} // Binding input value to userData
             onChange={(e) => updateUserData("arkName", e.target.value)} // Updating arkName in the Zustand store
           />
@@ -22,9 +23,9 @@ const MyArkSettings = () => {
         
         {/* Ark Description Field */}
         <div>
-          <label className="block mb-1 font-semibold">Ark Description</label>
+          <label className="block mb-1 font-semibold ">Ark Description</label>
           <textarea
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded dark:bg-dark dark:border-none"
             value={userData.arkDescription || ""} // Binding textarea value to userData
             onChange={(e) => updateUserData("arkDescription", e.target.value)} // Updating arkDescription in the Zustand store
           />
@@ -32,9 +33,9 @@ const MyArkSettings = () => {
 
         {/* Privacy Settings Dropdown */}
         <div>
-          <label className="block mb-1 font-semibold">Privacy Settings</label>
+          <label className="block mb-1 font-semibold  dark:font-medium">Privacy Settings</label>
           <select
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded dark:border-none dark:bg-dark"
             value={userData.arkPrivacy || "Public"} // Binding privacy settings value to userData
             onChange={(e) => updateUserData("arkPrivacy", e.target.value)} // Updating arkPrivacy in the Zustand store
           >
@@ -57,7 +58,7 @@ const MyArkSettings = () => {
                 </li>
               ))
             ) : (
-              <p className="text-gray-600">No beneficiaries added yet.</p>
+              <p className="text-gray-600 dark:text-shade">No beneficiaries added yet.</p>
             )}
           </ul>
           {/* Button to add a new beneficiary (temporary alert) */}
@@ -68,7 +69,7 @@ const MyArkSettings = () => {
         <div>
           <label className="block mb-1 font-semibold">Recurring Support</label>
           <select
-            className="w-full p-2 border rounded"
+            className="w-full p-2 border rounded dark:bg-dark dark:border-none"
             value={userData.recurringSupport || "None"} // Binding recurring support preference to userData
             onChange={(e) => updateUserData("recurringSupport", e.target.value)} // Updating recurringSupport in the Zustand store
           >
@@ -83,15 +84,15 @@ const MyArkSettings = () => {
               <label className="block mb-1 font-semibold">Support Amount</label>
               <input
                 type="number"
-                className="w-full p-2 border rounded"
+                className="w-full p-2 border rounded dark:bg-dark dark:border-none dark:text-clear"
                 placeholder="Enter amount"
                 value={userData.supportAmount || ""} // Binding support amount value to userData
                 onChange={(e) => updateUserData("supportAmount", e.target.value)} // Updating supportAmount in the Zustand store
               />
               <label className="block mt-4 mb-1 font-semibold">Custom Message</label>
               <textarea
-                className="w-full p-2 border rounded"
-                placeholder="Write a message for your beneficiary"
+                className="w-full p-2 border rounded dark:bg-dark dark:border-none"
+                placeholder="Write a message for your beneficiary "
                 value={userData.supportMessage || ""} // Binding support message value to userData
                 onChange={(e) => updateUserData("supportMessage", e.target.value)} // Updating supportMessage in the Zustand store
               />
@@ -126,7 +127,7 @@ const MyArkSettings = () => {
                 </li>
               ))
             ) : (
-              <p className="text-gray-600">No beneficiaries available to chat.</p>
+              <p className="text-gray-600 dark:text-shade">No beneficiaries available to chat.</p>
             )}
           </ul>
         </div>

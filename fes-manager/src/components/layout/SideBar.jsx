@@ -1,4 +1,4 @@
-import { useState } from "react"; // ✅ Add this line
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AddProjectForm from "../AddProjectForm/AddProjectForm";
 import CurrencyConverter from "../Convertor/CurrencyConverter";
@@ -12,23 +12,26 @@ const SideBar = ({ isOpen }) => {
     <>
       {/* Sidebar controlled by HamburgerMenu */}
       <div
-        className={`fixed top-[75px] right-0 h-[670px] w-84 sm:w-60 md:w-72 bg-darkGreen 
-          shadow-lg z-50 transition-transform duration-[500ms] 
-          dark:bg-dark dark:shadow-black
-          ${
-            isOpen ? "translate-x-0 ease-[cubic-bezier(5,1,0.5,1)]" : "translate-x-full ease-out"
-          }`}
+        className={`fixed top-[65px] right-0 h-[630px] w-84 sm:w-60 md:w-72 bg-darkGreen
+          shadow-lg z-50 transition-transform duration-[500ms] rounded-l-3xl shadow-black
+          dark:bg-sidebar dark:shadow-black
+          ${isOpen ? "translate-x-0 ease-[cubic-bezier(5,1,0.5,1)]" : "translate-x-full ease-out"}
+        `}
       >
         {/* Profile Section */}
-        <div className="p-6 border-b border-greenNeon">
+        <div className="p-6 border-b border-greenNeon dark:border-cyaNeon">
           <div className="flex items-center justify-center space-x-3">
-            <div className="w-20 h-20 bg-white rounded-full"></div>
+            <div className="w-20 h-20 bg-white rounded-full dark:bg-text"></div>
             <h2 className="text-white font-bold">Account Name</h2>
           </div>
           <div className="mt-4">
             <CurrencyConverter amount={balance} />
           </div>
-          <button className="mt-6 bg-greenNeon text-darkGreen py-2 px-4 w-full rounded-md" onClick={() => setShowForm(true)}>
+          <button
+            className="mt-6 bg-greenNeon text-darkGreen py-2 
+            px-4 w-full rounded-md dark:bg-dark dark:text-clear dark:hover:bg-surface"
+            onClick={() => setShowForm(true)}
+          >
             Start A Project
           </button>
         </div>
@@ -51,10 +54,22 @@ const SideBar = ({ isOpen }) => {
               { name: "Logout", path: "/logout" },
             ].map((tab, index) => (
               <div key={index} className="group">
-                <Link to={tab.path} className={`block text-white py-2 transition duration-300 ease-in-out group-hover:text-greenNeon ${location.pathname === tab.path ? "bg-semiGreen p-2" : ""}`}>
+                <Link
+                  to={tab.path}
+                  className={`block text-white py-2 
+                  transition duration-300 ease-in-out 
+                  group-hover:text-greenNeon dark:group-hover:text-shade
+                  ${location.pathname === tab.path ? 
+                  "bg-semiGreen p-2 dark:bg-surface " : ""}
+                  `}
+                >
                   {tab.name}
                 </Link>
-                <div className="w-full h-[2px] bg-greenNeon opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div
+                  className="w-full h-[2px] bg-greenNeon opacity-0 
+                  group-hover:opacity-100 transition-opacity duration-300
+                  dark:bg-cyaNeon"
+                ></div>
               </div>
             ))}
           </nav>

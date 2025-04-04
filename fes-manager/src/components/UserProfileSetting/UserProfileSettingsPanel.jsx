@@ -22,16 +22,19 @@ const UserProfileSettingsPanel = () => {
   return (
     <>
 
-      <div className="flex w-full h-screen bg-gray-100">
-        {/* Sidebar (Now Static) */}
-        <div className="w-1/4 bg-teal-900 text-white p-4 h-screen fixed left-0 top-0 overflow-y-auto">
+      <div className="flex w-full h-full  ">
+        {/* Sidebar (static Static) */}
+        <div className="w-1/4 bg-teal-900  dark:bg-sidebar 
+        dark:text-text 
+        text-white p-4 h-screen 
+        fixed left-0 top-0 overflow-y-auto ">
           <h2 className="text-lg font-bold mb-4 mt-[90px]">Account Name</h2>
           <ul>
             {/* Iterate through the tabs and display them as clickable list items */}
             {tabs.map((tab) => (
               <li
                 key={tab}
-                className={`p-2 cursor-pointer ${activeTab === tab ? "bg-teal-700" : ""}`}
+                className={`p-2 cursor-pointer dark:hover:bg-dark transition-colors${activeTab === tab ? "bg-teal-700 dark:bg-surface dark:hover:bg-verydark" : ""}`}
                 onClick={() => setActiveTab(tab)} // Set the active tab when a tab is clicked
               >
                 {tab}
@@ -42,7 +45,9 @@ const UserProfileSettingsPanel = () => {
         </div>
 
         {/* Content Area */}
-        <div className="w-3/4 p-6 bg-white shadow-lg ml-[25%]">
+        <div className="w-3/4 p-6 bg-prime shadow-lg ml-[25%]
+            dark:shadow-black 
+          ">
           {/* Conditionally render the content based on the active tab */}
           {activeTab === "Privacy Settings" && <UserPrivacy />}
           {activeTab === "Personal Information" && <PersonalInformation />}

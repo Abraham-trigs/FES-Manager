@@ -17,6 +17,7 @@ export default {
         white: 'var(--white)',
 
         // Dark mode colors (available when .dark class is active)
+        sidebar: 'var(--sidebar)',
         prime: 'var(--prime)',
         verydark: 'var(--verydark)',
         dark: 'var(--dark)',
