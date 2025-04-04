@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import AddProjectForm from "../AddProjectForm/AddProjectForm";
 import CurrencyConverter from "../Convertor/CurrencyConverter";
 
-
 const SideBar = ({ isOpen }) => {
   const [showForm, setShowForm] = useState(false);
   const location = useLocation();
@@ -13,8 +12,10 @@ const SideBar = ({ isOpen }) => {
     <>
       {/* Sidebar controlled by HamburgerMenu */}
       <div
-        className={`fixed top-[75px] right-0 h-[670px] w-84 sm:w-60 md:w-72 bg-darkGreen shadow-lg z-[100] 
-          transition-transform duration-[500ms] ${
+        className={`fixed top-[75px] right-0 h-[670px] w-84 sm:w-60 md:w-72 bg-darkGreen 
+          shadow-lg z-50 transition-transform duration-[500ms] 
+          dark:bg-dark dark:shadow-black
+          ${
             isOpen ? "translate-x-0 ease-[cubic-bezier(5,1,0.5,1)]" : "translate-x-full ease-out"
           }`}
       >
@@ -35,7 +36,7 @@ const SideBar = ({ isOpen }) => {
         {/* Scrollable Menu Items */}
         <div className="h-[calc(90vh-300px)] overflow-y-auto p-9">
           <nav className="space-y-4">
-            {[
+            {[ 
               { name: "Profile Settings", path: "/Settings" },
               { name: "Project Feed", path: "/LiveProjects" },
               { name: "Wish List", path: "/wishlist" },
@@ -62,7 +63,7 @@ const SideBar = ({ isOpen }) => {
 
       {/* Add Project Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[110]">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 rounded-lg w-96 relative">
             <AddProjectForm />
           </div>

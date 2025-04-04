@@ -26,6 +26,7 @@ function generateUniqueId() {
   return id; // Returns a randomly generated ID
 }
 
+
 // Create the Zustand store with the necessary actions and state
 const useAddProjectFormStore = create((set) => ({
   // Initial state values

@@ -8,7 +8,7 @@ const HamburgerMenu = () => {
     <>
       {/* Hamburger Button */}
       <button
-        className="fixed top-3 right-4 z-[110] p-3 bg-darkGreen text-white rounded-md"
+        className="fixed top-3 right-4 z-[110] p-3 bg-darkGreen dark:bg-verydark text-white rounded-md"
         onClick={() => setIsOpen(!isOpen)} // Toggle sidebar visibility
       >
         <div className="w-4 h-4 flex flex-col justify-between ">

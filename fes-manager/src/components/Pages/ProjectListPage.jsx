@@ -17,7 +17,7 @@ export const ProjectListPage = () => {
   return (
     <div className="relative min-h-screen">
       {/* Full-page background */}
-      <div className="absolute inset-0 w-full h-full bg-shade -z-50"></div>
+      <div className="absolute inset-0 w-full h-full bg-shade dark:bg-dark -z-50"></div>
 
       {/* Sidebar for navigation and user actions */}
       <SideBar />

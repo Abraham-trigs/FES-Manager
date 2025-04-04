@@ -81,56 +81,78 @@ const ProjectCard = ({ project }) => {
 
   return (
     // Card Container
-    <div className="relative flex flex-col items-center shadow-2xl scroll-mb-96">
+    <div className="z-40 relative flex flex-col items-center shadow-2xl scroll-mb-96 
+    transition-colors duration-200 ease-in-out
+     dark:shadow-2xl">
 
-      {/* Title and Description Background  */}
-      <div className="absolute w-[230px] h-[400px] bg-darkGreen border-[3px] border-cyanNeon rounded-3xl flex justify-center items-center"></div>
+      {/* Title and Description Background */}
+      <div className="absolute w-[230px] h-[400px] bg-darkGreen border-[3px] 
+      border-cyanNeon dark:bg-verydark
+      rounded-3xl flex justify-center items-center dark:border-surface"></div>
       
       {/* Main Background */}
-      <div className="absolute w-[230px] h-[270px] bg-darkShade border-[3px] border-cyanNeon rounded-3xl flex justify-center items-center"></div>
+      <div className="absolute w-[230px] h-[270px] bg-darkShade dark:bg-surface order-[3px] border-cyanNeon rounded-3xl flex justify-center items-center"></div>
       
       {/* Image Container */}
-      <div className="absolute w-[200px] h-[140px] my-10 bg-light rounded-3xl border-[3px] border-highlight"></div>
+      <div className="absolute w-[200px] h-[140px] my-10 bg-light rounded-3xl
+       border-[3px] border-highlight
+       dark:bg-dark dark:border-verydark
+       "></div>
       
       {/* Category Container */}
-      <div className="absolute my-[3px] w-[200px] h-[40px] text-center font-extrabold darkGreen p-2">
+      <div className="absolute my-[3px] w-[200px] h-[40px] text-center 
+      font-extrabold p-2 dark:text-darkShade
+      dark:text-semiShade">
         {category}
       </div>
 
       {/* Percentage Bar Container */}
-      <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 absolute my-[170px] text-white text-center">
+      <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 
+      dark:bg-surface dark:text-cyanNeon dark:font-semibold
+      absolute my-[170px] text-white text-center">
         {progress}% {/* Display the progress here */}
       </div>
 
       {/* FundingGoal Container */}
-      <div className="absolute ml-[-105px] rounded-l bg-cyanNeon my-[193px] w-[115px] h-[25px] font-extrabold text-darkGreen text-center text-[0.9rem] p-1">
+      <div className="absolute ml-[-105px] rounded-l bg-cyanNeon 
+      my-[193px] w-[115px] h-[25px] font-extrabold text-darkGreen text-center 
+      text-[0.9rem] p-1 dark:bg-verydark dark:text-text">
         {isFundingSuccessful ? "Success" : remainingFunding} {/* Show "Success" when funded */}
       </div>
       
       {/* Project ID Container */}
-      <div className="absolute my-[193px] w-[100px] h-[25px] mr-[-110px] bg-greenNeon text-center font-bold text-darkGreen">
+      <div className="absolute my-[193px] w-[100px] h-[25px] mr-[-110px] 
+      bg-greenNeon text-center font-bold text-darkGreen dark:bg-text dark:text-verydark 
+      ">
         {id}
       </div>
 
       {/* Title Container */}
-      <div className="absolute my-[274px] w-[200px] h-[40px] text-center font-extrabold text-greenNeon">
+      <div className="absolute my-[274px] w-[200px] h-[40px]
+       text-center dark:text-clear
+      font-extrabold text-greenNeon">
         {title}
       </div>
 
-      {/* Description Container  */}
-      <div className="absolute my-[294px] w-[200px] h-[78px] text-center text-[0.7rem] text-white line-clamp-3 font-normal ">{description}</div>
+      {/* Description Container */}
+      <div className="absolute dark:shadow-sm my-[294px] w-[200px] 
+      h-[78px] text-center text-[0.7rem] text-white line-clamp-3 font-normal
+      dark:text-text
       
+      ">{description}</div>
 
       {/* Buttons */}
-      <div className="absolute my-[213px]">
+      <div className="absolute my-[213px] ">
         <div className="flex flex-col justify-center items-center">
 
           {/* Plus Button - for adding Project to #MyArk */}
           <div
-              className="w-[30px] h-[30px] bg-shade font-bold text-[2rem] text-semiGreen flex flex-row justify-center items-center my-4"
-              onClick={handleAddToMyArk} 
-            >
-              +
+            className="w-[30px] h-[30px] bg-shade font-bold text-[2rem] text-semiGreen 
+            flex flex-row justify-center items-center my-4
+            dark:text-verydark"
+            onClick={handleAddToMyArk} 
+          >
+            +
           </div>
 
           {/* FES Aid and Detail Buttons Container */}
@@ -138,7 +160,11 @@ const ProjectCard = ({ project }) => {
 
             {/* FES Aid Button */}
             <button
-              className={` bg-darkGreen text-white p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.8rem] ${isFundingSuccessful ? 'bg-shade text-darkShade border-0  cursor-not-allowed border-none' : ''}`}
+              className={`bg-darkGreen dark:ease-in-out dark:hover:bg-dark dark:hover:text-text 
+                dark:text-text dark:border-none
+               text-white p-3 py-1 border-2 border-darkGreen dark:bg-verydark rounded-lg font-semibold dark:hoverbg-dark
+               text-[0.8rem] ${isFundingSuccessful ? 
+              'bg-shade text-darkShade border-0 dark:hover:bg-verydark cursor-not-allowed border-none ' : ''}`}
               disabled={isFundingSuccessful}
               onClick={() => setIsPaymentFormVisible(true)}
             >
@@ -147,7 +173,8 @@ const ProjectCard = ({ project }) => {
 
             {/* Details Button */}
             <button
-              className="bg-cyanNeon p-3 py-1 border-2 border-darkGreen rounded-lg font-semibold text-[0.9rem]"
+              className="bg-cyanNeon  p-3 py-1 rounded-lg font-semibold text-[0.9rem]
+                dark:text-text dark:bg-dark dark:hover:bg-verydark dark:hover:text-text dark:border-dark dark:shadow-lg"
               onClick={handleDetailsClick} // Navigate on click
             >
               Details

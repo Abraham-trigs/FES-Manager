@@ -1,38 +1,53 @@
-import { create } from "zustand";
+// // store/themeStore.ts
+// import { create } from "zustand";
+// import { themes } from "../themes";
+// import { ThemeColors, ThemeName } from "../types/theme";
 
-const useColorStore = create((set) => {
-  const updateCSSVariables = (colors) => {
-    Object.keys(colors).forEach((key) => {
-      document.documentElement.style.setProperty(`--${key}`, colors[key]);
-    });
-  };
+// interface ThemeStore {
+//   currentTheme: ThemeName;
+//   colors: ThemeColors;
+//   setTheme: (theme: ThemeName) => void;
+//   setColor: (key: keyof ThemeColors, value: string) => void;
+// }
 
-  const initialColors = {
-    darkGreen: "#003832",
-    semiGreen: "#00504A",
-    highLight: "#67CFCA",
-    green: "#226764",
-    darkShade: "#B2D1CE",
-    shade: "#8DBDBA",
-    light: "#6BD0CC",
-    cyanNeon: "#07F9ED",
-    greenNeon: "#07F978",
-    white: "#FFFFFF",  };
+// const getSystemTheme = (): ThemeName => {
+//   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+//     return "DarkTheme";
+//   }
+//   return "LightTheme";
+// };
 
-  // CSS variables initial setted
-  updateCSSVariables(initialColors);
+// export const useThemeStore = create<ThemeStore>((set) => {
+//   const initialTheme: ThemeName = "FesTheme"; // default theme, or load from localStorage
 
-  return {
-    colors: initialColors,
-    setColor: (key, value) =>
-      set((state) => {
-        const newColors = { ...state.colors, [key]: value };
-        updateCSSVariables(newColors);
-        return { colors: newColors };
-      }),
-  };
-});
+//   const themeToApply = initialTheme === "SystemDefault" ? getSystemTheme() : initialTheme;
 
-export default useColorStore;
+//   const updateCSSVars = (colors: ThemeColors) => {
+//     Object.entries(colors).forEach(([key, val]) => {
+//       document.documentElement.style.setProperty(`--${key}`, val);
+//     });
+//   };
 
+//   const selectedColors = themes[themeToApply as keyof typeof themes];
+//   updateCSSVars(selectedColors);
 
+//   return {
+//     currentTheme: initialTheme,
+//     colors: selectedColors,
+//     setTheme: (theme) =>
+//       set(() => {
+//         const resolvedTheme =
+//           theme === "SystemDefault" ? getSystemTheme() : theme;
+//         const newColors = themes[resolvedTheme];
+//         updateCSSVars(newColors);
+//         return { currentTheme: theme, colors: newColors };
+//       }),
+//     setColor: (key, value) =>
+//       set((state) => {
+//         const updatedColors = { ...state.colors, [key]: value };
+//         updateCSSVars(updatedColors);
+//         return { colors: updatedColors };
+//       }),
+//   };
+// });
+// export default useThemeStore;

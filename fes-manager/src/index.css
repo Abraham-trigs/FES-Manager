@@ -1,23 +1,38 @@
+/* Default color variables for light mode */
 :root {
-    --darkGreen: #003832;
-    --semiGreen: #00504A;
-    --highLight: #67CFCA;
-    --darkShade: #B2D1CE;
-    --green: #226764;
-    --shade: #8DBDBA;
-    --light: #6BD0CC;
-    --cyanNeon: #07F9ED;
-    --greenNeon: #07F978;
-    --white: #FFFFFF;
-  }
+  --darkGreen: #003832;
+  --semiGreen: #00504A;
+  --highLight: #67CFCA;
+  --green: #226764;
+  --darkShade: #B2D1CE;
+  --shade: #8DBDBA;
+  --light: #6BD0CC;
+  --cyanNeon: #07F9ED;
+  --greenNeon: #07F978;
+  --white: #FFFFFF;
 
-  @tailwind base;
+}
+
+/* Dark mode color variables */
+.dark {
+  --prime: #020505;
+  --verydark: #111c1c;   
+  --dark: #1b2b2b;
+  --surface: #2f4343;
+  --cyaNeon: #3f8c47;
+  --greeNeon: #4d998b;
+  --clear: #c8e6e0;
+  --text: #c0c0c0;
+
+
+}
+
+/* Tailwind CSS setup */
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-  body {
-    font-family: 'TT Chocolates Trl';
-  }
-
-
-
+/* Global body styling */
+body {
+  font-family: 'TT Chocolates Trl';
+}
