@@ -6,37 +6,46 @@ import useAddProjectFormStore from "../../store/AddProjectFormStore";
 import SideBar from "../layout/SideBar";
 
 export const ProjectListPage = () => {
-  // Retrieves the list of projects from the global state with a fallback to an empty array
+  // Get submitted projects from global store
   const projects = useAddProjectFormStore((state) => state.submittedProjects) || [];
 
-  // Filter out duplicates based on project ID using Map for better performance
+  // Remove duplicate projects by ID
   const uniqueProjects = [
     ...new Map(projects.map((project) => [project.id, project])).values(),
   ];
 
   return (
-    <div className="relative min-h-screen grid bg-shade /* dark:bg-prime */">
-      {/* Sidebar for navigation and user actions */}
+    <div className="relative min-h-screen w-full overflow-x-hidden">
+
+      {/* Full-page background layer */}
+      <div className="absolute min-h-screen w-full bg-shade dark:bg-dark -z-10"></div>
+
+      {/* Sidebar - z-50 so it stays above everything */}
       <SideBar />
 
+      {/* Navbar - usually fixed or sticky */}
       <MainNavBar />
 
-      {/* Displays the list of projects or a message if no projects are available */}
-      <div className="mt-8 grid grid-rows-6 gap-[440px] items-start 
-        ">
+      {/*  Main content area */}
+      <div
+        className="
+          pt-[10px]                            // Push down from navbar
+          pl-[140px]                           // Offset for sidebar
+          flex flex-wrap gap-64 gap-y-[450px]  // Space between cards
+          items-start
+          relative z-10                        // Ensure content shows above background
+        "
+      >
         {uniqueProjects.length > 0 ? (
-          // Pass the full project object instead of just projectId
           uniqueProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))
         ) : (
-          // If no projects are available
           <p className="text-gray-600 dark:text-text">No projects yet. Create one!</p>
         )}
       </div>
-      
 
-      {/* Footer section */}
+      {/* Footer */}
       <Footer />
     </div>
   );

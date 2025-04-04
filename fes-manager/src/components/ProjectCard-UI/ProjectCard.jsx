@@ -81,7 +81,8 @@ const ProjectCard = ({ project }) => {
 
   return (
     // Card Container
-    <div className="transition-transform duration-300 hover:-translate-y-1 hover:scale-99">
+    <div className="transition-transform duration-300 hover:scale-105 
+       ">
       <div className="z-40 relative flex flex-col items-center shadow-2xl 
         
         transition-colors duration-200 ease-in-out
@@ -173,14 +174,25 @@ const ProjectCard = ({ project }) => {
             </div>
 
             {/* FES Aid and Detail Buttons Container */}
-            <div className="flex flex-row items-center -mt-11 space-x-[65px]">
+            <div className="flex flex-row items-center -mt-11 space-x-[60px]">
 
               {/* FES Aid Button */}
               <button
-                className={`bg-darkGreen dark:ease-in-out dark:hover:bg-dark dark:hover:text-text 
-                  dark:text-text dark:border-none
-                text-white p-3 py-1 border-2 border-darkGreen dark:bg-verydark rounded-lg font-semibold dark:hoverbg-dark
-                text-[0.8rem] ${isFundingSuccessful ? 
+                className={`bg-darkGreen 
+                  dark:ease-in-out 
+                  dark:hover:bg-dark 
+                  dark:hover:text-text 
+                  dark:text-text 
+                  dark:border-none
+                  text-white 
+                  p-4 py-1 border-2 
+                  border-darkGreen 
+                  dark:bg-verydark 
+                  rounded-lg 
+                  font-semibold
+                  text-[0.8rem] 
+                  whitespace-nowrap 
+                ${isFundingSuccessful ? 
                 'bg-shade text-darkShade border-0 dark:hover:bg-verydark cursor-not-allowed border-none ' : ''}`}
                 disabled={isFundingSuccessful}
                 onClick={() => setIsPaymentFormVisible(true)}
