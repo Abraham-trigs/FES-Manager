@@ -269,26 +269,24 @@ const useAddProjectFormStore = create((set) => ({
     };
   }),
 
-  // Function to add a project to the user's "MyArk" collection
   addToMyArk: (projectId) => set((state) => {
-    const projectToAdd = state.submittedProjects.find((project) => project.id === projectId);
+    const alreadyExists = state.myArk.some((p) => p.id === projectId);
+    if (alreadyExists) return state; // Don't add it again
   
-    if (projectToAdd) {
-      const updatedMyArk = [...state.myArk, projectToAdd];
-      localStorage.setItem("myArk", JSON.stringify(updatedMyArk));
-      return { myArk: updatedMyArk };
+    const projectToAdd = state.submittedProjects.find((p) => p.id === projectId);
+    if (!projectToAdd) {
+      console.warn("Project not found:", projectId);
+      return state;
     }
   
-    return state;
-  }),
-  
-  // Function to remove a project from the user's "MyArk" collection
-  removeFromMyArk: (projectId) => set((state) => {
-    const updatedMyArk = state.myArk.filter((project) => project.id !== projectId);
+    const updatedMyArk = [...state.myArk, projectToAdd];
     localStorage.setItem("myArk", JSON.stringify(updatedMyArk));
+  
     return { myArk: updatedMyArk };
   }),
+  
+
+  
 }));
 
-// Export the store to be used in other parts of the application
 export default useAddProjectFormStore;
