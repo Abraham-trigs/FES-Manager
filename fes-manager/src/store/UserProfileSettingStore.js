@@ -1,70 +1,81 @@
 import { create } from "zustand";
 
-// Zustand store for managing profile settings
-const useProfileSettingStore = create((set) => {
-    // Retrieve stored theme or default to "Light Mode"
-    const savedTheme = localStorage.getItem("theme") || "Light Mode";
+// Zustand store for managing user profile settings and preferences
+const useProfileSettingStore = create((set) => ({
+  // The currently selected tab in the profile settings UI
+  activeTab: "Personal Information",
 
-    return {
-        // Active tab for profile settings section
-        activeTab: "Personal Information", // Sets the initial active tab to "Personal Information"
-        setActiveTab: (tab) => set({ activeTab: tab }), // Function to update the active tab
+  // Setter function to update the active tab
+  setActiveTab: (tab) => set({ activeTab: tab }),
 
-        // User data state containing various preferences and settings
-        userData: {
-            fullName: "",
-            email: "",
-            phone: "",
-            country: "",
-            theme: savedTheme, // Load theme from localStorage
-            fontSize: "Medium", // Default font size is Medium
-            notifications: {
-                email: true, // Email notifications are enabled by default
-                sms: false,  // SMS notifications are disabled by default
-            },
-            projectFeedSort: "Latest", // Default project feed sorting is by latest
-            showSupportedProjects: false, // By default, supported projects are hidden
-            hideDonations: false, // Donations are visible by default
-            anonymousContributions: false, // Anonymous contributions are disabled by default
-            donationPreferences: {
-                presetAmounts: [10, 50, 100], // Default preset donation amounts
-                recurring: "None", // No recurring donation by default
-            },
-            language: "English", // Default language is English
-            currency: "USD", // Default currency is USD
-        },
+  // Default user data and preferences
+  userData: {
+    fullName: "",                  // User's full name
+    email: "",                     // Email address
+    phone: "",                     // Phone number
+    country: "",                   // Country selection
+    theme: "Light Mode",           // UI theme: "Light Mode" or "Dark Mode"
+    fontSize: "Medium",            // Font size preference
+    notifications: {
+      email: true,                 // Enable email notifications
+      sms: false,                  // Disable SMS notifications
+    },
+    projectFeedSort: "Latest",     // Sorting method for project feed
+    showSupportedProjects: false, // Whether to show supported projects
+    hideDonations: false,         // Whether to hide donation history
+    anonymousContributions: false,// Whether user contributes anonymously
+    donationPreferences: {
+      presetAmounts: [10, 50, 100], // Preset donation options
+      recurring: "None",            // Recurring donation setting
+    },
+    language: "English",          // Preferred UI language
+    currency: "USD",              // Preferred currency
+  },
 
-        // Function to update a specific field in the user data
-        updateUserData: (field, value) =>
-            set((state) => {
-                const newUserData = { ...state.userData, [field]: value };
+  /**
+   * Updates a single field within userData.
+   * Special case: when updating the theme, also apply it to the DOM
+   * and store it in localStorage for persistence.
+   */
+  updateUserData: (field, value) =>
+    set((state) => {
+      const updatedUserData = { ...state.userData, [field]: value };
 
-                // Apply theme change dynamically and store in localStorage
-                if (field === "theme") {
-                    localStorage.setItem("theme", value);
-                    if (value === "Dark Mode") {
-                        document.documentElement.classList.add("dark");
-                    } else {
-                        document.documentElement.classList.remove("dark");
-                    }
-                }
+      if (field === "theme") {
+        localStorage?.setItem("theme", value); // Save selected theme
+        setThemeClass(value);                  // Apply theme to DOM
+      }
 
-                return { userData: newUserData };
-            }),
+      return { userData: updatedUserData };
+    }),
 
-        // Function to initialize the theme based on the user's selected theme
-        initializeTheme: () => {
-            set((state) => {
-                const currentTheme = state.userData.theme;
-                if (currentTheme === "Dark Mode") {
-                    document.documentElement.classList.add("dark");
-                } else {
-                    document.documentElement.classList.remove("dark");
-                }
-                return {};
-            });
-        },
-    };
-});
+  /**
+   * Initializes the UI theme based on value stored in localStorage.
+   * This should be called on app load (client-side only).
+   */
+  initializeTheme: () => {
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme") || "Light Mode";
+
+      set((state) => {
+        const updatedUserData = { ...state.userData, theme: savedTheme };
+        setThemeClass(savedTheme); // Apply stored theme to DOM
+        return { userData: updatedUserData };
+      });
+    }
+  },
+}));
+
+/**
+ * Utility function to apply the selected theme class
+ * to the root HTML element (used by Tailwind CSS)
+ */
+function setThemeClass(theme) {
+  if (theme === "Dark Mode") {
+    document.documentElement.classList.add("dark");
+  } else {
+    document.documentElement.classList.remove("dark");
+  }
+}
 
 export default useProfileSettingStore;

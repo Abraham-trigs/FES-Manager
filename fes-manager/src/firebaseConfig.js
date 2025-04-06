@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth"; // <-- Import getAuth
 import { getAnalytics, isSupported } from "firebase/analytics";
 
-// Vite env vars
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -12,7 +12,11 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+// Initialize Firebase app
 const app = initializeApp(firebaseConfig);
+
+// Initialize Firebase Auth
+const auth = getAuth(app); // <-- Now it works
 
 // Only run analytics if it's supported (prevents SSR issues)
 let analytics;
@@ -20,4 +24,4 @@ isSupported().then((yes) => {
   if (yes) analytics = getAnalytics(app);
 });
 
-export { app, analytics };
+export { app, analytics, auth };

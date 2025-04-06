@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import useLoginStore from '../../store/LoginStore';
-import { useNavigate } from 'react-router-dom'; // For redirecting after successful login
+import { useNavigate } from 'react-router-dom';
+import { auth } from '../../firebaseConfig'; // Import auth
+import { signInWithEmailAndPassword } from 'firebase/auth'; // Import signInWithEmailAndPassword
 
 const LoginForm = () => {
   const { setShowLoginForm } = useLoginStore();
@@ -24,16 +26,18 @@ const LoginForm = () => {
     setShowLoginForm(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError('Email and password are required.');
       return;
     }
 
-    if (email === 'test@fes.com' && password === 'fes@password') {
-      setShowLoginForm(true);
+    try {
+      // Call Firebase to sign in with email and password
+      await signInWithEmailAndPassword(auth, email, password);
 
+      // If successful, handle remember me logic
       if (rememberMe) {
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
@@ -42,21 +46,22 @@ const LoginForm = () => {
         localStorage.removeItem('password');
       }
 
-      navigate('/LiveProjects');
-    } else {
-      setError('Invalid credentials');
+      setShowLoginForm(true); // Close the login form
+      navigate('/LiveProjects'); // Navigate to the live projects page
+    } catch (error) {
+      // Handle Firebase authentication errors (invalid credentials, etc.)
+      setError(error.message); // Display the error message
     }
   };
 
   return (
     <div className="fixed inset-0 flex items-center w-[270px] left-9">
       <div className="bg-white shadow-md shadow-gray-500 p-6 rounded-lg w-96">
-      
         <div>
           <div
             className="absolute b-1 right-5 text-semiGreen -my-4 -mx-4 "
             onClick={handleClose}
-          >           
+          >
             <div className="w-3 h-3 bg-darkGreen rounded-full -ml-[20px]"></div>
           </div>
         </div>

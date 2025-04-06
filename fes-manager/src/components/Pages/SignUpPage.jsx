@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import Footer from "../layout/Footer";
 import WelcomeNavBar from "../layout/WelcomeNavBar";
 import useCreateProfileStore from "../../store/CreateProfileStore";
@@ -7,6 +6,7 @@ import SignupForm2 from "../Signup/SignupForm2";
 import SignupForm3 from "../Signup/SignupForm3";
 import SignupForm4 from "../Signup/SignupForm4";
 import SignupForm5 from "../Signup/SignupForm5";
+import SignUpForm0 from "../Signup/SignupForm0";
 
 
 
@@ -23,6 +23,7 @@ const SignupPage = () => {
       <WelcomeNavBar />
 
       <div className="mx-auto my-auto">
+        {step === 0 && <SignUpForm0/>}
         {step === 1 && <SignupForm1/>}
         {step === 2 && <SignupForm2 />}
         {step === 3 && <SignupForm3 />}

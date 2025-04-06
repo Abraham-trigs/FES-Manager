@@ -19,12 +19,12 @@ const SignupForm5 = () => {
     return true;
   };
 
-  // ✅ Form Submission Handler
+  // Form Submission Handler
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevents page reload
 
     if (validateStep5()) {
-      console.log("✅ Form Submitted Successfully!", userData);
+      console.log(" Form Submitted Successfully!", userData);
       alert("🎉 Signup Completed! Welcome to FES-Manager!");
 
       // 🚀 TODO: Add API request here if integrating backend

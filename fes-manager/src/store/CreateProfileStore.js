@@ -3,7 +3,7 @@ import { create } from "zustand";
 // Function to load the current step from localStorage
 const loadStep = () => {
   const savedStep = parseInt(localStorage.getItem("signupStep"), 10);
-  return isNaN(savedStep) || savedStep < 1 ? 1 : savedStep; // Ensures step starts at 1 if no valid step is found
+  return isNaN(savedStep) || savedStep < 0 ? 0 : savedStep; // Ensures step starts at 1 if no valid step is found
 };
 
 // Function to load user data from localStorage
@@ -62,7 +62,7 @@ const useCreateProfileStore = create((set) => ({
     set(() => {
       localStorage.removeItem("signupStep"); // Remove step from storage
       localStorage.removeItem("signupData"); // Remove user data from storage
-      return { step: 1, userData: {} }; // Reset state to initial values
+      return { step: 0, userData: {} }; // Reset state to initial values
     }),
 }));
 

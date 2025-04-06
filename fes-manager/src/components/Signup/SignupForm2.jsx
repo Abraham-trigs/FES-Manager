@@ -47,8 +47,8 @@ const SignupForm2 = () => {
           onChange={(e) => updateField("accountType", e.target.value)}
         >
           <option value="">Select</option>
-          <option value="Individual Donor">Individual Donor</option>
-          <option value="Organization">Organization</option>
+          <option value="Individual Donor">Individual</option>
+          <option value="Organization">Privite Organization</option>
           <option value="Government">Government Representative</option>
         </select>
         {errors.accountType && <p className="text-red-500 text-sm">{errors.accountType}</p>}
@@ -57,7 +57,7 @@ const SignupForm2 = () => {
         {(userData.accountType === "Organization" || userData.accountType === "Government") && (
           <>
             <label htmlFor="organizationName" className="block text-gray-700 font-medium mt-3">
-              Organization/Government Name
+              Organization Name
             </label>
             <input
               type="text"
