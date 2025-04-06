@@ -1,3 +1,4 @@
+// src/components/SignUpForm0.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import useSocialAuth from "@/hooks/useSocialAuth"; // Custom hook for social login
@@ -30,7 +31,7 @@ const SignUpForm0 = () => {
   };
 
   const handleProfileSetup = () => {
-    setStep(1); // Ensure the step is set correctly when navigating
+    setStep(1); // Ensure we are starting at step 1 of the profile creation process
     navigate("/CreateProfile"); // Navigate to Form1
   };
 
@@ -89,7 +90,7 @@ const SignUpForm0 = () => {
             {socialProviders.map((provider) => (
               <button
                 key={provider.name}
-                onClick={() => handleProviderLogin(provider.name, selectedRole)}
+                onClick={() => handleProviderLogin(provider.name, selectedRole)} // Pass the selected role
                 className="btn-social p-2 bg-gray-200 rounded-lg hover:bg-gray-300"
                 aria-label={`Continue with ${provider.label}`}
               >

@@ -1,11 +1,42 @@
-// src/hooks/useSocialAuth.js
-import { GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider, OAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { useState, useEffect } from "react";
+import { onAuthStateChanged, GoogleAuthProvider, FacebookAuthProvider, TwitterAuthProvider, OAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../firebaseConfig";  // Import auth instance from firebase
+import { useNavigate } from "react-router-dom";
 
 const useSocialAuth = () => {
-  const handleProviderLogin = async (providerName) => {
-    let provider;
+  const [userName, setUserName] = useState(null);  // Add state to store user name
+  const navigate = useNavigate();  // Initialize navigate function
 
+  // Listen for changes in authentication state and update userName
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User is logged in:", user);
+        setUserName(user.displayName);  // Store user's name
+        navigate("/Profile");  // Redirect to profile page or dashboard
+      } else {
+        console.log("No user is logged in");
+        navigate("/Signup");  // Redirect to signup if not logged in
+      }
+    });
+
+    return () => unsubscribe();  // Clean up listener on component unmount
+  }, [navigate]);
+
+  // Function to check user login status explicitly
+  const checkUserLoggedIn = () => {
+    const user = auth.currentUser;
+    if (user) {
+      setUserName(user.displayName);  // Store user name if already logged in
+      navigate("/Profile");  // Navigate to profile page
+    } else {
+      navigate("/Signup");  // Navigate to signup page if no user is logged in
+    }
+  };
+
+  // Handle social login for different providers
+  const handleProviderLogin = async (providerName, role) => {
+    let provider;
     switch (providerName) {
       case "google":
         provider = new GoogleAuthProvider();
@@ -29,7 +60,18 @@ const useSocialAuth = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      greet("Social Login Success", user);
+      console.log("Social Login Success:", user);
+      setUserName(user.displayName);  // Set user name after successful login
+
+      // Navigate to the appropriate page based on the role
+      if (role === "Admin") {
+        navigate("/AdminDashboard");
+      } else if (role === "Altruist") {
+        navigate("/LiveProjects");
+      } else {
+        navigate("/CreateProfile");
+      }
+
       return { success: true, user };
     } catch (error) {
       console.error("❌ Social Login Error", error);
@@ -37,7 +79,7 @@ const useSocialAuth = () => {
     }
   };
 
-  return { handleProviderLogin };
+  return { handleProviderLogin, userName, checkUserLoggedIn };  // Return checkUserLoggedIn
 };
 
 export default useSocialAuth;

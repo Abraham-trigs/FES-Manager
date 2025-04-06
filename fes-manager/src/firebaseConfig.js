@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, updateProfile } from "firebase/auth"; // 🔥 Auth & Profile Updates
-import { getFirestore, doc, setDoc } from "firebase/firestore"; // 🧾 Firestore Docs
+import { getAuth, updateProfile, setPersistence, browserLocalPersistence } from "firebase/auth"; // 🔥 Auth & Profile Updates
+import { getFirestore, doc, setDoc, getDoc, updateDoc } from "firebase/firestore"; // 🧾 Firestore Docs
 import { getAnalytics, isSupported } from "firebase/analytics";
 
-// Your Firebase configuration
+// Your Firebase configuration (Ensure .env variables are correctly set)
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -19,15 +19,20 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Auth & Firestore
 const auth = getAuth(app);
-const db = getFirestore(app); //  Firestore DB instance
+setPersistence(auth, browserLocalPersistence); // Ensure persistence across reloads
+const db = getFirestore(app); // Firestore DB instance
 
-// Only run analytics if it's supported
+// Initialize Analytics only if supported
 let analytics;
-isSupported().then((yes) => {
-  if (yes) analytics = getAnalytics(app);
+isSupported().then((isSupported) => {
+  if (isSupported) {
+    analytics = getAnalytics(app);
+  } else {
+    console.warn("Firebase Analytics is not supported on this platform.");
+  }
 });
 
-// Export everything you need 
+// Export Firebase utilities and functions
 export {
   app,
   auth,
@@ -35,5 +40,7 @@ export {
   analytics,
   doc,
   setDoc,
-  updateProfile
+  getDoc,
+  updateDoc,
+  updateProfile,
 };

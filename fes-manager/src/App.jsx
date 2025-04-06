@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.css';
-import { Routes, Route } from 'react-router-dom'; // ❌ No extra Router here!
+import { Routes, Route } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import useSocialAuth from './hooks/useSocialAuth'; // Import the custom hook for social auth
 import { ProjectListPage } from './components/Pages/ProjectListPage';
 import WelcomePage from './components/Pages/WelcomePage';
 import ProjectDetails from './components/Pages/ProjectDetails';
@@ -18,28 +20,32 @@ import UserProfileSettings from './components/Pages/UserProfileSettings';
 import SignupPage from './components/Pages/SignUpPage';
 import CreateProfilePage from './components/Pages/CreateProfile';
 
-
 const App = () => {
+  const { checkUserLoggedIn, userName } = useSocialAuth(); // Get user info from the hook
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    checkUserLoggedIn(); // Check user login state when the app initializes
+  }, []); // Empty dependency array ensures this runs once on load
+
   return (
     <div>
       <Routes>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/Signup" element={<SignupPage />} />
         <Route path="/LiveProjects" element={<ProjectListPage />} />
-        <Route path="/project/:id" element={<ProjectDetails />} /> 
-        <Route path="/WishList" element={<WishList />} /> 
-        <Route path="/Profile" element={<UserProfilePage />} /> 
-        <Route path="/MyArk" element={<MyArk />} /> 
-        <Route path="/Suggested-Projects" element={<SuggestedProjects />} /> 
-        <Route path="/My-Data" element={<DonorData />} /> 
-        <Route path="/Deposit" element={<DepositPage />} /> 
-        <Route path="/Transactions" element={<Transactions />} /> 
-        <Route path="/Messages" element={<UserMessages />} /> 
-        <Route path="/Notifications" element={<UserNotification />} /> 
-        <Route path="/Settings" element={<UserProfileSettings />} /> 
-        <Route path="/Help" element={<UserHelpCenter />} /> 
-        <Route path="/CreateProfile" element={<CreateProfilePage />} /> 
-
+        <Route path="/project/:id" element={<ProjectDetails />} />
+        <Route path="/WishList" element={<WishList />} />
+        <Route path="/Profile" element={<UserProfilePage />} />
+        <Route path="/MyArk" element={<MyArk />} />
+        <Route path="/Suggested-Projects" element={<SuggestedProjects />} />
+        <Route path="/My-Data" element={<DonorData />} />
+        <Route path="/Deposit" element={<DepositPage />} />
+        <Route path="/Transactions" element={<Transactions />} />
+        <Route path="/Messages" element={<UserMessages />} />
+        <Route path="/Notifications" element={<UserNotification />} />
+        <Route path="/Settings" element={<UserProfileSettings />} />
+        <Route path="/CreateProfile" element={<CreateProfilePage />} />
       </Routes>
     </div>
   );
