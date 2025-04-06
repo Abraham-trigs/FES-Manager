@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // import useNavigate
-import useSocialAuth from "@/hooks/useSocialAuth";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import useSocialAuth from "@/hooks/useSocialAuth"; // Custom hook for social login
+import useCreateProfileStore from "../../store/CreateProfileStore"; // Store to manage state
 
 const socialProviders = [
   { name: "google", label: "Google" },
@@ -10,12 +11,13 @@ const socialProviders = [
   { name: "yahoo", label: "Yahoo" },
 ];
 
-const roles = ["Altruist", "Admin"]; 
+const roles = ["Altruist", "Admin"];
 
 const SignUpForm0 = () => {
   const [selectedRole, setSelectedRole] = useState(null);
   const { handleProviderLogin } = useSocialAuth();
-  const navigate = useNavigate(); // using useNavigate hook
+  const navigate = useNavigate();
+  const { setStep } = useCreateProfileStore(); // Store to set the step
 
   const handleRoleChange = (role) => {
     setSelectedRole(role);
@@ -23,11 +25,13 @@ const SignUpForm0 = () => {
 
   const handleRoleSubmit = () => {
     console.log(`Role selected: ${selectedRole}`);
+    setStep(1); // Set the step to 1
+    navigate("/CreateProfile"); // Navigate to the CreateProfile page
   };
 
   const handleProfileSetup = () => {
-    // Navigate to Form1 (or whatever path leads to step 1)
-    navigate("/form1"); // or the path you use in your app for step 1
+    setStep(1); // Ensure the step is set correctly when navigating
+    navigate("/CreateProfile"); // Navigate to Form1
   };
 
   return (
@@ -35,7 +39,9 @@ const SignUpForm0 = () => {
       {/* Role Selection */}
       {!selectedRole ? (
         <div className="my-6 border-t pt-4">
-          <p className="text-sm text-greenNeon text-[2rem] mb-2">Choose your role:</p>
+          <p className="text-sm text-greenNeon text-[2rem] mb-2">
+            <span className="font-bold">Choose</span> your <span className="font-bold">ROLE</span> :
+          </p>
           <div className="flex flex-col space-y-2">
             {roles.map((role) => (
               <button

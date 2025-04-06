@@ -1,17 +1,23 @@
-import React from "react";
-import useCreateProfileStore from "../../store/CreateProfileStore";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import useCreateProfileStore from "../../store/CreateProfileStore"; // Store for user data and errors
+import { auth, db } from "../../firebaseConfig";
+
+import { doc, setDoc } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
 
 const SignupForm5 = () => {
-  const { userData, errors, updateField, setErrors, prevStep, step } = useCreateProfileStore();
+  const { userData, errors, updateField, setErrors, prevStep, step, resetStore } = useCreateProfileStore();
+  const navigate = useNavigate(); // Initialize the navigate function
 
-  // Validation for Step 5
+  const [isSubmitting, setIsSubmitting] = useState(false); // Track form submission state
+
+  // Validate the form fields for Step 5
   const validateStep5 = () => {
     let newErrors = {};
-
     if (!userData.agreeToTerms) {
-      newErrors.agreeToTerms = "You must agree to the Terms & Conditions.";
+      newErrors.agreeToTerms = "You must read and agree to the Ts' & Cs'.";
     }
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return false;
@@ -19,33 +25,59 @@ const SignupForm5 = () => {
     return true;
   };
 
-  // Form Submission Handler
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Prevents page reload
+  // Save user profile data to Firestore
+  const saveProfileToFirestore = async () => {
+    setIsSubmitting(true); // Set submitting state to true while saving
+    try {
+      const user = auth.currentUser;
+      if (!user) throw new Error("User not authenticated!");
 
-    if (validateStep5()) {
-      console.log(" Form Submitted Successfully!", userData);
+      const userRef = doc(db, "users", user.uid);
+      await setDoc(userRef, {
+        ...userData,
+        uid: user.uid,
+        email: user.email,
+        createdAt: serverTimestamp(),      
+      });
+
+      // Update Firebase Auth display name
+      if (userData.fullName) {
+        await updateProfile(user, { displayName: userData.fullName });
+      }
+
       alert("🎉 Signup Completed! Welcome to FES-Manager!");
+      console.log(" User profile saved to Firebase:", userData);
 
-      // 🚀 TODO: Add API request here if integrating backend
-      // Example: axios.post('/api/register', userData).then(response => console.log(response));
+      resetStore(); // Reset store data after successful submission
+
+      // Redirect to the LiveProjects page
+      navigate("/LiveProjects");
+
+    } catch (error) {
+      console.error(" Error saving profile:", error);
+      alert("Oops! Something went wrong while saving your profile.");
+    } finally {
+      setIsSubmitting(false); // Set submitting state to false after completion
+    }
+  };
+
+  // Form submission handler
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateStep5()) {
+      await saveProfileToFirestore();
     }
   };
 
   return (
     <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-6 text-center">
-      {/* Logo */}
       <img src="/images/logo.png" alt="FES-Manager Logo" className="mx-auto w-16 mb-3" />
-
-      {/* Form Title */}
       <h2 className="text-xl font-semibold text-darkGreen">FES-Manager</h2>
       <p className="text-lg text-gray-600 mt-1">Sign-up</p>
 
-      {/* Step 5: Agreement & Signup */}
       <form onSubmit={handleSubmit}>
         <h3 className="font-semibold text-lg my-5 text-darkGreen">Agreement & Signup</h3>
 
-        {/* Terms & Conditions */}
         <div className="flex items-start mb-4">
           <input
             type="checkbox"
@@ -61,7 +93,6 @@ const SignupForm5 = () => {
         </div>
         {errors.agreeToTerms && <p className="text-red-500 text-sm">{errors.agreeToTerms}</p>}
 
-        {/* Subscribe to FES-Manager Updates */}
         <div className="flex items-start mb-4">
           <input
             type="checkbox"
@@ -76,13 +107,10 @@ const SignupForm5 = () => {
           </label>
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-between mt-4">
           <button
             type="button"
-            className={`px-6 py-2 rounded-lg font-medium ${
-              step > 1 ? "bg-gray-400 text-white hover:bg-gray-500" : "bg-gray-200 text-gray-500 cursor-not-allowed"
-            }`}
+            className={`px-6 py-2 rounded-lg font-medium ${step > 1 ? "bg-gray-400 text-white hover:bg-gray-500" : "bg-gray-200 text-gray-500 cursor-not-allowed"}`}
             onClick={prevStep}
             disabled={step === 1}
           >
@@ -92,8 +120,9 @@ const SignupForm5 = () => {
           <button
             type="submit"
             className="bg-greenNeon text-darkGreen px-6 py-2 rounded-lg font-medium hover:bg-green-500"
+            disabled={isSubmitting} // Disable button while submitting
           >
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"} {/* Show submitting text */}
           </button>
         </div>
       </form>

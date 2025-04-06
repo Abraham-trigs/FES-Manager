@@ -66,7 +66,7 @@ const SignupForm1 = () => {
           type="tel"
           id="phone"
           name="phone"
-          placeholder="+233208660068 or 0208660068"
+          placeholder="+233208660068"
           value={userData.phone}
           onChange={(e) => updateField("phone", e.target.value)}
           className="w-full p-3 my-2 border border-gray-300 rounded-lg"
@@ -101,7 +101,7 @@ const SignupForm1 = () => {
         <button
           className="bg-greenNeon text-darkGreen px-6 py-2 mt-4 rounded-lg font-medium"
           onClick={() => {
-            if (validateStep1()) nextStep();
+            if (validateStep1()) nextStep(); // Proceed to next step if validation passes
           }}
         >
           Next

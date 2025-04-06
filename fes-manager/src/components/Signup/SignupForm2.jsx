@@ -48,7 +48,7 @@ const SignupForm2 = () => {
         >
           <option value="">Select</option>
           <option value="Individual Donor">Individual</option>
-          <option value="Organization">Privite Organization</option>
+          <option value="Organization">Private Organization</option>
           <option value="Government">Government Representative</option>
         </select>
         {errors.accountType && <p className="text-red-500 text-sm">{errors.accountType}</p>}

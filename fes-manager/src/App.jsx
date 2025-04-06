@@ -16,6 +16,7 @@ import UserHelpCenter from './components/Pages/UserHelpCenter';
 import Transactions from './components/Pages/Transactions';
 import UserProfileSettings from './components/Pages/UserProfileSettings';
 import SignupPage from './components/Pages/SignUpPage';
+import CreateProfilePage from './components/Pages/CreateProfile';
 
 
 const App = () => {
@@ -37,6 +38,8 @@ const App = () => {
         <Route path="/Notifications" element={<UserNotification />} /> 
         <Route path="/Settings" element={<UserProfileSettings />} /> 
         <Route path="/Help" element={<UserHelpCenter />} /> 
+        <Route path="/CreateProfile" element={<CreateProfilePage />} /> 
+
       </Routes>
     </div>
   );
