@@ -23,7 +23,7 @@ const ProjectCard = ({ project }) => {
   const { FESpay, isAuthenticated, addToMyArk, updateRemainingFunding, myArk } = useAddProjectFormStore();
  
   // Check if project is already in MyArk
-  const isAlreadyInMyArk = myArk.some((projectInArk) => projectInArk.id === project.id);
+  // const isAlreadyInMyArk = myArk.some((projectInArk) => projectInArk.id === project.id);
 
   // Handle adding project to MyArk
   const handleAddToMyArk = () => {
@@ -136,10 +136,10 @@ const ProjectCard = ({ project }) => {
             {/* Plus Button - for adding Project to #MyArk */}
             <button
               type="button"
-              className={`w-[30px] h-[30px] bg-shade font-bold text-[2rem] flex flex-row justify-center items-center my-4 cursor-pointer ${isAlreadyInMyArk ? 'opacity-40 cursor-not-allowed' : 'text-semiGreen'} dark:text-verydark`}
-              onClick={handleAddToMyArk}
-              disabled={isAlreadyInMyArk}
-              title={isAlreadyInMyArk ? "Already added to MyArk" : "Add to MyArk"}
+              className={`w-[30px] h-[30px] bg-shade font-bold text-[2rem] flex flex-row justify-center items-center my-4 cursor-pointer $/* {isAlreadyInMyArk ? */ 'opacity-40 cursor-not-allowed' : 'text-semiGreen'} dark:text-verydark`}
+              // onClick={handleAddToMyArk}
+              // disabled={isAlreadyInMyArk}
+              // title={isAlreadyInMyArk ? "Already added to MyArk" : "Add to MyArk"}
             >
               +
             </button>

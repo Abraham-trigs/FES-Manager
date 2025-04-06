@@ -1,31 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AddProjectForm from "../AddProjectForm/AddProjectForm";
 import CurrencyConverter from "../Convertor/CurrencyConverter";
-import { auth } from "../../firebaseConfig";  // Import auth from firebase config
-import { onAuthStateChanged } from "firebase/auth";  // Import auth state change listener
 
 const SideBar = ({ isOpen }) => {
   const [showForm, setShowForm] = useState(false);
-  const [userName, setUserName] = useState("");  // State to store user's name
   const location = useLocation();
   const balance = 7755;
-
-  // Fetch user's name from Firebase on component mount
-  useEffect(() => {
-    // Listen for changes in auth state (login/logout)
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // If the user is logged in, set the name
-        setUserName(user.displayName || "Account Name");  // Use displayName if available, else fallback
-      } else {
-        setUserName("Account Name");  // If not logged in, show fallback name
-      }
-    });
-
-    // Cleanup on component unmount
-    return () => unsubscribe();
-  }, []);
 
   return (
     <>
@@ -41,7 +22,7 @@ const SideBar = ({ isOpen }) => {
         <div className="p-6 border-b border-greenNeon dark:border-cyaNeon">
           <div className="flex items-center justify-center space-x-3">
             <div className="w-20 h-20 bg-white rounded-full dark:bg-text"></div>
-            <h2 className="text-white font-bold">{userName}</h2> {/* Display user's name */}
+            <h2 className="text-white font-bold">Account Name</h2>
           </div>
           <div className="mt-4">
             <CurrencyConverter amount={balance} />
@@ -79,7 +60,8 @@ const SideBar = ({ isOpen }) => {
                   transition duration-300 ease-in-out 
                   group-hover:text-greenNeon dark:group-hover:text-shade
                   ${location.pathname === tab.path ? 
-                  "bg-semiGreen p-2 dark:bg-surface " : ""}`}
+                  "bg-semiGreen p-2 dark:bg-surface " : ""}
+                  `}
                 >
                   {tab.name}
                 </Link>

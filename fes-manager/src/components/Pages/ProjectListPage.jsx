@@ -18,7 +18,7 @@ export const ProjectListPage = () => {
     <div className="relative min-h-screen w-full overflow-x-hidden">
 
       {/* Full-page background layer */}
-      <div className="absolute min-h-screen w-full bg-shade dark:bg-dark -z-10"></div>
+      <div className="absolute min-h-screen w-full bg-shade dark:bg-dark z-10"></div>
 
       {/* Sidebar - z-50 so it stays above everything */}
       <SideBar />
@@ -41,7 +41,8 @@ export const ProjectListPage = () => {
             <ProjectCard key={project.id} project={project} />
           ))
         ) : (
-          <p className="text-gray-600 dark:text-text">No projects yet. Create one!</p>
+          <></>
+          // <p className="text-gray-600 dark:text-text">No projects yet. Create one!</p>
         )}
       </div>
 

@@ -18,7 +18,7 @@ const AddProjectForm = () => {
   };
 
   return (
-    <div className="relative p-6 rounded-lg">
+    <div className="relative p-6 rounded-lg" >
       {/* Progress Indicator */}
       <div className="w-full bg-gray-200 h-2 rounded mt-4">
         <div

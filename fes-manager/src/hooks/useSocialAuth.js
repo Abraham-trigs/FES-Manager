@@ -13,10 +13,10 @@ const useSocialAuth = () => {
       if (user) {
         console.log("User is logged in:", user);
         setUserName(user.displayName);  // Store user's name
-        navigate("/Profile");  // Redirect to profile page or dashboard
+        navigate("/LiveProjects");  // Redirect to profile page or dashboard
       } else {
         console.log("No user is logged in");
-        navigate("/Signup");  // Redirect to signup if not logged in
+        navigate("/");  // Redirect to signup if not logged in
       }
     });
 
@@ -28,9 +28,9 @@ const useSocialAuth = () => {
     const user = auth.currentUser;
     if (user) {
       setUserName(user.displayName);  // Store user name if already logged in
-      navigate("/Profile");  // Navigate to profile page
+      navigate("/LiveProjects");  // Navigate to profile page
     } else {
-      navigate("/Signup");  // Navigate to signup page if no user is logged in
+      navigate("/");  // Navigate to signup page if no user is logged in
     }
   };
 

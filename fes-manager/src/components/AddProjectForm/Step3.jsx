@@ -65,7 +65,7 @@ const Step3 = () => {
   };
 
   return (
-    <div>
+    <div className='mt-[-300px]'>
       <h2 className="text-lg font-semibold">Project Verification</h2>
 
       {/* Choose Verifier Type */}
