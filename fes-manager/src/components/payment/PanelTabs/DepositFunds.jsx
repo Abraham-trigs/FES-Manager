@@ -1,6 +1,6 @@
-// src/components/WalletPanel/tabs/DepositFunds.js
 import React, { useState } from 'react';
 import useDonorWallet from '../../../store/DonorWallet'; // Zustand wallet store
+import CurrencyConverter from '../../Convertor/CurrencyConverter';
 
 const DepositFunds = () => {
   // Access balance and deposit action from Zustand
@@ -37,9 +37,14 @@ const DepositFunds = () => {
   return (
     <div className="max-w-lg mx-auto p-6 bg-white dark:bg-surface shadow rounded-xl">
       <h2 className="text-2xl font-bold mb-4 text-teal-800 dark:text-white">Deposit Funds</h2>
-      <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
-        Current Balance: <span className="text-green-600">{balance.toFixed(2)} FES</span>
-      </p>
+      
+      {/* Display Current Balance with Currency Conversion */}
+      <div className="mb-4">
+        <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
+          Current Balance: <span className="text-green-600">{balance.toFixed(2)} FES</span>
+        </p>
+        <CurrencyConverter amount={balance} /> {/* Show the currency conversion here */}
+      </div>
 
       <input
         type="number"

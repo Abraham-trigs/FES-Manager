@@ -27,16 +27,30 @@ const CurrencyConverter = ({ amount }) => {
       />
 
       {/* Currency Icon (Dynamically changes between USD and FES) */}
-      <img
-        src={isFES ? FEScurrencyIcon : DollarIcon}
-        alt="Currency Icon"
-        className="w-auto h-6"
-      />
+      <div className="flex items-center">
+        {/* Currency Icon */}
+        <img
+          src={isFES ? FEScurrencyIcon : DollarIcon}
+          alt="Currency Icon"
+          className="w-full h-6" // Ensuring both logos are the same size
+        />
 
-      {/* Displays the converted amount with appropriate styling */}
-      <span className={`text-lg font-bold ${isFES ? "text-greenNeon" : "text-cyanNeon"}`}>
-        {isFES ? Math.round(convertedAmount) : amount}
-      </span>
+        {/* Amount Display (Left-aligned text) */}
+        <span
+          className={`text-lg font-bold ${
+            isFES ? "text-greenNeon" : "text-cyanNeon"
+          } ml-2`}  // Adding left margin for spacing
+        >
+          {/* Dynamically adjusting font size for large values */}
+          <span
+            className={`transition-all duration-300 ease-in-out ${
+              convertedAmount.toString().length > 6 ? "text-sm" : "text-lg"
+            }`}
+          >
+            {isFES ? Math.round(convertedAmount) : amount}
+          </span>
+        </span>
+      </div>
     </div>
   );
 };

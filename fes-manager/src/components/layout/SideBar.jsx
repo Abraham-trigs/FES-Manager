@@ -2,13 +2,16 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AddProjectForm from "../AddProjectForm/AddProjectForm";
 import CurrencyConverter from "../Convertor/CurrencyConverter";
+import useDonorWallet from "../../store/DonorWallet";
 
 const SideBar = ({ isOpen }) => {
   // State to control the visibility of the AddProjectForm modal
   const [showForm, setShowForm] = useState(false);
 
+  // Access balance from the store
+  const { balance } = useDonorWallet();
+
   const location = useLocation();
-  const balance = 100;
 
   return (
     <>
@@ -17,8 +20,7 @@ const SideBar = ({ isOpen }) => {
         className={`fixed top-[65px] right-0 h-[630px] w-84 sm:w-60 md:w-72 bg-darkGreen
         shadow-lg z-50 transition-transform duration-[500ms] rounded-l-3xl shadow-black
         dark:bg-sidebar dark:shadow-black
-        ${isOpen ? "translate-x-0 ease-[cubic-bezier(5,1,0.5,1)]" : "translate-x-full ease-out"}
-        `}
+        ${isOpen ? "translate-x-0 ease-[cubic-bezier(5,1,0.5,1)]" : "translate-x-full ease-out"}`}
       >
         {/* Profile Overview Section */}
         <div className="p-6 border-b border-greenNeon dark:border-cyaNeon">
@@ -29,6 +31,7 @@ const SideBar = ({ isOpen }) => {
 
           {/* Currency Conversion Display */}
           <div className="mt-4">
+            {/* Pass balance from store to CurrencyConverter component */}
             <CurrencyConverter amount={balance} />
           </div>
 
