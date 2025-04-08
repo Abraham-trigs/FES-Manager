@@ -46,14 +46,12 @@ const SideBar = ({ isOpen }) => {
         <div className="h-[calc(90vh-300px)] overflow-y-auto p-9">
           <nav className="space-y-4">
             {[
-              { name: "Profile Settings", path: "/Settings" },
               { name: "Project Feed", path: "/LiveProjects" },
-              { name: "Wish List", path: "/wishlist" },
+              { name: "Profile Settings", path: "/Settings" },
               { name: "My Ark", path: "/MyArk" },
               { name: "Suggested Projects", path: "/Suggested-Projects" },
               { name: "My Donations", path: "/My-Data" },
-              { name: "Deposit", path: "/Deposit" },
-              { name: "Transaction History", path: "/Transactions" },
+              { name: "My Wallet", path: "/MyWallet" },
               { name: "Messages", path: "/Messages" },
               { name: "Notifications", path: "/Notifications" },
               { name: "Help Center", path: "/Help" },

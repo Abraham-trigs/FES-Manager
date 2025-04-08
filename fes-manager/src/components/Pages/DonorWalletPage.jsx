@@ -2,14 +2,16 @@ import React from "react";
 import Footer from "../layout/Footer";
 import MainNavBar from "../layout/MainNavBar";
 import SideBar from "../layout/SideBar";
+import DonorWalletPanel from "../payment/DonorWalletPanel";
 
 
-const UserProfilePage = () => {
+
+const DonorWalletPage = () => {
   return (
     <>
       <div className="relative min-h-screen flex flex-col items-center">
       {/* Full-page background */}
-      <div className="absolute inset-0 w-full h-full bg-shade z-10"></div>
+      <div className="absolute inset-0 w-full h-full bg-shade -z-10"></div>
 
       {/* Sidebar for navigation */}
       <SideBar />
@@ -17,18 +19,14 @@ const UserProfilePage = () => {
       {/* Navigation bar */}
       <MainNavBar />
 
-      <div className="flex-grow flex flex-col  items-center justify-center text-darkGreen z-10">
-        <h2 className="text-2xl font-bold"> Profile Page </h2>
-        <p>(Under Development)</p>
-      </div>
-
-
+      <DonorWalletPanel />
       {/* Footer Section */}
       <Footer />
     </div>
 
     </>
+    
   )
 }
 
-export default UserProfilePage;
+export default DonorWalletPage;

@@ -10,12 +10,10 @@ const WishList = lazy(() => import('./components/Pages/WishList'));
 const UserProfilePage = lazy(() => import('./components/Pages/UserProfilePage'));
 const MyArk = lazy(() => import('./components/Pages/MyArk'));
 const SuggestedProjects = lazy(() => import('./components/Pages/SuggestedProjects'));
-const DonorData = lazy(() => import('./components/Pages/DonorData'));
-const DepositPage = lazy(() => import('./components/Pages/DepositPage'));
+const DonorWalletPage = lazy(() => import('./components/Pages/DonorWalletPage'));
 const UserMessages = lazy(() => import('./components/Pages/UserMessages'));
 const UserNotification = lazy(() => import('./components/Pages/UserNotifications'));
 const UserHelpCenter = lazy(() => import('./components/Pages/UserHelpCenter'));
-const Transactions = lazy(() => import('./components/Pages/Transactions'));
 const UserProfileSettings = lazy(() => import('./components/Pages/UserProfileSettings'));
 const SignupPage = lazy(() => import('./components/Pages/SignUpPage'));
 const CreateProfilePage = lazy(() => import('./components/Pages/CreateProfile'));
@@ -47,9 +45,8 @@ const App = () => {
           <Route path="/Profile" element={<UserProfilePage />} />
 
           {/* Financial and data routes */}
-          <Route path="/My-Data" element={<DonorData />} />
-          <Route path="/Deposit" element={<DepositPage />} />
-          <Route path="/Transactions" element={<Transactions />} />
+          {/* <Route path="/My-Data" element={<DonorData />} /> */}
+          <Route path="/MyWallet" element={<DonorWalletPage />} />
 
           {/* Utility and messaging routes */}
           <Route path="/Messages" element={<UserMessages />} />
