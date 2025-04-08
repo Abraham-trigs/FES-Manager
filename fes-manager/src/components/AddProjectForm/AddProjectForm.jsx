@@ -6,19 +6,39 @@ import Step4 from './Step4';
 import useAddProjectFormStore from '../../store/AddProjectFormStore';
 
 const AddProjectForm = () => {
-  // Using Zustand store for managing form step and data
-  const { step, setStep, formData, setFormData, errors } = useAddProjectFormStore();
+  const {
+    step,
+    setStep,
+    formData,
+    errors,
+    validateStep,
+    addSubmittedProject,
+  } = useAddProjectFormStore();
 
+  // Go to next step after validating current step
   const nextStep = () => {
-    setStep(step + 1);  // Navigate to the next step
+    const hasErrors = validateStep(); // Perform validation
+    if (!hasErrors) {
+      setStep(step + 1); // Proceed if no errors
+    }
   };
 
+  // Go to previous step
   const prevStep = () => {
-    setStep(step - 1);  // Navigate to the previous step
+    setStep(step - 1);
+  };
+
+  // Final form submission with last-step validation
+  const handleSubmit = () => {
+    const hasErrors = validateStep(); // Final validation
+    if (!hasErrors) {
+      addSubmittedProject(); // Add project to state/localStorage
+      alert("Project submitted successfully!"); // will replace this with a toast or redirect
+    }
   };
 
   return (
-    <div className="relative p-6 rounded-lg" >
+    <div className="relative p-6 rounded-lg">
       {/* Progress Indicator */}
       <div className="w-full bg-gray-200 h-2 rounded mt-4">
         <div
@@ -46,7 +66,7 @@ const AddProjectForm = () => {
             Next
           </button>
         ) : (
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
+          <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={handleSubmit}>
             Submit
           </button>
         )}

@@ -1,52 +1,72 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import './index.css';
-import { Routes, Route } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import useSocialAuth from './hooks/useSocialAuth'; // Import the custom hook for social auth
-import { ProjectListPage } from './components/Pages/ProjectListPage';
-import WelcomePage from './components/Pages/WelcomePage';
-import ProjectDetails from './components/Pages/ProjectDetails';
-import WishList from './components/Pages/WishList';
-import UserProfilePage from './components/Pages/UserProfilePage';
-import MyArk from './components/Pages/MyArk';
-import SuggestedProjects from './components/Pages/SuggestedProjects';
-import DonorData from './components/Pages/DonorData';
-import DepositPage from './components/Pages/DepositPage';
-import UserMessages from './components/Pages/UserMessages';
-import UserNotification from './components/Pages/UserNotifications';
-import UserHelpCenter from './components/Pages/UserHelpCenter';
-import Transactions from './components/Pages/Transactions';
-import UserProfileSettings from './components/Pages/UserProfileSettings';
-import SignupPage from './components/Pages/SignUpPage';
-import CreateProfilePage from './components/Pages/CreateProfile';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import useSocialAuth from './hooks/useSocialAuth';
+
+// Lazy-loaded page components to improve performance by splitting bundles
+const ProjectListPage = lazy(() => import('./components/Pages/ProjectListPage'));
+const WelcomePage = lazy(() => import('./components/Pages/WelcomePage'));
+const ProjectDetails = lazy(() => import('./components/Pages/ProjectDetails'));
+const WishList = lazy(() => import('./components/Pages/WishList'));
+const UserProfilePage = lazy(() => import('./components/Pages/UserProfilePage'));
+const MyArk = lazy(() => import('./components/Pages/MyArk'));
+const SuggestedProjects = lazy(() => import('./components/Pages/SuggestedProjects'));
+const DonorData = lazy(() => import('./components/Pages/DonorData'));
+const DepositPage = lazy(() => import('./components/Pages/DepositPage'));
+const UserMessages = lazy(() => import('./components/Pages/UserMessages'));
+const UserNotification = lazy(() => import('./components/Pages/UserNotifications'));
+const UserHelpCenter = lazy(() => import('./components/Pages/UserHelpCenter'));
+const Transactions = lazy(() => import('./components/Pages/Transactions'));
+const UserProfileSettings = lazy(() => import('./components/Pages/UserProfileSettings'));
+const SignupPage = lazy(() => import('./components/Pages/SignUpPage'));
+const CreateProfilePage = lazy(() => import('./components/Pages/CreateProfile'));
+const NotFound = lazy(() => import('./components/Pages/NotFound')); // Fallback for undefined routes
 
 const App = () => {
-  const { checkUserLoggedIn, userName } = useSocialAuth(); // Get user info from the hook
+  const { checkUserLoggedIn, userName } = useSocialAuth(); // Destructure auth state and methods
   const navigate = useNavigate();
 
   useEffect(() => {
-    checkUserLoggedIn(); // Check user login state when the app initializes
-  }, []); // Empty dependency array ensures this runs once on load
+    checkUserLoggedIn(); // Run login check once on component mount
+  }, []);
 
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<WelcomePage />} />
-        <Route path="/Signup" element={<SignupPage />} />
-        <Route path="/LiveProjects" element={<ProjectListPage />} />
-        <Route path="/project/:id" element={<ProjectDetails />} />
-        <Route path="/WishList" element={<WishList />} />
-        <Route path="/Profile" element={<UserProfilePage />} />
-        <Route path="/MyArk" element={<MyArk />} />
-        <Route path="/Suggested-Projects" element={<SuggestedProjects />} />
-        <Route path="/My-Data" element={<DonorData />} />
-        <Route path="/Deposit" element={<DepositPage />} />
-        <Route path="/Transactions" element={<Transactions />} />
-        <Route path="/Messages" element={<UserMessages />} />
-        <Route path="/Notifications" element={<UserNotification />} />
-        <Route path="/Settings" element={<UserProfileSettings />} />
-        <Route path="/CreateProfile" element={<CreateProfilePage />} />
-      </Routes>
+      {/* Suspense fallback shown while lazy components load */}
+      <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+        <Routes>
+          {/* Public route for landing */}
+          <Route path="/" element={<WelcomePage />} />
+
+          {/* Authentication routes */}
+          <Route path="/Signup" element={<SignupPage />} />
+          <Route path="/CreateProfile" element={<CreateProfilePage />} />
+
+          {/* Project-related routes */}
+          <Route path="/LiveProjects" element={<ProjectListPage />} />
+          <Route path="/project/:id" element={<ProjectDetails />} />
+          <Route path="/Suggested-Projects" element={<SuggestedProjects />} />
+
+          {/* User experience routes */}
+          <Route path="/WishList" element={<WishList />} />
+          <Route path="/MyArk" element={<MyArk />} />
+          <Route path="/Profile" element={<UserProfilePage />} />
+
+          {/* Financial and data routes */}
+          <Route path="/My-Data" element={<DonorData />} />
+          <Route path="/Deposit" element={<DepositPage />} />
+          <Route path="/Transactions" element={<Transactions />} />
+
+          {/* Utility and messaging routes */}
+          <Route path="/Messages" element={<UserMessages />} />
+          <Route path="/Notifications" element={<UserNotification />} />
+          <Route path="/Settings" element={<UserProfileSettings />} />
+          <Route path="/Help" element={<UserHelpCenter />} />
+
+          {/* Fallback route for unmatched paths */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };
