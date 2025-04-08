@@ -1,7 +1,6 @@
 import React, { useEffect, lazy, Suspense } from 'react';
 import './index.css';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import useSocialAuth from './hooks/useSocialAuth';
 
 // Lazy-loaded page components to improve performance by splitting bundles
 const ProjectListPage = lazy(() => import('./components/Pages/ProjectListPage'));
@@ -20,15 +19,10 @@ const Transactions = lazy(() => import('./components/Pages/Transactions'));
 const UserProfileSettings = lazy(() => import('./components/Pages/UserProfileSettings'));
 const SignupPage = lazy(() => import('./components/Pages/SignUpPage'));
 const CreateProfilePage = lazy(() => import('./components/Pages/CreateProfile'));
-const NotFound = lazy(() => import('./components/Pages/NotFound')); // Fallback for undefined routes
+const NotFound = lazy(() => import('./components/pages/404Page')); 
 
 const App = () => {
-  const { checkUserLoggedIn, userName } = useSocialAuth(); // Destructure auth state and methods
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    checkUserLoggedIn(); // Run login check once on component mount
-  }, []);
 
   return (
     <div>

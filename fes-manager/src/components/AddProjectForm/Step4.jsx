@@ -4,18 +4,30 @@ import useAddProjectFormStore from "../../store/AddProjectFormStore";
 const Step4 = () => {
   const { formData, setFormData, resetFormData, addSubmittedProject, setStep, submittedProjects } = useAddProjectFormStore();
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);  // To handle submit state
 
   // Handle the form submission
   const handleSubmit = () => {
+    // Basic validation before showing confirmation
+    if (!formData.title || !formData.category || !formData.fundingGoal) {
+      alert("Please fill in all required fields.");
+      return;
+    }
     setIsConfirmationVisible(true); // Show confirmation modal
   };
 
   // Handle the modal confirmation action
   const handleConfirmation = (action) => {
     if (action === "confirm") {
+      setIsSubmitting(true);  // Indicate submission in progress
       addSubmittedProject();  // Submit project (handled internally via Zustand)
-      setTimeout(() => resetFormData(), 100); // Reset form with slight delay to avoid immediate reset
-      setStep(1); // Reset to first step
+
+      // Simulate delay before resetting form and changing step
+      setTimeout(() => {
+        resetFormData();
+        setStep(1);  // Reset to first step
+        setIsSubmitting(false);  // Stop submitting state
+      }, 1000);  // Slight delay for form reset
     } else if (action === "cancel" || action === "edit") {
       setIsConfirmationVisible(false); // Hide confirmation modal
     }
@@ -34,9 +46,11 @@ const Step4 = () => {
         </div>
 
         <div className="form-actions">
+          {/* Disable submit button if form is being submitted */}
           <button
-            className="submit-btn bg-blue-500 text-white p-3 rounded-md"
+            className={`submit-btn bg-blue-500 text-white p-3 rounded-md ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
             onClick={handleSubmit}
+            disabled={isSubmitting}
           >
             Submit Project
           </button>
@@ -52,18 +66,21 @@ const Step4 = () => {
               <button
                 className="bg-red-500 text-white p-3 rounded-md w-full"
                 onClick={() => handleConfirmation("cancel")}
+                disabled={isSubmitting}
               >
                 Cancel
               </button>
               <button
                 className="bg-yellow-500 text-white p-3 rounded-md w-full"
                 onClick={() => handleConfirmation("edit")}
+                disabled={isSubmitting}
               >
                 Edit
               </button>
               <button
                 className="bg-darkGreen text-white p-3 rounded-md w-full"
                 onClick={() => handleConfirmation("confirm")}
+                disabled={isSubmitting}
               >
                 Confirm
               </button>
