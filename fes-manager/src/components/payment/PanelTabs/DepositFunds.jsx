@@ -36,6 +36,12 @@ const DepositFunds = () => {
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-white dark:bg-surface shadow rounded-xl">
+      
+      <div className='flex flex-col-reverse place-items-start bg-darkGreen p-3'>
+        <CurrencyConverter amount={balance} /> {/* Show the currency conversion here */}
+      </div>
+
+
       <h2 className="text-2xl font-bold mb-4 text-teal-800 dark:text-white">Deposit Funds</h2>
       
       {/* Display Current Balance with Currency Conversion */}
@@ -43,7 +49,6 @@ const DepositFunds = () => {
         <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
           Current Balance: <span className="text-green-600">{balance.toFixed(2)} FES</span>
         </p>
-        <CurrencyConverter amount={balance} /> {/* Show the currency conversion here */}
       </div>
 
       <input

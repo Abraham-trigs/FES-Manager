@@ -7,7 +7,6 @@ const ProjectListPage = lazy(() => import('./components/Pages/ProjectListPage'))
 const WelcomePage = lazy(() => import('./components/Pages/WelcomePage'));
 const ProjectDetails = lazy(() => import('./components/Pages/ProjectDetails'));
 const WishList = lazy(() => import('./components/Pages/WishList'));
-const UserProfilePage = lazy(() => import('./components/Pages/UserProfilePage'));
 const MyArk = lazy(() => import('./components/Pages/MyArk'));
 const SuggestedProjects = lazy(() => import('./components/Pages/SuggestedProjects'));
 const DonorWalletPage = lazy(() => import('./components/Pages/DonorWalletPage'));
@@ -42,7 +41,6 @@ const App = () => {
           {/* User experience routes */}
           <Route path="/WishList" element={<WishList />} />
           <Route path="/MyArk" element={<MyArk />} />
-          <Route path="/Profile" element={<UserProfilePage />} />
 
           {/* Financial and data routes */}
           {/* <Route path="/My-Data" element={<DonorData />} /> */}

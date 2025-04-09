@@ -4,8 +4,10 @@ import useAddProjectFormStore from "../../store/AddProjectFormStore";
 import PaymentForm from "../payment/PaymentForm";
 
 const ProjectCard = ({ project }) => {
+  // Use react-router's navigate hook for navigation
   const navigate = useNavigate();
 
+  // Destructure the project object with default values
   const {
     id,
     title = "Untitled Project",
@@ -15,37 +17,45 @@ const ProjectCard = ({ project }) => {
     remainingFunding = fundingGoal,
   } = project;
 
+  // Ensure remaining funding is a valid number
   const validRemainingFunding = isNaN(remainingFunding) ? fundingGoal : remainingFunding;
 
+  // Zustand store hooks for adding project to 'MyArk' and making payments
   const {
     FESpay,
-    isAuthenticated,
     addToMyArk,
     updateRemainingFunding,
     myArk
   } = useAddProjectFormStore();
 
-  //Proper check for existing project in MyArk
+  // Check if the current project is already in the 'MyArk' collection
   const isAlreadyInMyArk = myArk.some((projectInArk) => projectInArk.id === project.id);
 
+  // Function to add project to 'MyArk'
   const handleAddToMyArk = () => {
     if (!isAlreadyInMyArk) {
       addToMyArk(project);
     }
   };
 
+  // Calculate the funding progress as a percentage
   let progress = 0;
   if (fundingGoal > 0 && validRemainingFunding >= 0) {
     progress = Math.round(((fundingGoal - validRemainingFunding) / fundingGoal) * 100);
   }
   progress = Math.min(Math.max(progress, 0), 100);
 
+  // Determine if the funding goal is successfully reached
   const isFundingSuccessful = validRemainingFunding <= 0;
 
+  // State to control visibility of the PaymentForm modal
   const [isPaymentFormVisible, setIsPaymentFormVisible] = useState(false);
 
+  // Handle the payment logic (amount validation and updating funding)
   const handlePayment = (amount) => {
     const trimmedAmount = amount.toString().trim();
+    
+    // Validate payment amount input
     if (!trimmedAmount || isNaN(trimmedAmount)) {
       alert("Please enter a valid payment amount.");
       return;
@@ -58,6 +68,7 @@ const ProjectCard = ({ project }) => {
       return;
     }
 
+    // Process payment and update the remaining funding
     if (parsedAmount > 0) {
       FESpay(project.id, parsedAmount);
 
@@ -67,12 +78,13 @@ const ProjectCard = ({ project }) => {
     }
   };
 
+  // Navigate to the project details page
   const handleDetailsClick = () => {
     navigate(`/project/${id}`);
   };
 
   return (
-    <div className="transition-transform duration-300 hover:scale-105">
+    <div className="transition-transform duration-300">
       <div className="z-40 relative flex flex-col items-center shadow-2xl transition-colors duration-200 ease-in-out dark:shadow-2xl">
 
         {/* Outer frame */}
@@ -124,9 +136,7 @@ const ProjectCard = ({ project }) => {
             {/* Add to MyArk Button */}
             <button
               type="button"
-              className={`w-[30px] h-[30px] bg-shade font-bold text-[2rem] flex flex-row justify-center items-center my-4 cursor-pointer ${
-                isAlreadyInMyArk ? 'opacity-40 cursor-not-allowed' : 'text-semiGreen'
-              } dark:text-verydark`}
+              className={`w-[30px] h-[30px] bg-shade font-bold text-[2rem] flex flex-row justify-center items-center my-4 cursor-pointer ${isAlreadyInMyArk ? 'opacity-40 cursor-not-allowed' : 'text-semiGreen'} dark:text-verydark`}
               onClick={handleAddToMyArk}
               disabled={isAlreadyInMyArk}
               title={isAlreadyInMyArk ? "Already added to MyArk" : "Add to MyArk"}
@@ -138,11 +148,9 @@ const ProjectCard = ({ project }) => {
             <div className="flex flex-row items-center -mt-11 space-x-[60px]">
               {/* FES Aid Button */}
               <button
-                className={`bg-darkGreen dark:ease-in-out dark:hover:bg-dark dark:hover:text-text dark:text-text dark:border-none text-white p-4 py-1 border-2 border-darkGreen dark:bg-verydark rounded-lg font-semibold text-[0.8rem] whitespace-nowrap ${
-                  isFundingSuccessful ? 'bg-shade text-darkShade border-0 dark:hover:bg-verydark cursor-not-allowed border-none' : ''
-                }`}
+                className={`bg-darkGreen dark:ease-in-out dark:hover:bg-dark dark:hover:text-text dark:text-text dark:border-none text-white p-4 py-1 border-2 border-darkGreen dark:bg-verydark rounded-lg font-semibold text-[0.8rem] whitespace-nowrap ${isFundingSuccessful ? 'bg-shade text-darkShade border-0 dark:hover:bg-verydark cursor-not-allowed border-none' : ''}`}
                 disabled={isFundingSuccessful}
-                onClick={() => setIsPaymentFormVisible(true)}
+                onClick={() => setIsPaymentFormVisible(true)} // Trigger modal visibility
               >
                 FES Aid
               </button>
@@ -158,12 +166,15 @@ const ProjectCard = ({ project }) => {
           </div>
         </div>
 
-        {/* Conditional PaymentForm */}
+        {/* Conditional PaymentForm (Modal) */}
         {isPaymentFormVisible && (
-          <PaymentForm
-            onClose={() => setIsPaymentFormVisible(false)}
-            onPayment={handlePayment}
-          />
+          <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex justify-center items-center">
+            {/* The PaymentForm appears centered with an overlay */}
+            <PaymentForm
+              onClose={() => setIsPaymentFormVisible(false)} // Close the modal when triggered
+              onPayment={handlePayment} // Pass the handlePayment function to process the payment
+            />
+          </div>
         )}
       </div>
     </div>

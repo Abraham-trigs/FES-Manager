@@ -41,7 +41,7 @@ const useAddProjectFormStore = create((set, get) => ({
     },
   }),
   submittedProjects: loadState("submittedProjects", []),
-  myArk: loadState("myArk", []),
+  myArk: loadState("myArk", []), // Manage the user's "Ark"
 
   errors: {
     title: '',
@@ -248,6 +248,7 @@ const useAddProjectFormStore = create((set, get) => ({
     });
   },
 
+  // Add project to "My Ark" (user's collection of saved projects)
   addToMyArk: (projectId) => {
     const { myArk, submittedProjects } = get();
     if (myArk.some((p) => p.id === projectId)) return;
