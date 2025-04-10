@@ -47,7 +47,7 @@ const DepositFunds = () => {
       {/* Display Current Balance with Currency Conversion */}
       <div className="mb-4">
         <p className="text-lg mb-2 text-gray-700 dark:text-gray-300">
-          Current Balance: <span className="text-green-600">{balance.toFixed(2)} FES</span>
+          Current Balance: <span className="text-green-600">{balance.toFixed(2)} $ </span>
         </p>
       </div>
 

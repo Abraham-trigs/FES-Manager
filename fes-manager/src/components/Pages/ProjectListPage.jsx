@@ -21,7 +21,7 @@ export const ProjectListPage = () => {
     <div className="relative min-h-screen w-full overflow-x-hidden">
 
       {/* Full-page background layer */}
-      <div className="absolute min-h-screen w-full bg-shade dark:bg-dark z-10"></div>
+      <div className="absolute min-h-screen w-full bg-shade dark:bg-dark bg-fixed z-10"></div> {/* Added bg-fixed for stable background */}
 
       {/* Sidebar - z-50 so it stays above everything */}
       <SideBar />
@@ -29,14 +29,15 @@ export const ProjectListPage = () => {
       {/* Navbar - usually fixed or sticky */}
       <MainNavBar />
 
-      {/*  Main content area */}
+      {/* Main content area */}
       <div
-        className="
-          pt-[10px]                            // Push down from navbar
+        className="pt-[10px]                            // Push down from navbar
           pl-[140px]                           // Offset for sidebar
-          flex flex-wrap gap-64 gap-y-[200px]  // Space between cards
+          flex flex-wrap gap-64 gap-y-[1xz/......50px]  // Space between cards
           items-start
           relative z-10                        // Ensure content shows above background
+          h-screen                            // Set height to ensure the content area fills the screen
+          overflow-y-auto                      // Enable vertical scrolling for the project cards
         "
       >
         {sortedProjects.length > 0 ? (

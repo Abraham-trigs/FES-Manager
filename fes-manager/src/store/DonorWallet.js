@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 
 const useDonorWallet = create((set) => ({
-  balance: 200, // Initial wallet balance
+  balance: 10, // Initial wallet balance
   transactions: [], // Initial empty transactions
   externalWallets: [], // New array to store linked external wallets
 
