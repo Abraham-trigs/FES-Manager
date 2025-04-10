@@ -4,6 +4,7 @@ import MainNavBar from "../layout/MainNavBar";
 import SideBar from "../layout/SideBar";
 import Footer from "../layout/Footer";
 import ProjectCard from "../ProjectCard-UI/ProjectCard";
+import MyArkPanel from "../MyArk/MyArkPanel";
 
 const MyArk = () => {
   // Accessing 'myArkIds' (only project IDs) from Zustand store
@@ -29,6 +30,7 @@ const MyArk = () => {
           <p>No projects added to MyArk yet.</p>
         )}
       </div>
+      <MyArkPanel />
 
       <Footer />
     </div>
