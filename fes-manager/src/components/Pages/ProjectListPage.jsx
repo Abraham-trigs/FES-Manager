@@ -14,6 +14,9 @@ export const ProjectListPage = () => {
     ...new Map(projects.map((project) => [project.id, project])).values(),
   ];
 
+  // Reverse the order of uniqueProjects so that the newest project appears first
+  const sortedProjects = uniqueProjects.reverse();
+
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden">
 
@@ -31,18 +34,18 @@ export const ProjectListPage = () => {
         className="
           pt-[10px]                            // Push down from navbar
           pl-[140px]                           // Offset for sidebar
-          flex flex-wrap gap-64 gap-y-[450px]  // Space between cards
+          flex flex-wrap gap-64 gap-y-[200px]  // Space between cards
           items-start
           relative z-10                        // Ensure content shows above background
         "
       >
-        {uniqueProjects.length > 0 ? (
-          uniqueProjects.map((project) => (
+        {sortedProjects.length > 0 ? (
+          sortedProjects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))
         ) : (
-          <></>
-          // <p className="text-gray-600 dark:text-text">No projects yet. Create one!</p>
+          // You can add a fallback message here if no projects exist
+          <p className="text-gray-600 dark:text-text">No projects yet. Create one!</p>
         )}
       </div>
 

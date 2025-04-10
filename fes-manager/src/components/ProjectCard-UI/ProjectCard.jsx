@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import useAddProjectFormStore from "../../store/AddProjectFormStore";
 import PaymentForm from "../payment/PaymentForm";
 
@@ -25,7 +25,7 @@ const ProjectCard = ({ project }) => {
     FESpay,
     addToMyArk,
     updateRemainingFunding,
-    myArk
+    myArk,
   } = useAddProjectFormStore();
 
   // Check if the current project is already in the 'MyArk' collection
@@ -51,10 +51,26 @@ const ProjectCard = ({ project }) => {
   // State to control visibility of the PaymentForm modal
   const [isPaymentFormVisible, setIsPaymentFormVisible] = useState(false);
 
+  // State to hold the uploaded image URL
+  const [imageUrl, setImageUrl] = useState(null);
+
+  // Handle the image upload
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0]; // Get the uploaded file
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageUrl(reader.result); // Store the image URL in the state
+      };
+      reader.readAsDataURL(file); // Convert image file to base64
+    }
+  };
+
   // Handle the payment logic (amount validation and updating funding)
   const handlePayment = (amount) => {
     const trimmedAmount = amount.toString().trim();
-    
+
     // Validate payment amount input
     if (!trimmedAmount || isNaN(trimmedAmount)) {
       alert("Please enter a valid payment amount.");
@@ -94,7 +110,18 @@ const ProjectCard = ({ project }) => {
         <div className="absolute w-[230px] h-[270px] bg-darkShade dark:bg-surface order-[3px] border-cyanNeon rounded-3xl flex justify-center items-center"></div>
 
         {/* Image placeholder */}
-        <div className="absolute w-[200px] h-[140px] my-10 bg-light rounded-3xl border-[3px] border-highlight dark:bg-dark dark:border-verydark"></div>
+        <div className="absolute w-[200px] h-[140px] my-10 bg-light rounded-3xl border-[3px] border-highlight dark:bg-dark dark:border-verydark">
+          {/* Conditionally render the uploaded image */}
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="Project"
+              className="w-full h-full object-cover rounded-3xl" // Ensure the image doesn't overflow the container
+            />
+          ) : (
+            <p className="text-center text-white">Upload Image</p>
+          )}
+        </div>
 
         {/* Category label */}
         <div className="absolute my-[3px] w-[200px] h-[40px] text-center font-extrabold p-2 dark:text-darkShade dark:text-semiShade">

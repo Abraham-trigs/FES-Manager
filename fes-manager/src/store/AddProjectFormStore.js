@@ -41,6 +41,8 @@ const useAddProjectFormStore = create((set, get) => ({
       governmentAuthorization: null,
       signeeNationalId: null,
     },
+    // Image field 
+    image: null,
   }),
 
   // All submitted projects
@@ -195,6 +197,8 @@ const useAddProjectFormStore = create((set, get) => ({
           governmentAuthorization: null,
           signeeNationalId: null,
         },
+        //  Reset image field as well when clearing the form
+        image: null,
       },
       errors: {
         title: '',
@@ -223,6 +227,8 @@ const useAddProjectFormStore = create((set, get) => ({
       ...formData,
       fundingGoal: formData.fundingGoal * 100,
       id: generateUniqueId(),
+      // Ensure uploaded image is stored with the project
+      image: formData.image || null,
     };
 
     const updatedProjects = [...submittedProjects, newProject];
@@ -245,6 +251,7 @@ const useAddProjectFormStore = create((set, get) => ({
           governmentAuthorization: null,
           signeeNationalId: null,
         },
+        image: null, // Reset image field after submission
       },
       errors: {
         title: '',

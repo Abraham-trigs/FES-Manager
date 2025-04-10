@@ -1,18 +1,17 @@
 import Footer from "../layout/Footer";
 import WelcomeNavBar from "../layout/WelcomeNavBar";
-import SignUpForm0 from "../Signup/SignupForm0";
+import SignupHandler from "../Signup/SignupHandler";
 
 const SignupPage = () => {
   return (
-    <div className="relative min-h-screen flex flex-col items-center">
-      {/* Full-page background */}
-      <div className="absolute inset-0 w-full h-full bg-shade -z-10"></div>
-
+    <div className="relative min-h-screen flex flex-col bg-shade">
       <WelcomeNavBar />
 
-      <div className="absolute flex flex-row items-center mt-[200px]">
-        <SignUpForm0 />
-      </div>
+      <main className="flex-grow flex justify-center items-start mt-[120px] px-4">
+        <div className="w-full max-w-3xl">
+          <SignupHandler />
+        </div>
+      </main>
 
       <Footer />
     </div>

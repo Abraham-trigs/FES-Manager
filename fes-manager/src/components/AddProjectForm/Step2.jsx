@@ -64,7 +64,7 @@ const Step2 = () => {
 
       {/* Funding Goal Input */}
       <label htmlFor="fundingGoal" className="block text-sm font-medium text-gray-700 mt-2">
-        Funding Goal
+        funding Goal $
       </label>
       <input
         type="number"

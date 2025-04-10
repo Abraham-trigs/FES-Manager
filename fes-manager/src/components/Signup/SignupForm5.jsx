@@ -1,18 +1,22 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import useCreateProfileStore from "../../store/CreateProfileStore"; // Store for user data and errors
-import { auth, db } from "../../firebaseConfig";
-
-import { doc, setDoc } from "firebase/firestore";
-import { updateProfile } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import useCreateProfileStore from "../../store/CreateProfileStore"; // Zustand store
 
 const SignupForm5 = () => {
-  const { userData, errors, updateField, setErrors, prevStep, step, resetStore } = useCreateProfileStore();
-  const navigate = useNavigate(); // Initialize the navigate function
+  const {
+    userData,
+    errors,
+    updateField,
+    setErrors,
+    prevStep,
+    step,
+    resetStore,
+  } = useCreateProfileStore();
 
-  const [isSubmitting, setIsSubmitting] = useState(false); // Track form submission state
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false); // Tracks submission state
 
-  // Validate the form fields for Step 5
+  // Step 5 validation logic: user must agree to terms
   const validateStep5 = () => {
     let newErrors = {};
     if (!userData.agreeToTerms) {
@@ -25,47 +29,26 @@ const SignupForm5 = () => {
     return true;
   };
 
-  // Save user profile data to Firestore
-  const saveProfileToFirestore = async () => {
-    setIsSubmitting(true); // Set submitting state to true while saving
-    try {
-      const user = auth.currentUser;
-      if (!user) throw new Error("User not authenticated!");
-
-      const userRef = doc(db, "users", user.uid);
-      await setDoc(userRef, {
-        ...userData,
-        uid: user.uid,
-        email: user.email,
-        createdAt: serverTimestamp(),      
-      });
-
-      // Update Firebase Auth display name
-      if (userData.fullName) {
-        await updateProfile(user, { displayName: userData.fullName });
-      }
-
-      alert("🎉 Signup Completed! Welcome to FES-Manager!");
-      console.log(" User profile saved to Firebase:", userData);
-
-      resetStore(); // Reset store data after successful submission
-
-      // Redirect to the LiveProjects page
-      navigate("/LiveProjects");
-
-    } catch (error) {
-      console.error(" Error saving profile:", error);
-      alert("Oops! Something went wrong while saving your profile.");
-    } finally {
-      setIsSubmitting(false); // Set submitting state to false after completion
-    }
-  };
-
-  // Form submission handler
+  // Final submission handler (no Firebase)
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateStep5()) {
-      await saveProfileToFirestore();
+    if (!validateStep5()) return;
+
+    setIsSubmitting(true);
+    try {
+      // Simulate form submission delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      alert("🎉 Signup Completed! Welcome to FES-Manager!");
+      console.log("User profile (local only):", userData);
+
+      resetStore(); // Clears Zustand state and localStorage
+      navigate("/LiveProjects"); // Redirect after successful submission
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Oops! Something went wrong while processing your signup.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -76,8 +59,11 @@ const SignupForm5 = () => {
       <p className="text-lg text-gray-600 mt-1">Sign-up</p>
 
       <form onSubmit={handleSubmit}>
-        <h3 className="font-semibold text-lg my-5 text-darkGreen">Agreement & Signup</h3>
+        <h3 className="font-semibold text-lg my-5 text-darkGreen">
+          Agreement & Signup
+        </h3>
 
+        {/* Agree to Terms Checkbox */}
         <div className="flex items-start mb-4">
           <input
             type="checkbox"
@@ -88,11 +74,17 @@ const SignupForm5 = () => {
             className="mr-2 mt-1"
           />
           <label htmlFor="agreeToTerms" className="text-sm text-gray-600 text-left">
-            I agree to the <a href="/terms" className="text-blue-500 hover:underline">Terms & Conditions</a>
+            I agree to the{" "}
+            <a href="/terms" className="text-blue-500 hover:underline">
+              Terms & Conditions
+            </a>
           </label>
         </div>
-        {errors.agreeToTerms && <p className="text-red-500 text-sm">{errors.agreeToTerms}</p>}
+        {errors.agreeToTerms && (
+          <p className="text-red-500 text-sm">{errors.agreeToTerms}</p>
+        )}
 
+        {/* Subscribe to updates */}
         <div className="flex items-start mb-4">
           <input
             type="checkbox"
@@ -107,10 +99,15 @@ const SignupForm5 = () => {
           </label>
         </div>
 
+        {/* Navigation buttons */}
         <div className="flex justify-between mt-4">
           <button
             type="button"
-            className={`px-6 py-2 rounded-lg font-medium ${step > 1 ? "bg-gray-400 text-white hover:bg-gray-500" : "bg-gray-200 text-gray-500 cursor-not-allowed"}`}
+            className={`px-6 py-2 rounded-lg font-medium ${
+              step > 1
+                ? "bg-gray-400 text-white hover:bg-gray-500"
+                : "bg-gray-200 text-gray-500 cursor-not-allowed"
+            }`}
             onClick={prevStep}
             disabled={step === 1}
           >
@@ -120,9 +117,9 @@ const SignupForm5 = () => {
           <button
             type="submit"
             className="bg-greenNeon text-darkGreen px-6 py-2 rounded-lg font-medium hover:bg-green-500"
-            disabled={isSubmitting} // Disable button while submitting
+            disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Submit"} {/* Show submitting text */}
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>

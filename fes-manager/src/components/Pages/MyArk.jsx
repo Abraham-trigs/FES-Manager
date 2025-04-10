@@ -17,20 +17,29 @@ const MyArk = () => {
   );
 
   return (
-    <div>
+    <div className="flex">
       <SideBar />
       <MainNavBar />
 
-      <div className="myark-container">
-        {myArkProjects.length > 0 ? (
-          myArkProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))
-        ) : (
-          <p>No projects added to MyArk yet.</p>
-        )}
+      <div className="relative flex w-full">
+        {/* Fixed Panel */}
+        <div className="myark-panel-wrapper fixed left-0 top-0 bottom-0 w-64 p-4 z-10">
+          <MyArkPanel />
+        </div>
+
+        {/* Scrollable Project Cards */}
+        <div className="project-cards-wrapper ml-96 w-full h-full overflow-y-visible p-24 ">
+          {myArkProjects.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-56">
+              {myArkProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} />
+              ))}
+            </div>
+          ) : (
+            <p>No projects added to MyArk yet.</p>
+          )}
+        </div>
       </div>
-      <MyArkPanel />
 
       <Footer />
     </div>
