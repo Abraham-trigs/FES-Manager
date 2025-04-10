@@ -249,20 +249,22 @@ const useAddProjectFormStore = create((set, get) => ({
   },
 
   // Add project to "My Ark" (user's collection of saved projects)
-  addToMyArk: (projectId) => {
+  addToMyArk: (project) => {
+    const projectId = project.id;
     const { myArk, submittedProjects } = get();
+  
     if (myArk.some((p) => p.id === projectId)) return;
-
+  
     const projectToAdd = submittedProjects.find((p) => p.id === projectId);
     if (!projectToAdd) {
-      console.warn("Project not found:", projectId);
+      console.warn("Project not found in submittedProjects:", project);
       return;
     }
-
+  
     const updatedMyArk = [...myArk, projectToAdd];
     localStorage.setItem("myArk", JSON.stringify(updatedMyArk));
     set({ myArk: updatedMyArk });
-  },
-}));
+  }
+    }));
 
 export default useAddProjectFormStore;
