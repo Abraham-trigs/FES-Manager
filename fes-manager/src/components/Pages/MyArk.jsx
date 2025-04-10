@@ -6,7 +6,14 @@ import Footer from "../layout/Footer";
 import ProjectCard from "../ProjectCard-UI/ProjectCard";
 
 const MyArk = () => {
-  const myArk = useAddProjectFormStore((state) => state.myArk);
+  // Accessing 'myArkIds' (only project IDs) from Zustand store
+  const myArkIds = useAddProjectFormStore((state) => state.myArkIds); // Get 'myArkIds' from the store
+  const submittedProjects = useAddProjectFormStore((state) => state.submittedProjects); // Get all submitted projects
+
+  // Filtering submitted projects to only include those in 'myArkIds'
+  const myArkProjects = submittedProjects.filter((project) =>
+    myArkIds.includes(project.id)
+  );
 
   return (
     <div>
@@ -14,8 +21,10 @@ const MyArk = () => {
       <MainNavBar />
 
       <div className="myark-container">
-        {myArk.length > 0 ? (
-          myArk.map((project) => <ProjectCard key={project.id} project={project} />) // Render each project
+        {myArkProjects.length > 0 ? (
+          myArkProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))
         ) : (
           <p>No projects added to MyArk yet.</p>
         )}

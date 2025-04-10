@@ -25,6 +25,8 @@ function generateUniqueId() {
 // Zustand store for managing the Add Project multi-step form and other related logic
 const useAddProjectFormStore = create((set, get) => ({
   step: 1,
+
+  // Multi-step form data
   formData: loadState("formData", {
     title: '',
     category: '',
@@ -40,9 +42,14 @@ const useAddProjectFormStore = create((set, get) => ({
       signeeNationalId: null,
     },
   }),
-  submittedProjects: loadState("submittedProjects", []),
-  myArk: loadState("myArk", []), // Manage the user's "Ark"
 
+  // All submitted projects
+  submittedProjects: loadState("submittedProjects", []),
+
+  // MyArk now stores only project IDs (references)
+  myArkIds: loadState("myArkIds", []),
+
+  // Field-level form validation errors
   errors: {
     title: '',
     category: '',
@@ -52,10 +59,11 @@ const useAddProjectFormStore = create((set, get) => ({
     tasks: [],
   },
 
+  // Controls modal/form visibility
   isVisible: true,
-
   setVisibility: (visible) => set({ isVisible: visible }),
 
+  // Update a project's remaining funding based on its ID
   updateRemainingFunding: (projectId, newRemainingFunding) => {
     const { submittedProjects } = get();
     const updatedProjects = submittedProjects.map((project) =>
@@ -65,6 +73,7 @@ const useAddProjectFormStore = create((set, get) => ({
     set({ submittedProjects: updatedProjects });
   },
 
+  // Deducts a payment amount from a project and updates its state
   FESpay: (projectId, amount) => {
     const { submittedProjects, updateRemainingFunding } = get();
 
@@ -93,6 +102,7 @@ const useAddProjectFormStore = create((set, get) => ({
     set({ submittedProjects: updatedProjects });
   },
 
+  // Authentication state
   isAuthenticated: loadState("isAuthenticated", false),
   user: loadState("user", null),
 
@@ -108,8 +118,10 @@ const useAddProjectFormStore = create((set, get) => ({
     set({ user: null, isAuthenticated: false });
   },
 
+  // Stepper controls
   setStep: (step) => set({ step }),
 
+  // Validates form step-by-step based on current state
   validateStep: () => {
     const { step, formData } = get();
     const newErrors = {
@@ -121,7 +133,6 @@ const useAddProjectFormStore = create((set, get) => ({
       tasks: [],
     };
 
-    // Validation logic based on current step
     switch (step) {
       case 1:
         if (!formData.title) newErrors.title = "Title is required.";
@@ -147,8 +158,6 @@ const useAddProjectFormStore = create((set, get) => ({
     }
 
     set({ errors: newErrors });
-
-    // Return true if there are any validation errors
     return Object.values(newErrors).some((val) =>
       Array.isArray(val) ? val.length > 0 : val !== ''
     );
@@ -248,23 +257,26 @@ const useAddProjectFormStore = create((set, get) => ({
     });
   },
 
-  // Add project to "My Ark" (user's collection of saved projects)
+  // Add a project to MyArk using only its ID
   addToMyArk: (project) => {
     const projectId = project.id;
-    const { myArk, submittedProjects } = get();
-  
-    if (myArk.some((p) => p.id === projectId)) return;
-  
+    const { myArkIds, submittedProjects } = get();
+
+    // Check if the project is already in My Ark
+    if (myArkIds.includes(projectId)) return;
+
+    // Find the project in submittedProjects without duplicating it
     const projectToAdd = submittedProjects.find((p) => p.id === projectId);
     if (!projectToAdd) {
       console.warn("Project not found in submittedProjects:", project);
       return;
     }
-  
-    const updatedMyArk = [...myArk, projectToAdd];
-    localStorage.setItem("myArk", JSON.stringify(updatedMyArk));
-    set({ myArk: updatedMyArk });
-  }
-    }));
+
+    // Simply add the reference (ID) to the project in myArkIds
+    const updatedMyArkIds = [...myArkIds, projectId];
+    localStorage.setItem("myArkIds", JSON.stringify(updatedMyArkIds));
+    set({ myArkIds: updatedMyArkIds });
+  },
+}));
 
 export default useAddProjectFormStore;

@@ -29,7 +29,7 @@ const ProjectCard = ({ project }) => {
   } = useAddProjectFormStore();
 
   // Check if the current project is already in the 'MyArk' collection
-  const isAlreadyInMyArk = myArk.some((projectInArk) => projectInArk.id === project.id);
+  const isAlreadyInMyArk = Array.isArray(myArk) && myArk.some((projectInArk) => projectInArk.id === project.id);
 
   // Function to add project to 'MyArk'
   const handleAddToMyArk = () => {
