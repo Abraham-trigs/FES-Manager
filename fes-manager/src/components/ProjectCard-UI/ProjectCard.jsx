@@ -4,7 +4,6 @@ import useAddProjectFormStore from "../../store/AddProjectFormStore";
 import PaymentForm from "../payment/PaymentForm";
 
 const ProjectCard = ({ project }) => {
-  // Use react-router's navigate hook for navigation
   const navigate = useNavigate();
 
   // Destructure the project object with default values
@@ -104,10 +103,13 @@ const ProjectCard = ({ project }) => {
       <div className="z-40 relative flex flex-col items-center shadow-2xl transition-colors duration-200 ease-in-out dark:shadow-2xl">
 
         {/* Outer frame */}
-        <div className="absolute w-[230px] h-[400px] bg-darkGreen border-[3px] border-cyanNeon dark:bg-verydark shadow-black rounded-3xl flex justify-center items-center dark:border-surface"></div>
+        <div className="absolute w-[230px] h-[400px] bg-darkGreen border-[3px] 
+            border-cyanNeon dark:bg-verydark shadow-black rounded-3xl flex justify-center 
+            items-center dark:border-surface"></div>
 
         {/* Main card */}
-        <div className="absolute w-[230px] h-[270px] bg-darkShade dark:bg-surface order-[3px] border-cyanNeon rounded-3xl flex justify-center items-center"></div>
+        <div className="absolute w-[230px] h-[270px] bg-darkShade dark:bg-surface order-[3px] 
+            border-cyanNeon rounded-3xl flex justify-center items-center"></div>
 
         {/* Image placeholder */}
         <div className="absolute w-[200px] h-[140px] my-10 bg-light rounded-3xl border-[3px] border-highlight dark:bg-dark dark:border-verydark">
@@ -129,17 +131,23 @@ const ProjectCard = ({ project }) => {
         </div>
 
         {/* Progress bar */}
-        <div className="w-[220px] bg-darkGreen rounded-br-2xl rounded-bl-2xl h-6 dark:bg-surface dark:text-cyanNeon dark:font-semibold absolute my-[170px] text-white text-center">
+        <div className="w-[215px] hover:bg-darkGreen bg-semiGreen 
+            h-6 dark:bg-surface dark:text-cyanNeon dark:font-semibold absolute 
+            my-[170px] text-white text-center">
           {progress}%
         </div>
 
         {/* Funding status or "Success" */}
-        <div className="absolute ml-[-105px] rounded-l bg-cyanNeon my-[193px] w-[115px] h-[25px] font-extrabold text-darkGreen text-center text-[0.9rem] p-1 dark:bg-verydark dark:text-text">
+        <div className="absolute ml-[-105px] rounded-l hover:bg-cyanNeon bg-shade round
+            my-[193px] w-[111px] h-[25px] font-extrabold text-darkGreen 
+            text-center text-[0.9rem] p-1 dark:bg-verydark dark:text-text">
           {isFundingSuccessful ? "Success" : validRemainingFunding}
         </div>
 
         {/* Project ID */}
-        <div className="absolute my-[193px] w-[100px] h-[25px] mr-[-110px] bg-greenNeon text-center font-bold text-darkGreen dark:bg-text dark:text-verydark">
+        <div className="absolute my-[193px] w-[104px] h-[25px] mr-[-110px] bg-shade
+            hover:bg-greenNeon text-center font-bold text-darkGreen dark:bg-text 
+            dark:text-verydark">
           {id}
         </div>
 
@@ -149,7 +157,9 @@ const ProjectCard = ({ project }) => {
         </div>
 
         {/* Description */}
-        <div className="absolute dark:shadow-sm my-[294px] w-[200px] h-[78px] text-center text-[0.7rem] text-white line-clamp-3 font-normal dark:text-text">
+        <div className="absolute dark:shadow-sm my-[294px] 
+            w-[200px] h-[78px] text-center text-[0.7rem] 
+            text-white line-clamp-3 font-normal dark:text-text">
           {description}
         </div>
 
